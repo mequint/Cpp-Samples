@@ -1,16 +1,17 @@
 #include <iostream>
+#include <stack>
 #include <string>
 #include <vector>
 
 #include "Piece.h"
 
+// Bugs (to fix):
+//		Replace Line 51 with getline call - and parse out the 2 values manually
+//		In the flip pieces method make sure that the j values aren't causing the next index to move one row up or down (erroneous behavior)
 
-/*
-const char X = 'X';
-const char O = 'O';
-const char EMPTY = ' ';
-const char INVALID = ' ';
-*/
+// TODO:
+//		Put the board vector into its own class and move board specific behavior into it
+//		Verify Lines 62-75 (the input processing steps) - make sure I'm not duplicating code
 
 void DisplayInstructions();
 char AskYesOrNoQuestion(std::string question);
@@ -24,21 +25,9 @@ void DisplayWhoseTurn(Piece currentPlayer);
 int PlayerMove(std::vector<Piece>& board, Piece currentPlayer);
 void AnnounceWinner(const std::vector<Piece>& board, Piece player1, Piece player2, int finalX, int finalO);
 
-bool IsMoveLegal(std::vector<Piece>& board, int cellIndex, Piece currentTurn);
-bool CheckEmptyCells(const std::vector<Piece>& board, int moveIndex);
-bool CheckValidMoves(std::vector<Piece>& board, int moveIndex, Piece currentTurn);
-
-/*
-void FlipPieces(std::vector<Piece>& board, int move, char turn);
-void FlipTop(std::vector<Piece>& board, int move, char turn);
-void FlipTopRight(std::vector<Piece>& board, int move, char turn);
-void FlipRight(std::vector<Piece>& board, int move, char turn);
-void FlipBottomRight(std::vector<Piece>& board, int move, char turn);
-void FlipBottom(std::vector<Piece>& board, int move, char turn);
-void FlipBottomLeft(std::vector<Piece>& board, int move, char turn);
-void FlipLeft(std::vector<Piece>& board, int move, char turn);
-void FlipTopLeft(std::vector<Piece>& board, int move, char turn);
-*/
+bool IsMoveLegal(std::vector<Piece>& board, int cellIndex, Piece currentPiece);
+bool CheckValidMoves(std::vector<Piece>& board, int cellIndex, Piece currentPiece);
+void FlipPieces(std::vector<Piece>& board, int cellIndex, Piece currentPiece);
 
 int main()
 {
@@ -73,22 +62,25 @@ int main()
 			if (currentTurn == player1)
 			{
 				move = PlayerMove(board, player1);
+
 				board[move] = player1;
-				//FlipPieces(board, move, currentTurn);
+				FlipPieces(board, move, player1);
 			}
 			else
 			{
 				move = PlayerMove(board, player2);
+
 				board[move] = player2;
-				//FlipPieces(board, move, currentTurn);
+				FlipPieces(board, move, player2);
 			}
 
 			totalMoves++;
+			currentTurn = GetOpponentPiece(currentTurn);
 
 			DisplayBoard(board);
 			DisplayCurrentScore(board, player1, player2, totalMoves);
-
-			currentTurn = GetOpponentPiece(currentTurn);
+			
+			DisplayWhoseTurn(currentTurn);
 		}
 
 		DisplayCurrentScore(board, player1, player2, totalMoves);
@@ -168,7 +160,7 @@ int RequestMove()
 		if (letter >= 'a' && letter <= 'h')
 		{
 			// Conver the letter into a cell value
-			rowValue = (int)(letter - 'a' + 1) * 10;
+			rowValue = (int)(letter - 'a') * 8;
 		}
 		else
 		{
@@ -176,7 +168,7 @@ int RequestMove()
 		}
 	} while (letter < 'a' && letter > 'h');
 
-	move = rowValue + columnValue;
+	move = rowValue + columnValue - 1;
 
 	return move;
 }
@@ -267,7 +259,7 @@ int PlayerMove(std::vector<Piece>& board, Piece currentPlayer)
 	return move;
 }
 
-void AnnounceWinner(const std::vector<char>& board, Piece player1, Piece player2, int finalX, int finalO)
+void AnnounceWinner(const std::vector<Piece>& board, Piece player1, Piece player2, int finalX, int finalO)
 {
 	if (finalX > finalO)
 	{
@@ -290,42 +282,12 @@ bool IsMoveLegal(std::vector<Piece>& board, int cellIndex, Piece currentPiece)
 	// Illegal move if the cell isn't empty
 	if (board[cellIndex] != Piece::EMPTY) return false;
 
-	bool areSurroundingCellsEmpty = CheckEmptyCells(board, cellIndex);				// May not needs this...CheckValidMoves will take empties into account
 	bool anyMovesAvailable = CheckValidMoves(board, cellIndex, currentPiece);
 	
-	return areSurroundingCellsEmpty && anyMovesAvailable;
+	return anyMovesAvailable;
 }
 
-bool CheckEmptyCells(const std::vector<Piece>& board, int cellIndex)
-{
-	bool isEmpty = true;
-
-	for (int i = -1; i <= 1; ++i)
-	{
-		for (int j = -1; j <= 1; ++j)
-		{
-			// Skip past the central location
-			if (i == 0 && j == 0) continue;
-
-			int finalIndex = cellIndex + (i * 8 + j);
-
-			// If the finalIndex is out of bounds of the board, consider it an empty space
-			if (finalIndex <= 0 || finalIndex >= board.size())
-			{
-				isEmpty = isEmpty && true;
-			}
-			//  
-			else
-			{
-				isEmpty = isEmpty && board[finalIndex] == Piece::EMPTY;
-			}
-		}
-	}
-
-	return isEmpty;
-}
-
-bool CheckValidMoves(std::vector<Piece>& board, int move, Piece currentPiece)
+bool CheckValidMoves(std::vector<Piece>& board, int cellIndex, Piece currentPiece)
 {
 	for (int i = -1; i <= 1; ++i)
 	{
@@ -337,16 +299,16 @@ bool CheckValidMoves(std::vector<Piece>& board, int move, Piece currentPiece)
 			
 			int cellMove = i * 8 + j;
 			
-			int nextIndex = move + cellMove;
+			int nextIndex = cellIndex + cellMove;
 
-			bool outOfBounds = (nextIndex >= 0 && nextIndex <= board.size());
+			bool outOfBounds = (nextIndex < 0 || nextIndex > board.size() - 1);
 
 			while (!outOfBounds && board[nextIndex] == opponentPiece)
 			{
 				nextIndex += cellMove;
 
 				// Check for out of bounds
-				outOfBounds = (nextIndex >= 0 && nextIndex <= board.size());
+				outOfBounds = (nextIndex < 0 || nextIndex > board.size() - 1);
 
 				// We have found a valid move
 				if (!outOfBounds && board[nextIndex] == currentPiece)
@@ -358,112 +320,40 @@ bool CheckValidMoves(std::vector<Piece>& board, int move, Piece currentPiece)
 	return false;
 }
 
-/*
-void FlipPieces(std::vector<char>& board, int move, char turn)
+void FlipPieces(std::vector<Piece>& board, int cellIndex, Piece currentPiece)
 {
-	FlipTop(board, move, turn);
-	FlipTopRight(board, move, turn);
-	FlipRight(board, move, turn);
-	FlipBottomRight(board, move, turn);
-	FlipBottom(board, move, turn);
-	FlipBottomLeft(board, move, turn);
-	FlipLeft(board, move, turn);
-	FlipTopLeft(board, move, turn);
+	for (int i = -1; i <= 1; ++i)
+	{
+		for (int j = -1; j <= 1; ++j)
+		{
+			if (i == 0 && j == 0) continue;
+
+			Piece opponentPiece = GetOpponentPiece(currentPiece);
+
+			int cellMove = i * 8 + j;
+			int nextIndex = cellIndex + cellMove;
+
+			bool outOfBounds = (nextIndex < 0 || nextIndex > board.size() - 1);
+
+			std::stack<int> cellIndices;
+			while (!outOfBounds && board[nextIndex] == opponentPiece)
+			{
+				cellIndices.push(nextIndex);
+
+				nextIndex += cellMove;
+				outOfBounds = (nextIndex < 0 || nextIndex > board.size() - 1);
+
+				if (!outOfBounds && board[nextIndex] == currentPiece)
+				{
+					while (!cellIndices.empty())
+					{
+						int index = cellIndices.top();
+						cellIndices.pop();
+
+						board[index] = currentPiece;
+					}
+				}
+			}
+		}
+	}
 }
-
-void FlipTop(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index - 10;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipTop(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipTopRight(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index - 9;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipTopRight(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipRight(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index + 1;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipRight(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipBottomRight(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index + 11;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipBottomRight(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipBottom(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index + 10;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipBottom(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipBottomLeft(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index + 9;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipBottomLeft(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipLeft(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index - 1;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipLeft(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-
-void FlipTopLeft(std::vector<char>& board, int move, char turn)
-{
-	int index = move;
-	int next = index - 11;
-
-	if (board[next] == GetOpponentPiece(turn))
-		FlipTopLeft(board, next, turn);
-
-	if (board[next] == turn)
-		board[move] = turn;
-}
-*/
