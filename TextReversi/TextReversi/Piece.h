@@ -20,3 +20,8 @@ inline char PieceToChar(Piece piece)
 	// Some random invalid default character
 	return '=';
 }
+
+inline Piece OppositePiece(Piece piece)
+{
+	return (piece == Piece::X) ? Piece::O : Piece::X;
+}
