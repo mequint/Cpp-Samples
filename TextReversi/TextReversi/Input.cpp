@@ -17,12 +17,11 @@ char AskYesOrNoQuestion(std::string question)
 	return response;
 }
 
-int RequestMove()
+Move RequestMove()
 {
 	char letter;
-	int rowValue;
 	int columnValue;
-	int move;
+	Move move;
 
 	do
 	{
@@ -33,16 +32,17 @@ int RequestMove()
 
 		if (letter >= 'a' && letter <= 'h')
 		{
-			// Conver the letter into a cell value
-			rowValue = (int)(letter - 'a') * 8;
+			// Convert the letter into a cell value
+			move.Row = (int)(letter - 'a');
 		}
 		else
 		{
 			std::cout << "Invalid letter." << std::endl;
 		}
-	} while (letter < 'a' && letter > 'h');
+	} while (letter < 'a' && letter > 'h' && columnValue < 1 && columnValue > 8);
 
-	move = rowValue + columnValue - 1;
+	// Take the column value and subtract by 1 to obtain a zero indexed value
+	move.Col = columnValue - 1;
 
 	return move;
 }
@@ -61,11 +61,11 @@ Piece GetPlayerPiece()
 	return Piece::O;
 }
 
-int GetPlayerMove(Board& board, Piece currentPlayer)
+Move GetPlayerMove(Board& board, Piece currentPlayer)
 {
-	int move = RequestMove();
+	Move move = RequestMove();
 
-	while (!board.IsMoveValid(move, currentPlayer))
+	while (!board.IsMoveValid(move.Row, move.Col, currentPlayer))
 	{
 		std::cout << std::endl << "Invalid move." << std::endl;
 		move = RequestMove();

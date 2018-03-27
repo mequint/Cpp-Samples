@@ -6,6 +6,6 @@
 #include "Piece.h"
 
 char AskYesOrNoQuestion(std::string question);
-int RequestMove();
+Move RequestMove();
 Piece GetPlayerPiece();
-int GetPlayerMove(Board& board, Piece currentPlayer);
+Move GetPlayerMove(Board& board, Piece currentPlayer);

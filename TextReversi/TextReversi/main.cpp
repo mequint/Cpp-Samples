@@ -9,19 +9,22 @@
 #include "Piece.h"
 
 // TODO:
+//		When moves are unavailable for a player, switch the turn to the opponent
+//			* Requires a new board method, MovesAvailable - return bool for now but AI will require an int
 //		Add easy exiting operations via command line
 //		Make a game class to hold the game specific variables
+//		STEP (MAYBE): AI! Use backtracking and weighted decision making to try for the maximum available pieces in a turn
+//		STEP (MAYBE): Make the AI smarter by using a heuristic of key placements on the game board
 //		STEP (MAYBE): Make the TextReversi follow a state based pattern which accesses the "global" game class
 //			* Intro state
 //			* Setup state
 //			* Game state
 //			* GameOver state
 //		2.0 - 2D or 3D Graphical representation!
+//		3.0 (2.0?) - Multiplayer using Sockets!!!
 
 // Bugs (to fix):
 //		Replace input with a getline call and parse out the 2 values manually to prevent invalid values
-//		In the flip pieces method make sure that the col values aren't causing the next index to move one row up or down (erroneous behavior)
-//			*Consider replacing the Vector with a 2D Vector - this will change our board implementation
 
 int main()
 {
@@ -45,8 +48,8 @@ int main()
 
 		while (totalMoves < 64)
 		{
-			int move = GetPlayerMove(board, currentTurn);
-			board.MakeMove(move, currentTurn);
+			Move move = GetPlayerMove(board, currentTurn);
+			board.MakeMove(move.Row, move.Col, currentTurn);
 		
 			totalMoves++;
 			currentTurn = OppositePiece(currentTurn);

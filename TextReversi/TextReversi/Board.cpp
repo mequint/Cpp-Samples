@@ -3,105 +3,115 @@
 #include <stack>
 
 Board::Board() :
-	board(NUM_SQUARES, Piece::EMPTY)
+	board(8, std::vector<Piece>(8, Piece::EMPTY))
 {
-	board[27] = Piece::X;
-	board[28] = Piece::O;
-	board[35] = Piece::O;
-	board[36] = Piece::X;
+	board[3][3] = Piece::X;
+	board[3][4] = Piece::O;
+	board[4][3] = Piece::O;
+	board[4][4] = Piece::X;
 }
 
 void Board::Reset()
 {
-	for (auto cell : board)
+	for (auto row : board)
 	{
-		cell = Piece::EMPTY;
+		for (auto cell : row)
+		{
+			cell = Piece::EMPTY;
+		}
 	}
 
-	board[27] = Piece::X;
-	board[28] = Piece::O;
-	board[35] = Piece::O;
-	board[36] = Piece::X;
+	board[3][3] = Piece::X;
+	board[3][4] = Piece::O;
+	board[4][3] = Piece::O;
+	board[4][4] = Piece::X;
 }
 
-bool Board::IsMoveValid(const int index, Piece currentPiece)
+bool Board::IsMoveValid(const int cellRow, const int cellCol, Piece currentPiece)
 {
-	if (board[index] != Piece::EMPTY) return false;
-	
+	if (board[cellRow][cellCol] != Piece::EMPTY) return false;
+
 	for (int row = UP; row <= DOWN; ++row)
 	{
 		for (int col = LEFT; col <= RIGHT; ++col)
 		{
+			// This is where the current players piece could be placed
 			if (row == 0 && col == 0) continue;
 
 			Piece opponentPiece = OppositePiece(currentPiece);
-			int cellMove = row * 8 + col;
-			int nextIndex = index + cellMove;
+			
+			int nextRow = cellRow + row;
+			int nextCol = cellCol + col;
 
-			bool isOutOfBounds = (nextIndex < 0 || nextIndex  >(int)board.size() - 1);
+			bool isOutOfBounds = (nextRow < 0 || nextRow > (int)(board.size() - 1)) ||
+				(nextCol < 0 || nextCol > (int)(board[nextRow].size() - 1));
 
-			while (!isOutOfBounds && board[nextIndex] == opponentPiece)
+			while (!isOutOfBounds && board[nextRow][nextCol] == opponentPiece)
 			{
-				nextIndex += cellMove;
+				nextRow += row;
+				nextCol += col;
 
-				// Check for out of bounds
-				isOutOfBounds = (nextIndex < 0 || nextIndex  >(int)board.size() - 1);
+				isOutOfBounds = (nextRow < 0 || nextRow > (int)(board.size() - 1)) ||
+					(nextCol < 0 || nextCol > (int)(board[nextRow].size() - 1));
 
-				// Return true if the move is valid
-				if (!isOutOfBounds && board[nextIndex] == currentPiece)
+				if (!isOutOfBounds && board[nextRow][nextCol] == currentPiece)
 					return true;
 			}
 		}
 	}
 
-	// The move is invalid
 	return false;
 }
 
-void Board::MakeMove(const int index, Piece currentPiece)
+void Board::MakeMove(const int cellRow, const int cellCol, Piece currentPiece)
 {
-	board[index] = currentPiece;
-	FlipPieces(index, currentPiece);
-}		
+	board[cellRow][cellCol] = currentPiece;
+	FlipPieces(cellRow, cellCol, currentPiece);
+}
 
 Piece Board::GetCell(const int row, const int col) const
 {
-	return board[row * 8 + col];
+	return board[row][col];
 }
 
-
 // Helper methods
-void Board::FlipPieces(const int cellIndex, Piece currentPiece)
+void Board::FlipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 {
 	for (int row = UP; row <= DOWN; ++row)
 	{
 		for (int col = LEFT; col <= RIGHT; ++col)
 		{
+			// This is where the current players piece was placed
 			if (row == 0 && col == 0) continue;
-			
+
 			Piece opponentPiece = OppositePiece(currentPiece);
 
-			int cellMove = row * 8 + col;
-			int nextIndex = cellIndex + cellMove;
+			int nextRow = cellRow + row;
+			int nextCol = cellCol + col;
 
-			bool isOutOfBounds = (nextIndex < 0 || nextIndex > (int)board.size() - 1);
+			bool isOutOfBounds = (nextRow < 0 || nextRow >(int)(board.size() - 1)) ||
+				(nextCol < 0 || nextCol >(int)(board[nextRow].size() - 1));
 
-			std::stack<int> cellIndices;
-			while (!isOutOfBounds && board[nextIndex] == opponentPiece)
+			std::stack<Move> cellIndices;
+			while (!isOutOfBounds && board[nextRow][nextCol] == opponentPiece)
 			{
-				cellIndices.push(nextIndex);
+				Move cellIndex = { nextRow, nextCol };
+				cellIndices.push(cellIndex);
 
-				nextIndex += cellMove;
-				isOutOfBounds = (nextIndex < 0 || nextIndex >(int)board.size() - 1);
+				nextRow += row;
+				nextCol += col;
 
-				if (!isOutOfBounds && board[nextIndex] == currentPiece)
+				isOutOfBounds = (nextRow < 0 || nextRow >(int)(board.size() - 1)) ||
+					(nextCol < 0 || nextCol >(int)(board[nextRow].size() - 1));
+
+				if (!isOutOfBounds && board[nextRow][nextCol] == currentPiece)
 				{
 					while (!cellIndices.empty())
 					{
-						int index = cellIndices.top();
+						Move cellIndex = cellIndices.top();
 						cellIndices.pop();
 
-						board[index] = currentPiece;
+						board[cellIndex.Row][cellIndex.Col] = currentPiece;
 					}
 				}
 			}
