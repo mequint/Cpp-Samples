@@ -1,6 +1,8 @@
 #include "Input.h"
 
+#include <algorithm>
 #include <iostream>
+#include <string>
 
 char AskYesOrNoQuestion(std::string question)
 {
@@ -9,7 +11,7 @@ char AskYesOrNoQuestion(std::string question)
 	do
 	{
 		std::cout << question << " (y/n): ";
-		std::cin >> response;
+		std::cin >> response; std::cin.ignore();
 
 		response = tolower(response);
 	} while (response != 'y' && response != 'n');
@@ -19,30 +21,60 @@ char AskYesOrNoQuestion(std::string question)
 
 Move RequestMove()
 {
-	char letter;
-	int columnValue;
 	Move move;
 
+	bool invalid = true;
 	do
 	{
 		std::cout << "Please enter a letter (a-h), then a number(1-8): ";
-		std::cin >> letter >> columnValue;
 
-		letter = tolower(letter);
+		std::string line;
+		getline(std::cin, line);
 
-		if (letter >= 'a' && letter <= 'h')
+		// Change the line to lowercase
+		std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+
+		if (line.length() == 2)
 		{
 			// Convert the letter into a cell value
-			move.Row = (int)(letter - 'a');
+			if (line[0] >= 'a' && line[0] <= 'h' && line[1] >= '1' && line[1] <= '8')
+			{
+				move.Row = (int)(line[0] - 'a');
+				move.Col = (int)(line[1] - '1');
+				move.Command = Command::Move;
+				invalid = false;
+			}
+		}
+		else if (line == "save")
+		{
+			move.Command = Command::Save;
+			invalid = false;
+		}
+		else if (line == "load")
+		{
+			move.Command = Command::Load;
+			invalid = false;
+		}
+		else if (line == "quit" || line == "exit")
+		{
+			move.Command = Command::Quit;
+			invalid = false;
+		}
+		else if (line == "board")
+		{
+			move.Command = Command::PrintBoard;
+			invalid = false;
+		}
+		else if (line == "options")
+		{
+			move.Command = Command::Options;
+			invalid = false;
 		}
 		else
 		{
-			std::cout << "Invalid letter." << std::endl;
+			std::cout << "Invalid input." << std::endl;
 		}
-	} while (letter < 'a' && letter > 'h' && columnValue < 1 && columnValue > 8);
-
-	// Take the column value and subtract by 1 to obtain a zero indexed value
-	move.Col = columnValue - 1;
+	} while (invalid);
 
 	return move;
 }
@@ -65,7 +97,7 @@ Move GetPlayerMove(Board& board, Piece currentPlayer)
 {
 	Move move = RequestMove();
 
-	while (!board.IsMoveValid(move.Row, move.Col, currentPlayer))
+	while (move.Command == Command::Move && !board.IsMoveValid(move.Row, move.Col, currentPlayer))
 	{
 		std::cout << std::endl << "Invalid move." << std::endl;
 		move = RequestMove();

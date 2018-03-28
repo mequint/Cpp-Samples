@@ -13,10 +13,21 @@ const int DOWN = 1;
 const int LEFT = -1;
 const int RIGHT = 1;
 
+enum class Command
+{
+	Move,
+	Save,
+	Load,
+	Quit,
+	PrintBoard,
+	Options
+};
+
 struct Move
 {
 	int Row;
 	int Col;
+	Command Command;
 };
 
 class Board
@@ -28,8 +39,10 @@ class Board
 
 		bool IsMoveValid(const int cellRow, const int cellCol, Piece currentPiece);
 		void MakeMove(const int cellRow, const int cellCol, Piece currentPiece);
-
+		
 		Piece GetCell(const int row, const int col) const;
+
+		bool AreMovesAvailable(Piece currentPiece);
 
 	private:
 		std::vector<std::vector<Piece>> board;

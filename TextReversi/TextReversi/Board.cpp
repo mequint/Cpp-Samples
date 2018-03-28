@@ -74,6 +74,23 @@ Piece Board::GetCell(const int row, const int col) const
 	return board[row][col];
 }
 
+
+bool Board::AreMovesAvailable(Piece currentPiece)
+{
+	for (int row = 0; row < board.size(); ++row)
+	{
+		for (int col = 0; col < board[row].size(); ++col)
+		{
+			if (GetCell(row, col) == Piece::EMPTY && IsMoveValid(row, col, currentPiece))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 // Helper methods
 void Board::FlipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 {
