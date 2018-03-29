@@ -69,17 +69,21 @@ void Board::MakeMove(const int cellRow, const int cellCol, Piece currentPiece)
 	FlipPieces(cellRow, cellCol, currentPiece);
 }
 
+void Board::SetCell(const int row, const int col, Piece piece)
+{
+	board[row][col] = piece;
+}
+
 Piece Board::GetCell(const int row, const int col) const
 {
 	return board[row][col];
 }
 
-
 bool Board::AreMovesAvailable(Piece currentPiece)
 {
-	for (int row = 0; row < board.size(); ++row)
+	for (int row = 0; row < (int)board.size(); ++row)
 	{
-		for (int col = 0; col < board[row].size(); ++col)
+		for (int col = 0; col < (int)board[row].size(); ++col)
 		{
 			if (GetCell(row, col) == Piece::EMPTY && IsMoveValid(row, col, currentPiece))
 			{

@@ -21,6 +21,17 @@ inline char PieceToChar(Piece piece)
 	return '=';
 }
 
+inline Piece CharToPiece(char c)
+{
+	switch (c)
+	{
+		case 'O': return Piece::O;
+		case 'X': return Piece::X;
+	}
+
+	return Piece::EMPTY;
+}
+
 inline Piece OppositePiece(Piece piece)
 {
 	return (piece == Piece::X) ? Piece::O : Piece::X;

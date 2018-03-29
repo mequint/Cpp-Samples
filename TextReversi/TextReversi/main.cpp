@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <stack>
 #include <string>
@@ -7,28 +8,90 @@
 #include "Display.h"
 #include "Input.h"
 #include "Piece.h"
+#include "Player.h"
 
 // TODO:
-//		When moves are unavailable for a player, switch the turn to the opponent
-//			* Requires a new board method, MovesAvailable - return bool for now but AI will require an int
-//		Add easy exiting operations via command line
-//		Add a save function to command line to save the state of the game
-//		Add a load function to load a previously saved state
+//		Make a game class to hold the game specific variables
 //		AI! 
+//			*Add a method Board->AvailableMoves as a vector of moves
 //			*Have the AI player make a random move based on the moves available
 //			*Use backtracking and weighted decision making for the AI to try for the maximum available pieces in a turn
 //			*Make the AI smarter by using a heuristic of key placements on the game board
-//		STEP (MAYBE): Make a game class to hold the game specific variables
-//		STEP (MAYBE): Make the TextReversi follow a state based pattern which accesses the "global" game class
+//		Make the TextReversi follow a state based pattern which accesses a "global" game class
 //			* Intro state
-//			* Setup state
+//			* Main Menu state
+//			* New Game state
+//			* Load Game state
+//			* Display Rules state
 //			* Game state
 //			* GameOver state
+//			* Exiting state
 //		2.0 - Make the game multiplayer by using Sockets
 //		3.0 - 2D or 3D Graphical representation!
 
-// Bugs (to fix):
-//		Replace input with a getline call and parse out the 2 values manually to prevent invalid values
+void SaveGame(const std::string& name, const Board& board, Piece currentTurn, Player& player1, Player& player2)
+{
+	std::ofstream myFile;
+	myFile.open(name);
+
+	for (int i = 0; i < 8; ++i)
+	{
+		for (int j = 0; j < 8; ++j)
+		{
+			myFile << PieceToChar(board.GetCell(i, j));
+		}
+		myFile << std::endl;
+	}
+
+	myFile << PieceToChar(currentTurn) << std::endl;
+	myFile << PieceToChar(player1.piece) << " " << player1.isHuman << std::endl;
+	myFile << PieceToChar(player2.piece) << " " << player2.isHuman << std::endl;
+}
+
+void LoadGame(const std::string& filename, Board& board, int& totalMoves, Piece& currentTurn, Player& player1, Player& player2)
+{
+	std::ifstream myFile;
+	myFile.open(filename);
+
+	if (myFile.is_open())
+	{
+		// Reset total moves - count this while loading the board
+		totalMoves = 0;
+
+		// Load the board
+		for (int i = 0; i < 8; ++i)
+		{
+			std::string line;
+			getline(myFile, line);
+
+			for (int j = 0; j < 8; ++j)
+			{
+				board.SetCell(i, j, CharToPiece(line[j]));
+				totalMoves++;
+			}
+		}
+
+		// Load the current turn
+		char c;
+		myFile >> c;
+		currentTurn = CharToPiece(c);
+
+		// Load player 1
+		bool isHuman;
+		myFile >> c >> isHuman;
+		player1.piece = CharToPiece(c);
+		player1.isHuman = isHuman;
+
+		// Load player 2
+		myFile >> c >> isHuman;
+		player2.piece = CharToPiece(c);
+		player2.isHuman = isHuman;
+	}
+	else
+	{
+		std::cout << "ERROR: Failed to load game /'" << filename << "/'";
+	}
+}
 
 int main()
 {
@@ -42,12 +105,17 @@ int main()
 		Board board;
 
 		// determine who gets to play the piece
-		Piece player1 = GetPlayerPiece();
-		Piece player2 = OppositePiece(player1);
+		Player player1;
+		player1.piece = GetPlayerPiece();
+		player1.isHuman = true;
+
+		Player player2;
+		player2.piece = OppositePiece(player1.piece);
+		player2.isHuman = true;
 
 		Piece currentTurn = Piece::X;
 		DisplayBoard(board);
-		DisplayCurrentScore(board, player1, player2, totalMoves);
+		DisplayCurrentScore(board, player1.piece, player2.piece, totalMoves);
 		DisplayWhoseTurn(currentTurn);
 
 		bool gameOver = false;
@@ -57,6 +125,7 @@ int main()
 
 			if (board.AreMovesAvailable(currentTurn))
 			{
+				std::string filename;
 				Move move = GetPlayerMove(board, currentTurn);
 				switch (move.Command)
 				{
@@ -72,18 +141,29 @@ int main()
 						currentTurn = OppositePiece(currentTurn);
 
 						DisplayBoard(board);
-						DisplayCurrentScore(board, player1, player2, totalMoves);
+						DisplayCurrentScore(board, player1.piece, player2.piece, totalMoves);
 
 						DisplayWhoseTurn(currentTurn);
 
 						break;
 
 					case Command::Save:
-						std::cout << "Saving game (stub)\n";
+						std::cout << "Saving game" << std::endl;
+
+						std::cout << "Enter a save name: ";
+						getline(std::cin, filename);
+
+						SaveGame(filename, board, currentTurn, player1, player2);
 						break;
 
 					case Command::Load:
-						std::cout << "Loading game (stub)\n";
+						std::cout << "Loading game" << std::endl;
+
+						std::cout << "Enter a game name to load: ";
+						getline(std::cin, filename);
+
+						LoadGame(filename, board, totalMoves, currentTurn, player1, player2);
+
 						break;
 
 					case Command::Quit:
@@ -92,7 +172,7 @@ int main()
 
 					case Command::PrintBoard:
 						DisplayBoard(board);
-						DisplayCurrentScore(board, player1, player2, totalMoves);
+						DisplayCurrentScore(board, player1.piece, player2.piece, totalMoves);
 						DisplayWhoseTurn(currentTurn);
 						break;
 
@@ -118,7 +198,7 @@ int main()
 				currentTurn = OppositePiece(currentTurn);
 
 				DisplayBoard(board);
-				DisplayCurrentScore(board, player1, player2, totalMoves);
+				DisplayCurrentScore(board, player1.piece, player2.piece, totalMoves);
 
 				DisplayWhoseTurn(currentTurn);
 			}

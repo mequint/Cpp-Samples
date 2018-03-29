@@ -2,33 +2,14 @@
 
 #include <vector>
 
+#include "Move.h"
 #include "Piece.h"
-
-// Total number of squares on the board
-const int NUM_SQUARES = 64;
 
 // The 2D directions for the board operations
 const int UP = -1;
 const int DOWN = 1;
 const int LEFT = -1;
 const int RIGHT = 1;
-
-enum class Command
-{
-	Move,
-	Save,
-	Load,
-	Quit,
-	PrintBoard,
-	Options
-};
-
-struct Move
-{
-	int Row;
-	int Col;
-	Command Command;
-};
 
 class Board
 {
@@ -41,12 +22,12 @@ class Board
 		void MakeMove(const int cellRow, const int cellCol, Piece currentPiece);
 		
 		Piece GetCell(const int row, const int col) const;
+		void SetCell(const int row, const int col, Piece piece);
 
 		bool AreMovesAvailable(Piece currentPiece);
 
 	private:
 		std::vector<std::vector<Piece>> board;
 
-		void FlipPieces(int cellIndex, Piece currentPiece);
 		void FlipPieces(const int cellRow, const int cellCol, Piece currentPiece);
 };
