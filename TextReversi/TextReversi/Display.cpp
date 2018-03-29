@@ -65,40 +65,20 @@ void DisplayBoard(const Board& board)
 	std::cout << std::endl;
 }
 
-void DisplayCurrentScore(const Board& board, Piece player1, Piece player2, int turn)
+void DisplayCurrentScore(int xScore, int oScore)
 {
-	int xCount = 0;
-	int oCount = 0;
-
-	for (int row = 0; row < 8; ++row)
-	{
-		for (int col = 0; col < 8; ++col)
-		{
-			Piece piece = board.GetCell(row, col);
-
-			if (piece == Piece::X)
-				xCount++;
-			else if (piece == Piece::O)
-				oCount++;
-		}
-	}
-
-	std::cout << std::endl << "X = " << xCount << "\tO = " << oCount;
-
-	if (turn >= 64)
-	{
-		DisplayWinner(player1, player2, xCount, oCount);
-	}
+	std::cout << std::endl << "X = " << xScore << "\tO = " << oScore;
 }
 
 void DisplayWhoseTurn(Piece currentPlayer)
 {
 	char player = PieceToChar(currentPlayer);
-	std::cout << "\t" << "It is " << player << "s turn" << std::endl << std::endl;
+	std::cout << "\t" << "It is " << player << "s turn" << std::endl;
 }
 
 void DisplayWinner(Piece player1, Piece player2, int finalX, int finalO)
 {
+	std::cout << std::endl;
 	if (finalX > finalO)
 	{
 		std::string winner = (player1 == Piece::X) ? "Player 1" : "Player 2";
