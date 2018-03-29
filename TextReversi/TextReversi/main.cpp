@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Display.h"
 #include "Game.h"
+#include "GameStates.h"
 #include "Input.h"
 #include "Piece.h"
 #include "Player.h"
@@ -18,14 +19,11 @@
 //			*Use backtracking and weighted decision making for the AI to try for the maximum available pieces in a turn
 //			*Make the AI smarter by using a heuristic of key placements on the game board
 //		Make the TextReversi follow a state based pattern which accesses a "global" game class
-//			* Intro state
-//			* Main Menu state
 //			* New Game state
 //			* Load Game state
-//			* Display Rules state
 //			* Game state
 //			* GameOver state
-//			* Exiting state
+//			* Make the state machine and tie it to state classes
 //		2.0 - Make the game multiplayer by using Sockets
 //		3.0 - 2D or 3D Graphical representation!
 
@@ -72,9 +70,7 @@ int main()
 				{
 					case Command::Move:
 						textReversi.MakeMove(move.Row, move.Col);
-						//board.MakeMove(move.Row, move.Col, textReversi.GetCurrentTurn());
 
-						//totalMoves++;
 						movesAvailableLastTurn = true;
 
 						if (textReversi.GetTotalMoves() == 64)
@@ -94,7 +90,6 @@ int main()
 						std::cout << "Enter a save name: ";
 						getline(std::cin, filename);
 
-						// TODO: Move save and load functionality to the game class...
 						textReversi.Save(filename);
 						break;
 
