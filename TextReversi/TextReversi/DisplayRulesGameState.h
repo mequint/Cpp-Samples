@@ -11,7 +11,7 @@ enum class DisplayRulesGameStateCommands
 class DisplayRulesGameState : public GameState
 {
 	public:
-		DisplayRulesGameState();
+		DisplayRulesGameState(StateManager* stateManager);
 
 		virtual void GetInput();
 		virtual void Update();

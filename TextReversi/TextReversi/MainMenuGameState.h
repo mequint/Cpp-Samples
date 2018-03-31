@@ -15,15 +15,15 @@ enum class MainMenuCommands
 class MainMenuGameState : public GameState
 {
 	public:
-		MainMenuGameState();
+		MainMenuGameState(StateManager* stateManager);
 
 		virtual void GetInput();
 		virtual void Update();
 		virtual void Display();
 
 	private:
-		bool promptEnabled;
-		MainMenuCommands menuChoice;
+		bool m_promptEnabled;
+		MainMenuCommands m_menuChoice;
 
-		bool displayedError;
+		bool m_messageDisplayed;
 };

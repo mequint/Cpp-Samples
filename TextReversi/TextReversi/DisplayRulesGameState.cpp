@@ -3,7 +3,10 @@
 #include <conio.h>
 #include <iostream>
 
-DisplayRulesGameState::DisplayRulesGameState() :
+#include "StateManager.h"
+
+DisplayRulesGameState::DisplayRulesGameState(StateManager* stateManager) :
+	GameState(stateManager),
 	promptEnabled(false),
 	command(DisplayRulesGameStateCommands::UNSET)
 {
@@ -24,6 +27,7 @@ void DisplayRulesGameState::Update()
 	switch (command)
 	{
 		case DisplayRulesGameStateCommands::RETURN_HOME:
+			m_stateManager->ChangeState(GameStateType::MainMenu);
 			break;
 
 		case DisplayRulesGameStateCommands::UNSET:

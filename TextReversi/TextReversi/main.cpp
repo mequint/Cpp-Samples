@@ -11,6 +11,7 @@
 #include "Input.h"
 #include "Piece.h"
 #include "Player.h"
+#include "StateManager.h"
 
 // TODO:
 //		AI! 
@@ -30,6 +31,15 @@
 int main()
 {
 	Game textReversi;
+
+	StateManager manager;
+	manager.ChangeState(GameStateType::Intro);
+	while (manager.IsRunning())
+	{
+		manager.GetInput();
+		manager.Update();
+		manager.Display();
+	}
 
 	char again = 'y';
 

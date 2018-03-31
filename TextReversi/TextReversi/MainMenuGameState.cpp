@@ -3,17 +3,20 @@
 #include <iostream>
 #include <string>
 
-MainMenuGameState::MainMenuGameState() :
-	promptEnabled(false),
-	menuChoice(MainMenuCommands::UNSET),
-	displayedError(false)
+#include "StateManager.h"
+
+MainMenuGameState::MainMenuGameState(StateManager* stateManager) :
+	GameState(stateManager),
+	m_promptEnabled(false),
+	m_menuChoice(MainMenuCommands::UNSET),
+	m_messageDisplayed(false)
 {
 
 }
 
 void MainMenuGameState::GetInput() 
 {
-	if (promptEnabled)
+	if (m_promptEnabled)
 	{
 		std::string line;
 		getline(std::cin, line);
@@ -22,67 +25,71 @@ void MainMenuGameState::GetInput()
 		{
 			if (line == "1")
 			{
-				menuChoice = MainMenuCommands::NEW_GAME;
+				m_menuChoice = MainMenuCommands::NEW_GAME;
 			}
 			else if (line == "2")
 			{
-				menuChoice = MainMenuCommands::LOAD_GAME;
+				m_menuChoice = MainMenuCommands::LOAD_GAME;
 			}
 			else if (line == "3")
 			{
-				menuChoice = MainMenuCommands::DISPLAY_INSTRUCTIONS;
+				m_menuChoice = MainMenuCommands::DISPLAY_INSTRUCTIONS;
 			}
 			else if (line == "4")
 			{
-				menuChoice = MainMenuCommands::EXIT;
+				m_menuChoice = MainMenuCommands::EXIT;
 			}
 			else
 			{
-				menuChoice = MainMenuCommands::INVALID;
+				m_menuChoice = MainMenuCommands::INVALID;
 			}
 		}
 		else
 		{
-			menuChoice = MainMenuCommands::INVALID;
+			m_menuChoice = MainMenuCommands::INVALID;
 		}
 	}
 }
 
 void MainMenuGameState::Update() 
 {
-	promptEnabled = false;
+	m_promptEnabled = false;
 
-	switch (menuChoice)
+	switch (m_menuChoice)
 	{
 		case MainMenuCommands::UNSET:
-			promptEnabled = true;
+			m_promptEnabled = true;
 			break;
 
 		// Call the state machine to set up the new game state
 		case MainMenuCommands::NEW_GAME:
+			m_menuChoice = MainMenuCommands::UNSET;
 			break;
 
 		// Call the state machine to set up the load game state
 		case MainMenuCommands::LOAD_GAME:
+			m_menuChoice = MainMenuCommands::UNSET;
 			break;
 
 		// Call the state machine to set up the display instructions state
 		case MainMenuCommands::DISPLAY_INSTRUCTIONS:
+			m_stateManager->ChangeState(GameStateType::DisplayRules);
 			break;
 
 		// Call the state machine to run the exit state
 		case MainMenuCommands::EXIT:
+			m_stateManager->ChangeState(GameStateType::Exiting);
 			break;
 
 		case MainMenuCommands::INVALID:
-			if (!displayedError)
+			if (!m_messageDisplayed)
 			{
-				displayedError = true;
+				m_messageDisplayed = true;
 			}
 			else
 			{
-				displayedError = false;
-				menuChoice = MainMenuCommands::UNSET;
+				m_messageDisplayed = false;
+				m_menuChoice = MainMenuCommands::UNSET;
 			}
 
 			break;
@@ -91,7 +98,7 @@ void MainMenuGameState::Update()
 
 void MainMenuGameState::Display()
 {
-	switch (menuChoice)
+	switch (m_menuChoice)
 	{
 		case MainMenuCommands::UNSET:
 			std::cout << "Please select an option:\n";
