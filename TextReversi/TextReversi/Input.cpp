@@ -79,20 +79,6 @@ Move RequestMove()
 	return move;
 }
 
-Piece GetPlayerPiece()
-{
-	char goFirst = AskYesOrNoQuestion("Player 1, would you like to go first?");
-
-	if (tolower(goFirst) == 'y')
-	{
-		std::cout << "\nPlayer 1 is 'X' and Player 2 is 'O'\n";
-		return Piece::X;
-	}
-
-	std::cout << "\nPlayer 1 is 'O' and Player 2 is 'X'\n";
-	return Piece::O;
-}
-
 Move GetPlayerMove(Board& board, Piece currentPlayer)
 {
 	Move move = RequestMove();

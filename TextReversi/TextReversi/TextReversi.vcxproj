@@ -120,6 +120,7 @@
     <ClCompile Include="DisplayRulesGameState.cpp" />
     <ClCompile Include="ExitingGameState.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="InGameState.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="DisplayRulesGameState.h" />
     <ClInclude Include="ExitingGameState.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStates.h" />

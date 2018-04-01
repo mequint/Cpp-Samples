@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "GameContext.h"
 #include "GameState.h"
 #include "GameStates.h"
 
@@ -13,24 +14,25 @@ using StateFactory = std::unordered_map<GameStateType, std::function<GameState*(
 class StateManager
 {
 	public:
-		StateManager();
+		StateManager(GameContext* context);
 		~StateManager();
 
 		void Run();
 
 		void ChangeState(const GameStateType& type);
 
-		// Temporary - move this into a game context
-		bool IsRunning() const { return m_isRunning; }
-		void SetIsRunning(bool isRunning) { m_isRunning = isRunning; }
+		bool IsRunning() const;
+		void SetIsRunning(bool isRunning);
+
+		GameContext* GetContext();
 
 	private:
-		// Temp variable
 		bool m_isRunning;
 
 		// Member variables
 		StateContainer m_states;
 		StateFactory m_stateFactory;
+		GameContext* m_context;
 
 		template <class T>
 		void RegisterState(const GameStateType& type)

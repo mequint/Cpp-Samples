@@ -31,15 +31,22 @@
 
 int main()
 {
-	Game textReversi;
+	Game game;
+	while (game.IsRunning())
+	{
+		game.Run();
+	}
 
+	/*
 	StateManager manager;
 	manager.ChangeState(GameStateType::Intro);
 	while (manager.IsRunning())
 	{
 		manager.Run();
 	}
+	*/
 
+	/*
 	char again = 'y';
 
 	DisplayInstructions();
@@ -51,45 +58,45 @@ int main()
 		Player player1;
 		player1.piece = GetPlayerPiece();
 		player1.isHuman = true;
-		textReversi.SetPlayer1(player1);
+		textReversi.GetContext().SetPlayer1(player1);
 
 		Player player2;
 		player2.piece = OppositePiece(player1.piece);
 		player2.isHuman = true;
-		textReversi.SetPlayer2(player2);
+		textReversi.GetContext().SetPlayer2(player2);
 
 		// Move the display code to InGame and EndGame state
-		DisplayBoard(textReversi.GetBoard());
-		DisplayCurrentScore(textReversi.GetXScore(), textReversi.GetOScore());
-		DisplayWhoseTurn(textReversi.GetCurrentTurn());
+		DisplayBoard(textReversi.GetContext().GetBoard());
+		DisplayCurrentScore(textReversi.GetContext().GetXScore(), textReversi.GetContext().GetOScore());
+		DisplayWhoseTurn(textReversi.GetContext().GetCurrentTurn());
 
 		bool gameOver = false;
 		while (!gameOver)
 		{
 			bool movesAvailableLastTurn = true;
 
-			if (textReversi.AreMovesAvailable())
+			if (textReversi.GetContext().AreMovesAvailable())
 			{
-				Board board = textReversi.GetBoard();
-				Move move = GetPlayerMove(board, textReversi.GetCurrentTurn());
+				Board board = textReversi.GetContext().GetBoard();
+				Move move = GetPlayerMove(board, textReversi.GetContext().GetCurrentTurn());
 
 				std::string filename;
 
 				switch (move.Command)
 				{
 					case Command::Move:
-						textReversi.MakeMove(move.Row, move.Col);
+						textReversi.GetContext().MakeMove(move.Row, move.Col);
 
 						movesAvailableLastTurn = true;
 
-						if (textReversi.GetTotalMoves() == 64)
+						if (textReversi.GetContext().GetTotalMoves() == 64)
 							gameOver = true;
 
-						textReversi.SetCurrentTurn(OppositePiece(textReversi.GetCurrentTurn()));
+						textReversi.GetContext().SetCurrentTurn(OppositePiece(textReversi.GetContext().GetCurrentTurn()));
 
-						DisplayBoard(textReversi.GetBoard());
-						DisplayCurrentScore(textReversi.GetXScore(), textReversi.GetOScore());
-						DisplayWhoseTurn(textReversi.GetCurrentTurn());
+						DisplayBoard(textReversi.GetContext().GetBoard());
+						DisplayCurrentScore(textReversi.GetContext().GetXScore(), textReversi.GetContext().GetOScore());
+						DisplayWhoseTurn(textReversi.GetContext().GetCurrentTurn());
 
 						break;
 
@@ -99,7 +106,7 @@ int main()
 						std::cout << "Enter a save name: ";
 						getline(std::cin, filename);
 
-						textReversi.Save(filename);
+						textReversi.GetContext().Save(filename);
 						break;
 
 					case Command::Load:
@@ -108,7 +115,7 @@ int main()
 						std::cout << "Enter a game name to load: ";
 						getline(std::cin, filename);
 
-						if (!textReversi.Load(filename))
+						if (!textReversi.GetContext().Load(filename))
 						{
 							std::cout << "ERROR: Failed to load game /'" << filename << "/'";
 						}
@@ -117,13 +124,13 @@ int main()
 
 					case Command::Quit:
 						gameOver = true;
-						textReversi.Reset();
+						textReversi.GetContext().Reset();
 						break;
 
 					case Command::PrintBoard:
-						DisplayBoard(textReversi.GetBoard());
-						DisplayCurrentScore(textReversi.GetXScore(), textReversi.GetOScore());
-						DisplayWhoseTurn(textReversi.GetCurrentTurn());
+						DisplayBoard(textReversi.GetContext().GetBoard());
+						DisplayCurrentScore(textReversi.GetContext().GetXScore(), textReversi.GetContext().GetOScore());
+						DisplayWhoseTurn(textReversi.GetContext().GetCurrentTurn());
 						break;
 
 					case Command::Options:
@@ -145,11 +152,11 @@ int main()
 			{
 				movesAvailableLastTurn = false;
 
-				textReversi.SetCurrentTurn(OppositePiece(textReversi.GetCurrentTurn()));
+				textReversi.GetContext().SetCurrentTurn(OppositePiece(textReversi.GetContext().GetCurrentTurn()));
 
-				DisplayBoard(textReversi.GetBoard());
-				DisplayCurrentScore(textReversi.GetXScore(), textReversi.GetOScore());
-				DisplayWhoseTurn(textReversi.GetCurrentTurn());
+				DisplayBoard(textReversi.GetContext().GetBoard());
+				DisplayCurrentScore(textReversi.GetContext().GetXScore(), textReversi.GetContext().GetOScore());
+				DisplayWhoseTurn(textReversi.GetContext().GetCurrentTurn());
 			}
 		}
 
@@ -157,5 +164,7 @@ int main()
 	}
 
 	std::cout << "Thank you for playing! Good night!" << std::endl;
+	*/
+
 	return 0;
 }

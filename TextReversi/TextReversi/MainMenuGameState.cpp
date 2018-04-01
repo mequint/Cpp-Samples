@@ -26,7 +26,6 @@ void MainMenuGameState::Run()
 			std::cout << ": ";
 
 			getMenuChoice();
-
 			break;
 
 		case MainMenuCommands::INVALID:
@@ -35,12 +34,12 @@ void MainMenuGameState::Run()
 			break;
 
 		case MainMenuCommands::NEW_GAME:
-			std::cout << "\nChanging to new game state...\n\n";
+			m_stateManager->ChangeState(GameStateType::SetupNewGame);
 			m_menuChoice = MainMenuCommands::UNSET;
 			break;
 
 		case MainMenuCommands::LOAD_GAME:
-			std::cout << "\nChanging to load game state...\n\n";
+			m_stateManager->ChangeState(GameStateType::LoadGame);
 			m_menuChoice = MainMenuCommands::UNSET;
 			break;
 
@@ -52,7 +51,6 @@ void MainMenuGameState::Run()
 
 			// Call the state machine to run the exit state
 		case MainMenuCommands::EXIT:
-			std::cout << "\nChanging to exit game state...\n\n";
 			m_stateManager->ChangeState(GameStateType::Exiting);
 			m_menuChoice = MainMenuCommands::UNSET;
 			break;

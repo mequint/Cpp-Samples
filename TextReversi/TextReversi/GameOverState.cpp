@@ -1,5 +1,9 @@
 #include "GameOverState.h"
 
+#include <iostream>
+
+#include "StateManager.h"
+
 GameOverState::GameOverState(StateManager* stateManager) :
 	GameState(stateManager)
 {
@@ -7,6 +11,11 @@ GameOverState::GameOverState(StateManager* stateManager) :
 
 void GameOverState::Run()
 {
+	std::cout << "The game has concluded - let's go back to the main menu";
+
+	m_stateManager->GetContext()->Reset();
+	m_stateManager->ChangeState(GameStateType::MainMenu);
+
 	// Display Final Score
 	// Declare winner or draw
 

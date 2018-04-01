@@ -1,11 +1,16 @@
 #include "StateManager.h"
 
-StateManager::StateManager() : 
+StateManager::StateManager(GameContext* context) : 
+	m_context(context),
 	m_isRunning(true)
 {
 	RegisterState<IntroGameState>(GameStateType::Intro);
 	RegisterState<MainMenuGameState>(GameStateType::MainMenu);
 	RegisterState<DisplayRulesGameState>(GameStateType::DisplayRules);
+	RegisterState<SetupNewGameState>(GameStateType::SetupNewGame);
+	RegisterState<LoadGameState>(GameStateType::LoadGame);
+	RegisterState<InGameState>(GameStateType::InGame);
+	RegisterState<GameOverState>(GameStateType::GameOver);
 	RegisterState<ExitingGameState>(GameStateType::Exiting);
 }
 
@@ -49,4 +54,13 @@ void StateManager::CreateState(const GameStateType& type)
 
 	GameState* state = newState->second();
 	m_states.emplace_back(type, state);
+}
+
+bool StateManager::IsRunning() const { return m_isRunning; }
+void StateManager::SetIsRunning(bool isRunning) { m_isRunning = isRunning; }
+
+
+GameContext* StateManager::GetContext()
+{
+	return m_context;
 }

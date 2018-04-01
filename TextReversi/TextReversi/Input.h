@@ -7,5 +7,4 @@
 
 char AskYesOrNoQuestion(std::string question);
 Move RequestMove();
-Piece GetPlayerPiece();
 Move GetPlayerMove(Board& board, Piece currentPlayer);
