@@ -14,6 +14,7 @@
 #include "StateManager.h"
 
 // TODO:
+//		Add a game logger
 //		AI! 
 //			*Add a method Board->AvailableMoves as a vector of moves
 //			*Have the AI player make a random move based on the moves available
@@ -22,7 +23,7 @@
 //		Make the TextReversi follow a state based pattern which accesses a "global" game class
 //			* New Game state
 //			* Load Game state
-//			* Game state
+//			* InGame state
 //			* GameOver state
 //			* Make the state machine and tie it to state classes
 //		2.0 - Make the game multiplayer by using Sockets
