@@ -17,22 +17,10 @@ StateManager::~StateManager()
 	}
 }
 
-void StateManager::GetInput()
+void StateManager::Run()
 {
 	if (m_states.empty()) return;
-	m_states.back().second->GetInput();
-}
-
-void StateManager::Update()
-{
-	if (m_states.empty()) return;
-	m_states.back().second->Update();
-}
-
-void StateManager::Display()
-{
-	if (m_states.empty()) return;
-	m_states.back().second->Display();
+	m_states.back().second->Run();
 }
 
 void StateManager::ChangeState(const GameStateType& type)

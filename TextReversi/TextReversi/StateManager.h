@@ -16,9 +16,7 @@ class StateManager
 		StateManager();
 		~StateManager();
 
-		void GetInput();
-		void Update();
-		void Display();
+		void Run();
 
 		void ChangeState(const GameStateType& type);
 

@@ -36,9 +36,7 @@ int main()
 	manager.ChangeState(GameStateType::Intro);
 	while (manager.IsRunning())
 	{
-		manager.GetInput();
-		manager.Update();
-		manager.Display();
+		manager.Run();
 	}
 
 	char again = 'y';

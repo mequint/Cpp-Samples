@@ -2,22 +2,10 @@
 
 #include "GameState.h"
 
-enum class DisplayRulesGameStateCommands
-{
-	UNSET,
-	RETURN_HOME
-};
-
 class DisplayRulesGameState : public GameState
 {
 	public:
 		DisplayRulesGameState(StateManager* stateManager);
 
-		virtual void GetInput();
-		virtual void Update();
-		virtual void Display();
-
-	private:
-		bool promptEnabled;
-		DisplayRulesGameStateCommands command;
+		virtual void Run();
 };

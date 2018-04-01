@@ -5,22 +5,12 @@
 #include "StateManager.h"
 
 ExitingGameState::ExitingGameState(StateManager* stateManager) :
-	GameState(stateManager),
-	m_messageDisplayed(false)
+	GameState(stateManager)
 {}
 
-void ExitingGameState::GetInput() {}
-void ExitingGameState::Update() 
-{
-	if (m_messageDisplayed)
-	{
-		m_stateManager->SetIsRunning(false);
-	}
-}
-
-void ExitingGameState::Display()
+void ExitingGameState::Run()
 {
 	std::cout << "Programmed by: Michael E. Quint II\n\n";
 	std::cout << "Thank you for playing! Good night!\n\n";
-	m_messageDisplayed = true;
+	m_stateManager->SetIsRunning(false);
 }
