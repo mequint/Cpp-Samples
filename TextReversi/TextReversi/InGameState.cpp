@@ -20,6 +20,7 @@ void InGameState::Run()
 
 	m_gameOver = false;
 	bool movesAvailableLastTurn = true;
+	bool exit = false;
 
 	while (!m_gameOver)
 	{
@@ -81,6 +82,8 @@ void InGameState::Run()
 				
 				case InGameCommands::Quit:
 				{
+					std::cout << "\nExiting the game...\n";
+					exit = true;
 					m_gameOver = true;
 					break;
 				}
@@ -118,7 +121,16 @@ void InGameState::Run()
 		}
 	}
 
-	m_stateManager->ChangeState(GameStateType::GameOver);
+	// If exiting, we want to go to the main menu
+	if (exit)
+	{
+		m_stateManager->ChangeState(GameStateType::MainMenu);
+	}
+	// Else, we have a game over condition
+	else
+	{
+		m_stateManager->ChangeState(GameStateType::GameOver);
+	}
 }
 
 Move InGameState::getPlayerMove()
@@ -138,7 +150,7 @@ Move InGameState::getPlayerMove()
 
 void InGameState::display(GameContext* context)
 {
-	DisplayBoard(context->GetBoard());
+	DisplayBoard(context->GetBoard(), context->GetBoard().GetAvailableMoves(context->GetCurrentTurn()));
 	DisplayCurrentScore(context->GetXScore(), context->GetOScore());
 	DisplayWhoseTurn(context->GetCurrentTurn());
 }

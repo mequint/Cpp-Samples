@@ -5,7 +5,26 @@
 #include <iostream>
 #include <string>
 
-void DisplayBoard(const Board& board)
+char PieceOrAvailableMoveToChar(const Board& board, int row, int col, const std::vector<Cell>& availableMoves)
+{
+	Piece piece = board.GetCell(row, col);
+
+	// Check to see if we have an available move
+	if (piece == Piece::EMPTY)
+	{
+		for (auto cell : availableMoves)
+		{
+			if (cell.Row == row && cell.Col == col)
+			{
+				return '*';
+			}
+		}
+	}
+
+	return PieceToChar(piece);
+}
+
+void DisplayBoard(const Board& board, const std::vector<Cell>& availableMoves)
 {
 	std::cout << "\n  1   2   3   4   5   6   7   8 ";
 	for (int row = 0; row < 8; ++row)
@@ -14,7 +33,7 @@ void DisplayBoard(const Board& board)
 		std::cout << "\n" << (char)(row + 'a');
 		for (int col = 0; col < 8; ++col)
 		{
-			std::cout << " " << PieceToChar(board.GetCell(row, col)) << " ";
+			std::cout << " " << PieceOrAvailableMoveToChar(board, row, col, availableMoves) << " ";
 
 			if (col != 7)
 			{

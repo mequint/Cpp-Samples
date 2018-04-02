@@ -95,6 +95,23 @@ bool Board::AreMovesAvailable(Piece currentPiece)
 	return false;
 }
 
+std::vector<Cell> Board::GetAvailableMoves(Piece currentPiece)
+{
+	std::vector<Cell> cells;
+	for (int row = 0; row < (int)board.size(); ++row)
+	{
+		for (int col = 0; col < (int)board[row].size(); ++col)
+		{
+			if (GetCell(row, col) == Piece::EMPTY && IsMoveValid(row, col, currentPiece))
+			{
+				cells.emplace_back(row, col);
+			}
+		}
+	}
+
+	return cells;
+}
+
 // Helper methods
 void Board::flipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 {

@@ -10,7 +10,7 @@ IntroGameState::IntroGameState(StateManager* stateManager) :
 
 void IntroGameState::Run()
 {
-	std::cout << "!!! TextReversi !!!\n\n";
+	std::cout << "!!! TextReversi !!!\n";
 
 	m_stateManager->ChangeState(GameStateType::MainMenu);
 }

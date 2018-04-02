@@ -14,6 +14,12 @@ const int RIGHT = 1;
 struct Cell
 {
 	int Row, Col;
+
+	Cell(int row, int col)
+	{
+		Row = row;
+		Col = col;
+	}
 };
 
 class Board
@@ -30,6 +36,7 @@ class Board
 		void SetCell(const int row, const int col, Piece piece);
 
 		bool AreMovesAvailable(Piece currentPiece);
+		std::vector<Cell> GetAvailableMoves(Piece currentPiece);
 
 	private:
 		std::vector<std::vector<Piece>> board;
