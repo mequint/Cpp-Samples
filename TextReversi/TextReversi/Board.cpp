@@ -13,9 +13,9 @@ Board::Board() :
 
 void Board::Reset()
 {
-	for (auto row : board)
+	for (auto& row : board)
 	{
-		for (auto cell : row)
+		for (auto& cell : row)
 		{
 			cell = Piece::EMPTY;
 		}
@@ -66,7 +66,7 @@ bool Board::IsMoveValid(const int cellRow, const int cellCol, Piece currentPiece
 void Board::MakeMove(const int cellRow, const int cellCol, Piece currentPiece)
 {
 	board[cellRow][cellCol] = currentPiece;
-	FlipPieces(cellRow, cellCol, currentPiece);
+	flipPieces(cellRow, cellCol, currentPiece);
 }
 
 void Board::SetCell(const int row, const int col, Piece piece)
@@ -96,7 +96,7 @@ bool Board::AreMovesAvailable(Piece currentPiece)
 }
 
 // Helper methods
-void Board::FlipPieces(const int cellRow, const int cellCol, Piece currentPiece)
+void Board::flipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 {
 	for (int row = UP; row <= DOWN; ++row)
 	{
@@ -113,11 +113,11 @@ void Board::FlipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 			bool isOutOfBounds = (nextRow < 0 || nextRow >(int)(board.size() - 1)) ||
 				(nextCol < 0 || nextCol >(int)(board[nextRow].size() - 1));
 
-			std::stack<Move> cellIndices;
+			std::stack<Cell> cellIndices;
 			while (!isOutOfBounds && board[nextRow][nextCol] == opponentPiece)
 			{
-				Move cellIndex = { nextRow, nextCol };
-				cellIndices.push(cellIndex);
+				Cell cell = { nextRow, nextCol };
+				cellIndices.push(cell);
 
 				nextRow += row;
 				nextCol += col;
@@ -129,10 +129,10 @@ void Board::FlipPieces(const int cellRow, const int cellCol, Piece currentPiece)
 				{
 					while (!cellIndices.empty())
 					{
-						Move cellIndex = cellIndices.top();
+						Cell topCell = cellIndices.top();
 						cellIndices.pop();
 
-						board[cellIndex.Row][cellIndex.Col] = currentPiece;
+						board[topCell.Row][topCell.Col] = currentPiece;
 					}
 				}
 			}

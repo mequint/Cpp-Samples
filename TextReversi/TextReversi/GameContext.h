@@ -15,7 +15,9 @@ class GameContext
 		void UpdateScore();
 
 		void SetPlayer1(const Player& player);
+		Player GetPlayer1() const;
 		void SetPlayer2(const Player& player);
+		Player GetPlayer2() const;
 
 		int GetXScore() const;
 		int GetOScore() const;
@@ -30,9 +32,6 @@ class GameContext
 		bool Save(const std::string& filename);
 		bool Load(const std::string& filename);
 
-		// Shared context
-		bool IsRunning() const;
-
 	private:
 		Board gameBoard;
 
@@ -41,6 +40,4 @@ class GameContext
 		int xScore, oScore;
 		int totalMoves;
 		Piece currentTurn;
-
-		bool m_isRunning;
 };

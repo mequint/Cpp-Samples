@@ -4,12 +4,12 @@
 
 enum class MainMenuCommands
 {
-	UNSET,
-	NEW_GAME,
-	LOAD_GAME,
-	DISPLAY_INSTRUCTIONS,
-	EXIT,
-	INVALID
+	Unset,
+	NewGame,
+	LoadGame,
+	DisplayInstructions,
+	Exit,
+	Invalid
 };
 
 class MainMenuGameState : public GameState

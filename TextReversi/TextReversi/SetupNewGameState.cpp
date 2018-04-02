@@ -20,9 +20,10 @@ void SetupNewGameState::Run()
 		{
 			std::cout << "\nNew Game Options\n";
 			std::cout << "----------------\n\n";
-			std::cout << "1. Human vs. Human\n" << std::endl;
-			//std::cout << "2. Human vs. AI\n";
-			//std::cout << "3. AI vs. AI\n";
+			std::cout << "1. Human vs. Human\n";
+			//std::cout << "2. Human vs. Computer\n";
+			//std::cout << "3. Computer vs. Computer\n";
+			std::cout << "4. Go Back\n\n";
 			std::cout << ": ";
 
 			getMenuChoice();
@@ -31,22 +32,32 @@ void SetupNewGameState::Run()
 
 		case SetupNewGameStateCommands::HumanVsHuman:
 		{
+			// Reset the game - just in case
+			m_stateManager->GetContext()->Reset();
+
 			// Determine player 1
 			Player player1;
-			player1.piece = getPlayerPiece();	// TODO: Does this function only get called here?
-			player1.isHuman = true;
+			player1.SetPiece(getPlayerPiece());
+			player1.SetIsHuman(true);
 			m_stateManager->GetContext()->SetPlayer1(player1);
 
 			// Determine player 2 - opposite of player 1
 			Player player2;
-			player2.piece = OppositePiece(player1.piece);
-			player2.isHuman = true;
+			player2.SetPiece(OppositePiece(player1.GetPiece()));
+			player2.SetIsHuman(true);
 			m_stateManager->GetContext()->SetPlayer2(player2);
 
+			// Game On!!!
 			m_stateManager->ChangeState(GameStateType::InGame);
+			m_menuChoice = SetupNewGameStateCommands::Unset;
 
 			break;
 		}
+
+		case SetupNewGameStateCommands::GoBack:
+			m_stateManager->ChangeState(GameStateType::MainMenu);
+			m_menuChoice = SetupNewGameStateCommands::Unset;
+			break;
 
 		case SetupNewGameStateCommands::Invalid:
 		{
@@ -62,24 +73,22 @@ void SetupNewGameState::getMenuChoice()
 	std::string line;
 	getline(std::cin, line);
 
-	if (line.length() == 1)
+	if (line == "1")
 	{
-		if (line == "1")
-		{
-			m_menuChoice = SetupNewGameStateCommands::HumanVsHuman;
-		}
-		/*
-		else if (line == "2")
-		{
-		}
-		else if (line == "3")
-		{
-		}
-		*/
-		else
-		{
-			m_menuChoice = SetupNewGameStateCommands::Invalid;
-		}
+		m_menuChoice = SetupNewGameStateCommands::HumanVsHuman;
+	}
+	/*
+	// Human vs Computer
+	else if (line == "2")
+	{
+	}
+	else if (line == "3")
+	{
+	}
+	*/
+	else if (line == "4")
+	{
+		m_menuChoice = SetupNewGameStateCommands::GoBack;
 	}
 	else
 	{

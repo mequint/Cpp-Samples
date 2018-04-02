@@ -128,12 +128,12 @@
     <ClCompile Include="LoadGameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuGameState.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SetupNewGameState.cpp" />
     <ClCompile Include="StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
-    <ClInclude Include="Command.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DisplayRulesGameState.h" />
     <ClInclude Include="ExitingGameState.h" />
@@ -146,7 +146,6 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="LoadGameState.h" />
     <ClInclude Include="MainMenuGameState.h" />
-    <ClInclude Include="Move.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="IntroGameState.h" />

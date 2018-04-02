@@ -6,8 +6,7 @@
 
 GameContext::GameContext() :
 	totalMoves(4),
-	currentTurn(Piece::X),
-	m_isRunning(true)
+	currentTurn(Piece::X)
 {
 	Reset();
 }
@@ -27,6 +26,7 @@ bool GameContext::AreMovesAvailable()
 void GameContext::MakeMove(const int row, const int col)
 {
 	gameBoard.MakeMove(row, col, currentTurn);
+	UpdateScore();
 	totalMoves++;
 }
 
@@ -55,6 +55,8 @@ void GameContext::SetPlayer2(const Player& player) { player2 = player; }
 void GameContext::SetCurrentTurn(const Piece& piece) { currentTurn = piece; }
 
 // Accessors
+Player GameContext::GetPlayer1() const { return player1; }
+Player GameContext::GetPlayer2() const { return player2; }
 int GameContext::GetXScore() const { return xScore; }
 int GameContext::GetOScore() const { return oScore; }
 int GameContext::GetTotalMoves() const { return totalMoves; }
@@ -77,8 +79,8 @@ bool GameContext::Save(const std::string& name)
 	}
 
 	myFile << PieceToChar(currentTurn) << std::endl;
-	myFile << PieceToChar(player1.piece) << " " << player1.isHuman << std::endl;
-	myFile << PieceToChar(player2.piece) << " " << player2.isHuman << std::endl;
+	myFile << PieceToChar(player1.GetPiece()) << " " << player1.IsHuman() << std::endl;
+	myFile << PieceToChar(player2.GetPiece()) << " " << player2.IsHuman() << std::endl;
 
 	return true;
 }
@@ -113,13 +115,16 @@ bool GameContext::Load(const std::string& filename)
 		// Load player 1
 		bool isHuman;
 		myFile >> c >> isHuman;
-		player1.piece = CharToPiece(c);
-		player1.isHuman = isHuman;
+		player1.SetPiece(CharToPiece(c));
+		player1.SetIsHuman(isHuman);
 
 		// Load player 2
 		myFile >> c >> isHuman;
-		player2.piece = CharToPiece(c);
-		player2.isHuman = isHuman;
+		player2.SetPiece(CharToPiece(c));
+		player2.SetIsHuman(isHuman);
+
+		// Update the score
+		UpdateScore();
 
 		return true;
 	}

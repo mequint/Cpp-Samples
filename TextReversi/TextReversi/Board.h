@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "Move.h"
 #include "Piece.h"
 
 // The 2D directions for the board operations
@@ -10,6 +9,12 @@ const int UP = -1;
 const int DOWN = 1;
 const int LEFT = -1;
 const int RIGHT = 1;
+
+// Used for the flipPieces implementation
+struct Cell
+{
+	int Row, Col;
+};
 
 class Board
 {
@@ -29,5 +34,5 @@ class Board
 	private:
 		std::vector<std::vector<Piece>> board;
 
-		void FlipPieces(const int cellRow, const int cellCol, Piece currentPiece);
+		void flipPieces(const int cellRow, const int cellCol, Piece currentPiece);
 };

@@ -1,9 +1,9 @@
 #include "LoadGameState.h"
 
-#include <chrono>
 #include <iostream>
-#include <thread>
+#include <string>
 
+#include "Input.h"
 #include "StateManager.h"
 
 LoadGameState::LoadGameState(StateManager* stateManager) :
@@ -13,23 +13,18 @@ LoadGameState::LoadGameState(StateManager* stateManager) :
 
 void LoadGameState::Run()
 {
-	std::cout << "\nLoading a saved game of Text Reversi";
+	std::cout << "\nLoading game\n";
+	
+	std::cout << "\nEnter a game name to load: ";
 
-	for (int i = 0; i < 3; ++i)
+	std::string filename;
+	getline(std::cin, filename);
+
+	if (!m_stateManager->GetContext()->Load(filename))
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		std::cout << ".";
-	}
-	std::cout << std::endl;
+		std::cout << "ERROR: Failed to load game /'" << filename << "/'";
+		m_stateManager->ChangeState(GameStateType::MainMenu);
+	} 
 
 	m_stateManager->ChangeState(GameStateType::InGame);
-
-	// Prompt for filename and attempt to load
-	// If filename loads correctly
-		// Reset the game board
-		// Setup the board based on the loaded file
-		// Change the state to In Game state
-	// Else ask if try again
-		// If yes, start over
-		// If no, return to Main Menu state
 }

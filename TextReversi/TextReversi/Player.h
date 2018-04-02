@@ -4,8 +4,13 @@
 class Player
 {
 	public:
-		Piece piece;
-		bool isHuman;
+		Piece GetPiece() const;
+		void SetPiece(Piece piece);
 
-		virtual void MakeMove() {}		// A human would use standard input, the AI would use a strategy to make a decision
+		bool IsHuman() const;
+		void SetIsHuman(bool isHuman);
+
+	private:
+		Piece m_piece;
+		bool m_isHuman;
 };

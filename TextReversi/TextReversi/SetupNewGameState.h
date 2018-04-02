@@ -7,8 +7,9 @@ enum class SetupNewGameStateCommands
 {
 	Unset,
 	HumanVsHuman,
-	HumanVsAI,
-	AIvsAi,
+	//HumanVsAI,
+	//AIvsAi,
+	GoBack,
 	Invalid
 };
 
