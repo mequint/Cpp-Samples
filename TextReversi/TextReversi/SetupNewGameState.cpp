@@ -21,8 +21,8 @@ void SetupNewGameState::Run()
 			std::cout << "\nNew Game Options\n";
 			std::cout << "----------------\n\n";
 			std::cout << "1. Human vs. Human\n";
-			//std::cout << "2. Human vs. Computer\n";
-			//std::cout << "3. Computer vs. Computer\n";
+			std::cout << "2. Human vs. Computer\n";
+			std::cout << "3. Computer vs. Computer\n";
 			std::cout << "4. Go Back\n\n";
 			std::cout << ": ";
 
@@ -45,6 +45,52 @@ void SetupNewGameState::Run()
 			Player player2;
 			player2.SetPiece(OppositePiece(player1.GetPiece()));
 			player2.SetIsHuman(true);
+			m_stateManager->GetContext()->SetPlayer2(player2);
+
+			// Game On!!!
+			m_stateManager->ChangeState(GameStateType::InGame);
+			m_menuChoice = SetupNewGameStateCommands::Unset;
+
+			break;
+		}
+
+		case SetupNewGameStateCommands::HumanVsAI:
+		{
+			m_stateManager->GetContext()->Reset();
+
+			// Determine player 1
+			Player player1;
+			player1.SetPiece(getPlayerPiece());
+			player1.SetIsHuman(true);
+			m_stateManager->GetContext()->SetPlayer1(player1);
+
+			// Determine player 2
+			Player player2;
+			player2.SetPiece(OppositePiece(player1.GetPiece()));
+			player2.SetIsHuman(false);
+			m_stateManager->GetContext()->SetPlayer2(player2);
+
+			// Game On!!!
+			m_stateManager->ChangeState(GameStateType::InGame);
+			m_menuChoice = SetupNewGameStateCommands::Unset;
+
+			break;
+		}
+		
+		case SetupNewGameStateCommands::AIvsAI:
+		{
+			m_stateManager->GetContext()->Reset();
+
+			// Determine player 1
+			Player player1;
+			player1.SetPiece(Piece::X);
+			player1.SetIsHuman(false);
+			m_stateManager->GetContext()->SetPlayer1(player1);
+
+			// Determine player 2
+			Player player2;
+			player2.SetPiece(OppositePiece(player1.GetPiece()));
+			player2.SetIsHuman(false);
 			m_stateManager->GetContext()->SetPlayer2(player2);
 
 			// Game On!!!
@@ -77,15 +123,15 @@ void SetupNewGameState::getMenuChoice()
 	{
 		m_menuChoice = SetupNewGameStateCommands::HumanVsHuman;
 	}
-	/*
 	// Human vs Computer
 	else if (line == "2")
 	{
+		m_menuChoice = SetupNewGameStateCommands::HumanVsAI;
 	}
 	else if (line == "3")
 	{
+		m_menuChoice = SetupNewGameStateCommands::AIvsAI;
 	}
-	*/
 	else if (line == "4")
 	{
 		m_menuChoice = SetupNewGameStateCommands::GoBack;

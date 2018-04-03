@@ -16,6 +16,7 @@ char PieceOrAvailableMoveToChar(const Board& board, int row, int col, const std:
 		{
 			if (cell.Row == row && cell.Col == col)
 			{
+				// Add an asterisk to mark an available move
 				return '*';
 			}
 		}

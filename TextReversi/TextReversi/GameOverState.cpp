@@ -27,12 +27,12 @@ void GameOverState::Run()
 	if (finalX > finalO)
 	{
 		std::string winner = (context->GetPlayer1().GetPiece() == Piece::X) ? "\tPlayer 1" : "\tPlayer 2";
-		std::cout << winner << " wins!\n\n";
+		std::cout << winner << " (X) wins!\n\n";
 	}
 	else if (finalX < finalO)
 	{
 		std::string winner = (context->GetPlayer1().GetPiece() == Piece::O) ? "\tPlayer 1" : "\tPlayer 2";
-		std::cout << winner << " wins!\n";
+		std::cout << winner << " (O) wins!\n";
 	}
 	else
 	{

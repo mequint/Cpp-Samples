@@ -1,14 +1,17 @@
 #include "InGameState.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "Display.h"
 #include "StateManager.h"
 
 InGameState::InGameState(StateManager* stateManager) :
 	GameState(stateManager),
+	m_rng(m_rd()),
 	m_gameOver(false)
 {}
 
@@ -134,10 +137,9 @@ void InGameState::Run()
 }
 
 Move InGameState::getPlayerMove()
-{
-	Move move = requestMove();
-
+{	
 	auto context = m_stateManager->GetContext();
+	Move move = (IsAIPlayersTurn(context, context->GetCurrentTurn())) ? requestMove(context) : requestMove();
 
 	while (move.Command == InGameCommands::Move && !context->GetBoard().IsMoveValid(move.Row, move.Col, context->GetCurrentTurn()))
 	{
@@ -155,7 +157,43 @@ void InGameState::display(GameContext* context)
 	DisplayWhoseTurn(context->GetCurrentTurn());
 }
 
-// TODO: This is a Human player implementation of the request move function...move to Player class when Computer players are added 
+
+bool InGameState::IsAIPlayersTurn(GameContext* context, Piece currentPiece)
+{
+	Player player1 = context->GetPlayer1();
+	Player player2 = context->GetPlayer2();
+
+	if (player1.GetPiece() == currentPiece)
+	{
+		return !player1.IsHuman();
+	}
+
+	return !player2.IsHuman();
+}
+
+// AI implementation of request move
+Move InGameState::requestMove(GameContext* context)
+{
+	Board board = context->GetBoard();
+	std::vector<Cell> moves = board.GetAvailableMoves(context->GetCurrentTurn());
+
+	//- Choose a move at random
+	std::uniform_int_distribution<int> choice(0, moves.size() - 1);
+	int index = choice(m_rng);
+
+	//- Place it in a "Move" struct and return
+	Move move;
+	move.Command = InGameCommands::Move;
+	move.Row = moves[index].Row;
+	move.Col = moves[index].Col;
+
+	// Wait for a second before making the move
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	return move;
+}
+
+// Human implementation of the request move
 Move InGameState::requestMove()
 {
 	Move move;
