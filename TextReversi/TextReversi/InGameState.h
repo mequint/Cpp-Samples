@@ -1,26 +1,9 @@
 #pragma once
 
-#include <random>
-
 #include "GameContext.h"
 #include "GameState.h"
-
-enum class InGameCommands
-{
-	Move,
-	Save,
-	Load,
-	Quit,
-	PrintBoard,
-	Options
-};
-
-struct Move
-{
-	InGameCommands Command;
-	int Row;
-	int Col;
-};
+#include "InGameCommands.h"
+#include "ReversiAI.h"
 
 class InGameState : public GameState
 {
@@ -32,16 +15,11 @@ class InGameState : public GameState
 	private:
 		bool m_gameOver;
 
-		// Random number gneration
-		std::random_device m_rd;
-		std::mt19937 m_rng;
-		std::uniform_int_distribution<int> randomPick;
+		ReversiAI m_reversiAI;
 
 		Move getPlayerMove();
 		Move requestMove();
 
-		// AI moves
-		Move requestMove(GameContext* context);
 		bool IsAIPlayersTurn(GameContext* context, Piece currentPiece);
 
 		void display(GameContext* context);
