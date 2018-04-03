@@ -11,4 +11,6 @@ class ReversiAI
 
 	private:
 		RandomNumberGenerator m_rng;
+
+		bool isCorner(Cell cell);
 };
