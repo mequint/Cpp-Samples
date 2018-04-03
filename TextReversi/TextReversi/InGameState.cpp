@@ -37,14 +37,15 @@ void InGameState::Run()
 
 					if (context->GetTotalMoves() == 64)
 					{
+						DisplayBoard(context->GetBoard());
 						m_gameOver = true;
 					}
 					else
 					{
 						context->SetCurrentTurn(OppositePiece(context->GetCurrentTurn()));
+						display(context);
 					}
 
-					display(context);
 
 					break;
 				}

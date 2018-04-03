@@ -2,7 +2,14 @@
 
 #include "GameContext.h"
 #include "InGameCommands.h"
-#include "RandomNumberGenerator.h"
+
+struct MoveScore
+{
+	MoveScore() {}
+
+	int Score;
+	Cell Move;
+};
 
 class ReversiAI
 {
@@ -10,7 +17,6 @@ class ReversiAI
 		Move RequestMove(GameContext* context);
 
 	private:
-		RandomNumberGenerator m_rng;
-
 		bool isCorner(Cell cell);
+		MoveScore getBestMove(Board board, Piece initialPlayer, Piece currentPlayer, int maxDepth, int currentDepth);
 };

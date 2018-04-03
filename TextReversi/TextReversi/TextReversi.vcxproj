@@ -129,7 +129,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuGameState.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RandomNumberGenerator.cpp" />
     <ClCompile Include="ReversiAI.cpp" />
     <ClCompile Include="SetupNewGameState.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -152,7 +151,6 @@
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="IntroGameState.h" />
-    <ClInclude Include="RandomNumberGenerator.h" />
     <ClInclude Include="ReversiAI.h" />
     <ClInclude Include="SetupNewGameState.h" />
     <ClInclude Include="StateManager.h" />

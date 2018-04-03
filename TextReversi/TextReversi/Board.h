@@ -15,6 +15,7 @@ struct Cell
 {
 	int Row, Col;
 
+	Cell() {}
 	Cell(int row, int col)
 	{
 		Row = row;
@@ -40,6 +41,8 @@ class Board
 
 	private:
 		std::vector<std::vector<Piece>> board;
+		int m_xPieces;
+		int m_oPices;
 
 		void flipPieces(const int cellRow, const int cellCol, Piece currentPiece);
 };
