@@ -55,3 +55,4 @@ TextReversi/TextReversi/x64/Debug/TextReversi.Build.CppClean.log
 *.user
 *.filters
 *.ilk
+*.opendb

@@ -1,0 +1,3 @@
+AppName 		Tetrominos - Another Tetris Clone
+WindowWidth 		800
+WindowHeight 		600
