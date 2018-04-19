@@ -8,6 +8,8 @@
 
 #include "ConfigurationManager.h"
 #include "Shader.h"
+#include "ShaderManager.h"
+
 #include "Triangle.h"
 #include "Window.h"
 
@@ -37,8 +39,12 @@ int main()
 	}
 	glfwSetFramebufferSizeCallback(window.GetContext(), FramebufferSizeCallback);
 
+	glm::mat4 ortho = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
+
 	// Compile vertex shader
-	Shader triangleShader("triangle.vert", "triangle.frag");
+	ShaderManager shaderManager;
+	Shader triangleShader = shaderManager.BuildShader("triangle", "triangle.vert", "triangle.frag");
+
 	Triangle triangle(triangleShader);
 
 	while (!window.IsDone())
