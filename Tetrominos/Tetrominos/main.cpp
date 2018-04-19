@@ -43,7 +43,7 @@ int main()
 
 	// Compile vertex shader
 	ShaderManager shaderManager;
-	Shader triangleShader = shaderManager.BuildShader("triangle", "triangle.vert", "triangle.frag");
+	Shader triangleShader = shaderManager.LoadShader("triangle", "triangle.vert", "triangle.frag");
 
 	Triangle triangle(triangleShader);
 

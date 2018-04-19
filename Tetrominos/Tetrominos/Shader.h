@@ -10,7 +10,7 @@ class Shader
 
 	public:
 		Shader();
-		Shader(unsigned int id);
+		Shader(const char* vertexSource, const char* fragmentSource, const char* geometrySource = nullptr);
 
 		void Use();
 
@@ -24,4 +24,13 @@ class Shader
 
 	private:
 		unsigned int m_ID;
+
+		#pragma region "Helper methods"
+		unsigned int compileShaderCode(const char* code, unsigned int shaderType);
+
+		void linkShaderCode(unsigned int vertex, unsigned int fragment, unsigned int geometry);
+		
+		std::string shaderTypeToString(unsigned int shaderType);
+
+		#pragma endregion
 };

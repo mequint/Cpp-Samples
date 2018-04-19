@@ -16,13 +16,10 @@ bool ConfigurationManager::Load(std::string filename)
 	}
 	else
 	{
-		while (!file.eof())
+		std::string line;
+		while (std::getline(file, line))
 		{
-			std::string line;
-			getline(file, line);
-
 			std::stringstream ss(line);
-
 			std::string name, value;
 
 			ss >> name;
