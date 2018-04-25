@@ -24,9 +24,13 @@ bool ConfigurationManager::Load(std::string filename)
 
 			ss >> name;
 			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-
+			
 			value = line.substr(name.length());
-
+			
+			// Trim the white space from the front...
+			size_t lastTab = value.find_last_of('\t');
+			value = value.substr(lastTab + 1);
+			
 			m_appSettings[name] = value;
 		}
 	}

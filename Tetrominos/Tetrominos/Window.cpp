@@ -1,15 +1,29 @@
 #include "Window.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 
 Window::Window()
 {
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	setup("Test Window", 800, 600, false);
+	glfwMakeContextCurrent(m_pWindowContext);
 }
 
 Window::Window(const std::string & name, int width, int height, bool fullscreen)
 {
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	setup(name, width, height, fullscreen);
+	glfwMakeContextCurrent(m_pWindowContext);
 }
 
 Window::~Window()
