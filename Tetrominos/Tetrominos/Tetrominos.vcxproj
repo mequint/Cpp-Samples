@@ -70,10 +70,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\src\glad\include;C:\src\glfw-3\glfw-3.2.1.bin.WIN32\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\assimp-4.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\src\glad\include;C:\src\glfw-3\glfw-3.2.1.bin.WIN32\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\assimp-4.1.0\include;C:\src\freetype-2.9\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\src\glad\include;C:\src\glfw-3\glfw-3.2.1.bin.WIN32\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\assimp-4.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\src\glad\include;C:\src\glfw-3\glfw-3.2.1.bin.WIN32\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\assimp-4.1.0\include;C:\src\freetype-2.9\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,8 +84,8 @@
       <AdditionalIncludeDirectories>C:\src\glfw-3\glfw-3.2.1.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\src\glfw-3\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\src\assimp-4.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\glfw-3\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\src\assimp-4.1.0\lib;C:\src\freetype-2.9\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,8 +109,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\src\glfw-3\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\src\assimp-4.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\glfw-3\glfw-3.2.1.bin.WIN32\lib-vc2015;C:\src\assimp-4.1.0\lib;C:\src\freetype-2.9\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc140-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,30 +129,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConfigurationManager.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigurationManager.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="StbImage.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="triangle.frag" />
-    <None Include="triangle.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,10 +7,10 @@
 #include <iostream>
 
 #include "ConfigurationManager.h"
-#include "Shader.h"
+#include "FontManager.h"
 #include "ShaderManager.h"
 
-#include "Triangle.h"
+#include "Text.h"
 #include "Window.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -39,13 +39,24 @@ int main()
 	}
 	glfwSetFramebufferSizeCallback(window.GetContext(), FramebufferSizeCallback);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glm::mat4 ortho = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
 
 	// Compile vertex shader
 	ShaderManager shaderManager;
-	Shader triangleShader = shaderManager.LoadShader("triangle", "triangle.vert", "triangle.frag");
+	Shader textShader = shaderManager.LoadShader("text", "Assets/shaders/text.vert", "Assets/shaders/text.frag");
+	textShader.Use();
+	textShader.Set("projection", ortho);
 
-	Triangle triangle(triangleShader);
+	// Load font
+	FontManager fontManager;
+	fontManager.Load("Assets/fonts/arial.ttf", "arial", 24);
+	Font font = fontManager.GetFont("arial");
+
+	Text text(textShader, font, "Hello OpenGL!!!");
+	text.SetPosition(100.0f, 100.0f);
 
 	while (!window.IsDone())
 	{
@@ -53,7 +64,7 @@ int main()
 
 		// Render
 		window.BeginDraw();
-		triangle.Draw();
+		text.Draw();
 		window.EndDraw();
 	}
 
