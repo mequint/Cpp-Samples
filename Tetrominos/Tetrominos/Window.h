@@ -4,11 +4,13 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
+#include "Projector.h"
+
 class Window
 {
 	public:
 		Window();
-		Window(const std::string& name, int width, int height, bool fullscreen = false);
+		Window(const std::string& name, int width, int height, ProjectorType projectorType = ProjectorType::Orthographic, bool fullscreen = false);
 		~Window();
 
 		GLFWwindow* GetContext() const;
@@ -21,13 +23,14 @@ class Window
 
 		void Update();
 
-		void ToggleFullscreen();
-
+		IProjector* GetProjector();
 		int GetWidth() const;
 		int GetHeight() const;
 
 	private:
-		void setup(const std::string& name, int width, int height, bool fullscreen);
+		void toggleFullscreen();
+
+		void setup(const std::string& name, int width, int height, ProjectorType projectorType, bool fullscreen);
 		void create();
 		void destroy();
 
@@ -36,4 +39,8 @@ class Window
 		bool m_isFullscreen;
 
 		GLFWwindow* m_pWindowContext;
+		IProjector* m_pProjector;
+
+		// Callbacks - GLFW requires this to be static...stupid C...
+		static void resizeCallback(GLFWwindow* window, int width, int height);
 };

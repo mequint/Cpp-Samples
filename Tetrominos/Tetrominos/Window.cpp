@@ -4,26 +4,25 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-Window::Window()
+Window::Window() : m_pProjector(nullptr)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	setup("Test Window", 800, 600, false);
+	setup("Test Window", 800, 600, ProjectorType::Orthographic, false);
 	glfwMakeContextCurrent(m_pWindowContext);
 }
 
-Window::Window(const std::string & name, int width, int height, bool fullscreen)
+Window::Window(const std::string & name, int width, int height, ProjectorType projectorType, bool fullscreen)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	setup(name, width, height, fullscreen);
-	glfwMakeContextCurrent(m_pWindowContext);
+	setup(name, width, height, projectorType, fullscreen);
 }
 
 Window::~Window()
@@ -31,7 +30,7 @@ Window::~Window()
 	destroy();
 }
 
-GLFWwindow * Window::GetContext() const
+GLFWwindow* Window::GetContext() const
 {
 	return m_pWindowContext;
 }
@@ -68,11 +67,19 @@ void Window::Update()
 
 	if (glfwGetKey(m_pWindowContext, GLFW_KEY_F5) == GLFW_PRESS)
 	{
-		ToggleFullscreen();
+		toggleFullscreen();
 	}
 }
 
-void Window::ToggleFullscreen()
+IProjector* Window::GetProjector()
+{
+	return m_pProjector;
+}
+
+int Window::GetWidth() const	{ return m_width; }
+int Window::GetHeight() const	{ return m_height; }
+
+void Window::toggleFullscreen()
 {
 	m_isFullscreen = !m_isFullscreen;
 
@@ -88,17 +95,7 @@ void Window::ToggleFullscreen()
 	}
 }
 
-int Window::GetWidth() const
-{
-	return m_width;
-}
-
-int Window::GetHeight() const
-{
-	return m_height;
-}
-
-void Window::setup(const std::string & name, int width, int height, bool fullscreen)
+void Window::setup(const std::string & name, int width, int height, ProjectorType projectorType, bool fullscreen)
 {
 	m_name = name;
 	m_width = width;
@@ -106,6 +103,8 @@ void Window::setup(const std::string & name, int width, int height, bool fullscr
 	m_isFullscreen = fullscreen;
 
 	create();
+
+	m_pProjector = (projectorType == ProjectorType::Orthographic) ? new OrthoProjector(width, height) : nullptr;
 }
 
 void Window::create()
@@ -117,9 +116,22 @@ void Window::create()
 	{
 		std::cout << "<Window>: Failed to create the GLFW window" << std::endl;
 	}
+
+	glfwMakeContextCurrent(m_pWindowContext);
+
+	glfwSetFramebufferSizeCallback(m_pWindowContext, Window::resizeCallback);
 }
 
 void Window::destroy()
 {
 	glfwDestroyWindow(m_pWindowContext);
 }
+
+#pragma region "Static callback methods..."
+
+void Window::resizeCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+#pragma endregion

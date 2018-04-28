@@ -1,6 +1,7 @@
 #include "GameOverState.h"
 
 GameOverState::GameOverState(StateManager* stateManager) : State(stateManager)
+{
 }
 
 GameOverState::~GameOverState()

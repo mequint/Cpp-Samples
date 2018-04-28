@@ -17,13 +17,11 @@ IntroState::~IntroState()
 void IntroState::Initialize()
 {
 	auto context = m_pStateManager->GetContext();
-
-	// TODO: Window should return a projection matrix of some sort
-	glm::mat4 ortho = glm::ortho(0.0f, static_cast<float>(context->Window->GetWidth()), static_cast<float>(context->Window->GetHeight()), 0.0f, -1.0f, 1.0f);
+	auto projection = context->Window->GetProjector()->GetProjection();
 
 	Shader textShader = context->ShaderManager->LoadShader("text", "Assets/shaders/text.vert", "Assets/shaders/text.frag");
 	textShader.Use();
-	textShader.Set("projection", ortho);	// Get from the window projector
+	textShader.Set("projection", projection);
 
 	Font font = context->FontManager->Load("Assets/fonts/arial.ttf", "arial24", 24);
 

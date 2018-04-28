@@ -5,9 +5,6 @@
 #include "ConfigurationManager.h"
 #include "Game.h"
 
-// Where should I put this?!?!?
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
-
 int main()
 {
 	ConfigurationManager config;
@@ -26,9 +23,4 @@ int main()
 	game.Cleanup();
 
 	return 0;
-}
-
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
 }
