@@ -129,13 +129,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConfigurationManager.cpp" />
+    <ClCompile Include="CreditsState.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="InGameState.cpp" />
+    <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="PauseState.cpp" />
+    <ClCompile Include="SetupNewGameState.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -144,12 +152,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigurationManager.h" />
+    <ClInclude Include="CreditsState.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameContext.h" />
+    <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameStates.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="InGameState.h" />
+    <ClInclude Include="IntroState.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="PauseState.h" />
+    <ClInclude Include="SetupNewGameState.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="State.h" />

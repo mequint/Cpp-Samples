@@ -39,7 +39,7 @@ class StateManager
 		template <class T>
 		void RegisterState(const StateType& type)
 		{
-			m_stateFactory[type] = [this]() -> GameState*
+			m_stateFactory[type] = [this]() -> State*
 			{
 				return new T(this);
 			};

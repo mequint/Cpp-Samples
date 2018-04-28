@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "StbImage.h"
+
 TextureManager::TextureManager()
 {
 }

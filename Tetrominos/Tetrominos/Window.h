@@ -23,6 +23,9 @@ class Window
 
 		void ToggleFullscreen();
 
+		int GetWidth() const;
+		int GetHeight() const;
+
 	private:
 		void setup(const std::string& name, int width, int height, bool fullscreen);
 		void create();

@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include <unordered_map>
 
-#include "StbImage.h"
 #include "Texture.h"
 
 using Textures = std::unordered_map<std::string, Texture2D>;

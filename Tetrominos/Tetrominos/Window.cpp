@@ -88,6 +88,16 @@ void Window::ToggleFullscreen()
 	}
 }
 
+int Window::GetWidth() const
+{
+	return m_width;
+}
+
+int Window::GetHeight() const
+{
+	return m_height;
+}
+
 void Window::setup(const std::string & name, int width, int height, bool fullscreen)
 {
 	m_name = name;

@@ -3,11 +3,6 @@
 #include "ConfigurationManager.h"
 #include "GameContext.h"
 #include "StateManager.h"
-#include "Window.h"
-
-#include "FontManager.h"
-#include "ShaderManager.h"
-#include "Text.h"
 
 class Game
 {
@@ -24,15 +19,20 @@ class Game
 		Window* GetWindow();
 
 	private:
-		ConfigurationManager m_config;
+		// State
 		GameContext m_gameContext;
 		StateManager m_stateManager;
+
+		// Window
 		Window m_window;
 
-		// Move to the game context
-		ShaderManager m_shaderManager;
-		FontManager m_fontManager;
+		// Config
+		ConfigurationManager m_config;
 
-		// Move to a game state...
-		Text* m_text;
+		// Managers
+		FontManager m_fontManager;
+		ShaderManager m_shaderManager;
+		TextureManager m_textureManager;
+
+		void setupContext();
 };
