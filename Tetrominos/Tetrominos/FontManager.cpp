@@ -14,26 +14,31 @@ FontManager::~FontManager()
 {
 }
 
-void FontManager::Load(const std::string& filename, const std::string& fontName, unsigned int fontSize)
+Font& FontManager::Load(const std::string& filename, const std::string& fontName, unsigned int fontSize)
 {
-	if (isFontLoaded(fontName, fontSize)) return;
+	// Return a pre-loaded font
+	if (m_fonts.find(fontName) != m_fonts.end()) return GetFont(fontName);
 
+	// Initialize FreeType
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 	{
 		std::cout << "<FontManager>: Could not initialize FreeType library" << std::endl;
 	}
 
+	// Load the font file
 	FT_Face face;
 	if (FT_New_Face(ft, filename.c_str(), 0, &face))
 	{
 		std::cout << "<FontManager>: Failed to load font " << fontName << std::endl;
 	}
 
+	// Get the font data
 	FT_Set_Pixel_Sizes(face, 0, fontSize);
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+	// Build the graphic font representation
 	Font font;
 	for (unsigned char c = 0; c < 128; ++c)
 	{
@@ -69,11 +74,14 @@ void FontManager::Load(const std::string& filename, const std::string& fontName,
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	// Free the FreeType resources
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);
 
+	// Store the font in the manager
 	m_fonts[fontName] = font;
-	m_loadedFonts.emplace_back(fontName, fontSize);
+
+	return m_fonts[fontName];
 }
 
 Font& FontManager::GetFont(const std::string & fontName)
@@ -86,14 +94,4 @@ Font& FontManager::GetFont(const std::string & fontName)
 	}
 
 	return iter->second;
-}
-
-bool FontManager::isFontLoaded(const std::string & fontName, unsigned int fontSize)
-{
-	for (auto font : m_loadedFonts)
-	{
-		if (font.first == fontName && font.second == fontSize) return true;
-	}
-
-	return false;
 }
