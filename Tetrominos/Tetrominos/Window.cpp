@@ -1,74 +1,74 @@
 #include "Window.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
+#include <GL/glew.h>
 
-Window::Window() : m_pProjector(nullptr)
+Window::Window() :
+	Window(WindowSettings(), ProjectorType::Orthographic)
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	setup("Test Window", 800, 600, ProjectorType::Orthographic, false);
-	glfwMakeContextCurrent(m_pWindowContext);
 }
 
-Window::Window(const std::string & name, int width, int height, ProjectorType projectorType, bool fullscreen)
+Window::Window(const WindowSettings & windowSettings, ProjectorType projectorType) :
+	m_windowSettings(windowSettings), m_isDone(false), m_pProjector(nullptr)
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	setup(name, width, height, projectorType, fullscreen);
+	create();
+	m_pProjector = (projectorType == ProjectorType::Orthographic) ? 
+		new OrthoProjector(windowSettings.Width, windowSettings.Height) : nullptr;
 }
 
 Window::~Window()
 {
-	destroy();
-}
-
-GLFWwindow* Window::GetContext() const
-{
-	return m_pWindowContext;
-}
-
-bool Window::IsValid() const
-{
-	return m_pWindowContext != nullptr;
-}
-
-bool Window::IsDone() const
-{
-	return glfwWindowShouldClose(m_pWindowContext);
+	delete m_pProjector;
+	m_window.close();
 }
 
 void Window::BeginDraw()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Window::EndDraw()
 {
-	glfwSwapBuffers(m_pWindowContext);
+	m_window.display();
 }
 
 void Window::Update()
 {
-	glfwPollEvents();
-
-	if (glfwGetKey(m_pWindowContext, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	sf::Event event;
+	while (m_window.pollEvent(event))
 	{
-		glfwSetWindowShouldClose(m_pWindowContext, true);
-	}
+		if (event.type == sf::Event::LostFocus)
+		{
+			m_windowSettings.Focused = false;
+		}
+		else if (event.type == sf::Event::GainedFocus)
+		{
+			m_windowSettings.Focused = true;
+		}
 
-	if (glfwGetKey(m_pWindowContext, GLFW_KEY_F5) == GLFW_PRESS)
-	{
-		toggleFullscreen();
+		if (event.type == sf::Event::Closed)
+		{
+			m_isDone = true;
+		}
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+		{
+			m_isDone = true;
+		}
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5)
+		{
+			toggleFullscreen();
+		}
 	}
+}
+
+bool Window::IsDone() const
+{
+	return m_isDone;
+}
+
+sf::RenderWindow* Window::GetRenderWindow()
+{
+	return &m_window;
 }
 
 IProjector* Window::GetProjector()
@@ -76,62 +76,35 @@ IProjector* Window::GetProjector()
 	return m_pProjector;
 }
 
-int Window::GetWidth() const	{ return m_width; }
-int Window::GetHeight() const	{ return m_height; }
+int Window::GetWidth() const
+{
+	return m_windowSettings.Width;
+}
+
+int Window::GetHeight() const
+{
+	return m_windowSettings.Height;
+}
 
 void Window::toggleFullscreen()
 {
-	m_isFullscreen = !m_isFullscreen;
-
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-	if (m_isFullscreen)
-	{
-		glfwSetWindowMonitor(m_pWindowContext, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, mode->refreshRate);
-	}
-	else
-	{
-		glfwSetWindowMonitor(m_pWindowContext, nullptr, 200, 200, m_width, m_height, mode->refreshRate);
-	}
-}
-
-void Window::setup(const std::string & name, int width, int height, ProjectorType projectorType, bool fullscreen)
-{
-	m_name = name;
-	m_width = width;
-	m_height = height;
-	m_isFullscreen = fullscreen;
-
+	m_windowSettings.Fullscreen = !m_windowSettings.Fullscreen;
+	m_window.close();
 	create();
-
-	m_pProjector = (projectorType == ProjectorType::Orthographic) ? new OrthoProjector(width, height) : nullptr;
 }
 
 void Window::create()
 {
-	auto monitor = (m_isFullscreen) ? glfwGetPrimaryMonitor() : nullptr;
+	// Set the OpenGL settings
+	sf::ContextSettings settings;
+	settings.majorVersion = 3;
+	settings.minorVersion = 3;
+	settings.attributeFlags = sf::ContextSettings::Core;
 
-	m_pWindowContext = glfwCreateWindow(m_width, m_height, m_name.c_str(), monitor, nullptr);
-	if (nullptr == m_pWindowContext)
-	{
-		std::cout << "<Window>: Failed to create the GLFW window" << std::endl;
-	}
+	// Set the Style flags
+	sf::Uint32 style = sf::Style::Default;
+	if (m_windowSettings.Fullscreen) { style = sf::Style::Fullscreen; }
 
-	glfwMakeContextCurrent(m_pWindowContext);
-
-	glfwSetFramebufferSizeCallback(m_pWindowContext, Window::resizeCallback);
+	m_window.create(sf::VideoMode(m_windowSettings.Width, m_windowSettings.Height, m_windowSettings.BitsPerPixel),
+		m_windowSettings.Title, style, settings);
 }
-
-void Window::destroy()
-{
-	glfwDestroyWindow(m_pWindowContext);
-}
-
-#pragma region "Static callback methods..."
-
-void Window::resizeCallback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
-
-#pragma endregion

@@ -5,7 +5,7 @@
 enum class ProjectorType
 {
 	Orthographic,
-	Perspective,
+	Perspective
 };
 
 class IProjector

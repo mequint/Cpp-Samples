@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <unordered_map>
 
 #include "Texture.h"

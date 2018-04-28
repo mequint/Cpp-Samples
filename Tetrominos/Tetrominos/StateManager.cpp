@@ -2,7 +2,7 @@
 
 #include "GameStates.h"
 
-StateManager::StateManager(GameContext* context) :
+StateManager::StateManager(Context* context) :
 	m_context(context),
 	m_isRunning(true)
 {
@@ -69,7 +69,7 @@ bool StateManager::IsRunning() const { return m_isRunning; }
 void StateManager::SetIsRunning(bool isRunning) { m_isRunning = isRunning; }
 
 
-GameContext* StateManager::GetContext()
+Context* StateManager::GetContext()
 {
 	return m_context;
 }

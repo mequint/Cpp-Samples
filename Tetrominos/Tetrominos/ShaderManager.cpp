@@ -53,7 +53,7 @@ std::string ShaderManager::loadShaderCode(const std::string & filename)
 	}
 	else
 	{
-		std::cout << "<ShaderManager>::Failed to read \'" << filename << "\'" << std::endl;
+		std::cout << "<ShaderManager::loadShaderCode>: Failed to read \'" << filename << "\'" << std::endl;
 		return "";
 	}
 

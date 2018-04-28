@@ -5,9 +5,9 @@
 #include "TextureManager.h"
 #include "Window.h"
 
-struct GameContext
+struct Context
 {
-	GameContext() :
+	Context() :
 		FontManager(nullptr),
 		ShaderManager(nullptr),
 		TextureManager(nullptr),

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ConfigurationManager.h"
-#include "GameContext.h"
+#include "Context.h"
 #include "StateManager.h"
 
 class Game
@@ -20,7 +20,7 @@ class Game
 
 	private:
 		// State
-		GameContext m_gameContext;
+		Context m_context;
 		StateManager m_stateManager;
 
 		// Window

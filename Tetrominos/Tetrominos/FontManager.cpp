@@ -1,6 +1,6 @@
 #include "FontManager.h"
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

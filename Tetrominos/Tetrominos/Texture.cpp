@@ -1,13 +1,13 @@
 #include "Texture.h"
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 Texture2D::Texture2D() 
 {
 	glGenTextures(GL_TEXTURE_2D, &m_ID);
 }
 
-void Texture2D::Init(unsigned char* data, unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int imageFormat)
+void Texture2D::Init(const unsigned char* data, unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int imageFormat)
 {
 	m_width = width;
 	m_height = height;

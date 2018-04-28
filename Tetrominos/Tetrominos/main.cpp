@@ -1,8 +1,7 @@
-// GLAD must be on top - otherwise GLFW will throw a fit
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <GL/glew.h>
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
-#include "ConfigurationManager.h"
 #include "Game.h"
 
 int main()
@@ -22,5 +21,5 @@ int main()
 
 	game.Cleanup();
 
-	return 0;
+	return EXIT_SUCCESS;
 }

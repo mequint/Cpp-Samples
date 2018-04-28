@@ -51,11 +51,11 @@ void Text::Draw()
 		GLfloat vertices[6][4] =
 		{
 			{ xPos, yPos + height,			0.0f, 1.0f },
-			{ xPos + width, yPos,			1.0f, 0.0f },
-			{ xPos, yPos,					0.0f, 0.0f },
-			{ xPos, yPos + height,			0.0f, 1.0f },
-			{ xPos + width, yPos + height,	1.0f, 1.0f },
-			{ xPos + width, yPos,			1.0f, 0.0f }
+		{ xPos + width, yPos,			1.0f, 0.0f },
+		{ xPos, yPos,					0.0f, 0.0f },
+		{ xPos, yPos + height,			0.0f, 1.0f },
+		{ xPos + width, yPos + height,	1.0f, 1.0f },
+		{ xPos + width, yPos,			1.0f, 0.0f }
 		};
 
 		glBindTexture(GL_TEXTURE_2D, g.TextureID);
@@ -76,4 +76,9 @@ void Text::SetPosition(float x, float y)
 {
 	m_x = x;
 	m_y = y;
+}
+
+void Text::SetText(const std::string text)
+{
+	m_text = text;
 }

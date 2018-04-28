@@ -7,7 +7,7 @@ class Texture2D
 	public:
 		Texture2D();
 
-		void Init(unsigned char* data, unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int imageFormat);
+		void Init(const unsigned char* data, unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int imageFormat);
 		void Bind() const;
 
 	private:
