@@ -38,7 +38,7 @@ void IntroState::Activate() {}
 void IntroState::Deactivate() {}
 
 // Nothing to update...for now
-void IntroState::Update() {}
+void IntroState::Update(float dt) {}
 
 void IntroState::Draw()
 {

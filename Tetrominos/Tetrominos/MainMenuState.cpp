@@ -24,7 +24,7 @@ void MainMenuState::Deactivate()
 {
 }
 
-void MainMenuState::Update()
+void MainMenuState::Update(float dt)
 {
 }
 

@@ -1,0 +1,3 @@
+CloseWindow 0:0
+ToggleFullscreen 5:89
+EscapeKey 5:36

@@ -24,7 +24,7 @@ void InGameState::Deactivate()
 {
 }
 
-void InGameState::Update()
+void InGameState::Update(float dt)
 {
 }
 

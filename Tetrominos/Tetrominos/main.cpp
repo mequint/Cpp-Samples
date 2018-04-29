@@ -4,6 +4,8 @@
 
 #include "Game.h"
 
+// Bug: Fullscreen mode switches to fullscreen and deletes all the screen data, then switches back to windowed mode...
+
 int main()
 {
 	ConfigurationManager config;
@@ -16,10 +18,9 @@ int main()
 		{
 			game.Update();
 			game.Render();
+			game.PostProcessing();
 		}
 	}
-
-	game.Cleanup();
 
 	return EXIT_SUCCESS;
 }

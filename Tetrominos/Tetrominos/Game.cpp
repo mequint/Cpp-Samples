@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include <chrono>
 #include <GL/glew.h>
 #include <iostream>
 
@@ -8,21 +9,23 @@ Game::Game() :
 	m_context(),
 	m_stateManager(&m_context)
 {
+	m_clock.restart();
 	setupContext();
 }
 
 Game::Game(ConfigurationManager & config) :
 	m_config(config),
-	m_context(),
-	m_stateManager(&m_context),
 	m_window(
 		WindowSettings(
 			config.Get("AppName"),
 			stoi(config.Get("WindowWidth")),
 			stoi(config.Get("WindowHeight")),
 			stoi(config.Get("BitsPerPixel"))
-		))
+		)), 
+	m_context(),
+	m_stateManager(&m_context)
 {
+	m_clock.restart();
 	setupContext();
 }
 
@@ -49,13 +52,14 @@ bool Game::Initialize()
 	}
 
 	m_stateManager.ChangeState(StateType::Intro);
+
 	return true;
 }
 
 void Game::Update()
 {
 	m_window.Update();
-	m_stateManager.Update();
+	m_stateManager.Update(m_elapsed.asSeconds());
 }
 
 void Game::Render()
@@ -65,8 +69,10 @@ void Game::Render()
 	m_window.EndDraw();
 }
 
-void Game::Cleanup()
+void Game::PostProcessing()
 {
+	m_stateManager.ProcessRequests();
+	m_elapsed = m_clock.restart();
 }
 
 Window* Game::GetWindow()
@@ -78,6 +84,7 @@ Window* Game::GetWindow()
 
 void Game::setupContext()
 {
+	m_context.EventManager = m_window.GetEventManager();
 	m_context.FontManager = &m_fontManager;
 	m_context.ShaderManager = &m_shaderManager;
 	m_context.TextureManager = &m_textureManager;

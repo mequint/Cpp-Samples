@@ -14,7 +14,7 @@ class Game
 		bool Initialize();
 		void Update();
 		void Render();
-		void Cleanup();
+		void PostProcessing();
 
 		Window* GetWindow();
 
@@ -22,6 +22,8 @@ class Game
 		// State
 		Context m_context;
 		StateManager m_stateManager;
+		sf::Clock m_clock;
+		sf::Time m_elapsed;
 
 		// Window
 		Window m_window;

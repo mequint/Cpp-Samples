@@ -24,7 +24,7 @@ void CreditsState::Deactivate()
 {
 }
 
-void CreditsState::Update()
+void CreditsState::Update(float dt)
 {
 }
 

@@ -24,7 +24,7 @@ void PauseState::Deactivate()
 {
 }
 
-void PauseState::Update()
+void PauseState::Update(float dt)
 {
 }
 

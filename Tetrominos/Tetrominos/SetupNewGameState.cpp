@@ -24,7 +24,7 @@ void SetupNewGameState::Deactivate()
 {
 }
 
-void SetupNewGameState::Update()
+void SetupNewGameState::Update(float dt)
 {
 }
 

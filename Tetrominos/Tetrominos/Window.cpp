@@ -10,6 +10,10 @@ Window::Window() :
 Window::Window(const WindowSettings & windowSettings, ProjectorType projectorType) :
 	m_windowSettings(windowSettings), m_isDone(false), m_pProjector(nullptr)
 {
+	//m_eventManager.AddCallback(StateType(0), "ToggleFullscreen", &Window::toggleFullscreen, this);
+	m_eventManager.AddCallback(StateType(0), "CloseWindow", &Window::close, this);
+	m_eventManager.AddCallback(StateType(0), "EscapeKey", &Window::close, this);
+
 	create();
 	m_pProjector = (projectorType == ProjectorType::Orthographic) ? 
 		new OrthoProjector(windowSettings.Width, windowSettings.Height) : nullptr;
@@ -35,30 +39,24 @@ void Window::EndDraw()
 void Window::Update()
 {
 	sf::Event event;
+
 	while (m_window.pollEvent(event))
 	{
 		if (event.type == sf::Event::LostFocus)
 		{
 			m_windowSettings.Focused = false;
+			m_eventManager.SetFocus(false);
 		}
 		else if (event.type == sf::Event::GainedFocus)
 		{
 			m_windowSettings.Focused = true;
+			m_eventManager.SetFocus(true);
 		}
 
-		if (event.type == sf::Event::Closed)
-		{
-			m_isDone = true;
-		}
-		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-		{
-			m_isDone = true;
-		}
-		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5)
-		{
-			toggleFullscreen();
-		}
+		m_eventManager.HandleEvent(event);
 	}
+
+	m_eventManager.Update();
 }
 
 bool Window::IsDone() const
@@ -66,9 +64,24 @@ bool Window::IsDone() const
 	return m_isDone;
 }
 
+bool Window::IsFullscreen() const
+{
+	return m_windowSettings.Fullscreen;
+}
+
+bool Window::HasFocus() const
+{
+	return m_windowSettings.Focused;
+}
+
 sf::RenderWindow* Window::GetRenderWindow()
 {
 	return &m_window;
+}
+
+EventManager* Window::GetEventManager()
+{
+	return &m_eventManager;
 }
 
 IProjector* Window::GetProjector()
@@ -86,7 +99,12 @@ int Window::GetHeight() const
 	return m_windowSettings.Height;
 }
 
-void Window::toggleFullscreen()
+void Window::close(EventDetails* details)
+{
+	m_isDone = true;
+}
+
+void Window::toggleFullscreen(EventDetails* details)
 {
 	m_windowSettings.Fullscreen = !m_windowSettings.Fullscreen;
 	m_window.close();
@@ -102,9 +120,14 @@ void Window::create()
 	settings.attributeFlags = sf::ContextSettings::Core;
 
 	// Set the Style flags
-	sf::Uint32 style = sf::Style::Default;
-	if (m_windowSettings.Fullscreen) { style = sf::Style::Fullscreen; }
+	if (m_windowSettings.Fullscreen)
+	{
+		m_window.create(sf::VideoMode::getFullscreenModes()[0], m_windowSettings.Title, sf::Style::Fullscreen, settings);
+	}
+	else
+	{
+		m_window.create(sf::VideoMode(m_windowSettings.Width, m_windowSettings.Height, m_windowSettings.BitsPerPixel),
+			m_windowSettings.Title, sf::Style::Default, settings);
+	}
 
-	m_window.create(sf::VideoMode(m_windowSettings.Width, m_windowSettings.Height, m_windowSettings.BitsPerPixel),
-		m_windowSettings.Title, style, settings);
 }

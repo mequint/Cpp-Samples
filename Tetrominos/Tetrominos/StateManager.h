@@ -8,7 +8,8 @@
 #include "State.h"
 #include "GameStates.h"
 
-using StateContainer = std::vector<std::pair<StateType, State*>>;
+using States = std::vector<std::pair<StateType, State*>>;
+using StateTypes = std::vector<StateType>;
 using StateFactory = std::unordered_map<StateType, std::function<State*(void)>>;
 
 class StateManager
@@ -17,23 +18,21 @@ class StateManager
 		StateManager(Context* context);
 		~StateManager();
 
-		void ProcessInput();
-		void Update();
+		void Update(float dt);
 		void Draw();
-
-		void ChangeState(const StateType& type);
-
-		bool IsRunning() const;
-		void SetIsRunning(bool isRunning);
+		void ProcessRequests();
 
 		Context* GetContext();
 
-	private:
-		bool m_isRunning;
+		void ChangeState(StateType stateType);
+		void Remove(StateType stateType);
 
+	private:
 		// Member variables
-		StateContainer m_states;
+		States m_states;
+		StateTypes m_toRemove;
 		StateFactory m_stateFactory;
+
 		Context* m_context;
 
 		template <class T>
@@ -45,5 +44,6 @@ class StateManager
 			};
 		}
 
-		void CreateState(const StateType& type);
+		void createState(StateType stateType);
+		void removeState(StateType stateType);
 };

@@ -16,7 +16,7 @@ class IntroState : public State
 		virtual void Activate();
 		virtual void Deactivate();
 
-		virtual void Update();
+		virtual void Update(float dt);
 		virtual void Draw();
 
 	private:

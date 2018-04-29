@@ -24,7 +24,7 @@ void GameOverState::Deactivate()
 {
 }
 
-void GameOverState::Update()
+void GameOverState::Update(float dt)
 {
 }
 
