@@ -1,8 +1,0 @@
-AppName 		Tetrominos - Another Tetris Clone
-BitsPerPixel		32
-BlendEnabled		1
-OpenGLMajor		3
-OpenGLMinor		3
-WindowResizable		0
-WindowWidth 		800
-WindowHeight 		600

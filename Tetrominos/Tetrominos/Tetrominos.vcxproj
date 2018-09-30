@@ -18,6 +18,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tetromino.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="Direction.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Tetromino.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{3adea9eb-d68b-4595-b355-18d60d2a9659}</ProjectGuid>
@@ -134,56 +146,6 @@
       <AdditionalDependencies>sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ConfigurationManager.cpp" />
-    <ClCompile Include="CreditsState.cpp" />
-    <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FontManager.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameOverState.cpp" />
-    <ClCompile Include="InGameState.cpp" />
-    <ClCompile Include="IntroState.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="PauseState.cpp" />
-    <ClCompile Include="Projector.cpp" />
-    <ClCompile Include="SetupNewGameState.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="StateManager.cpp" />
-    <ClCompile Include="Text.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ConfigurationManager.h" />
-    <ClInclude Include="Context.h" />
-    <ClInclude Include="CreditsState.h" />
-    <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="FontManager.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameOverState.h" />
-    <ClInclude Include="GameStates.h" />
-    <ClInclude Include="IDrawable.h" />
-    <ClInclude Include="InGameState.h" />
-    <ClInclude Include="IntroState.h" />
-    <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="PauseState.h" />
-    <ClInclude Include="Projector.h" />
-    <ClInclude Include="SetupNewGameState.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="StateManager.h" />
-    <ClInclude Include="Text.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
