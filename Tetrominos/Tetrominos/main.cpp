@@ -2,7 +2,7 @@
 
 #include "Block.h"
 #include "Grid.h"
-#include "Tetromino.h"
+#include "Shape.h"
 
 int main()
 {
@@ -17,23 +17,32 @@ int main()
 
 	Grid grid(10, 20, startPosX, startPosY, blockSize);
 
-	std::vector<Tetromino> tetrominos;
+	std::vector<Shape> shapes;
 	for (int i = 0; i < 7; ++i)
 	{
-		tetrominos.push_back(TetrominoType(i));
+		shapes.push_back(ShapeType(i));
 	}
 	
-	tetrominos[0].SetPosition((float)startPosX, (float)startPosY);
-	tetrominos[1].SetPosition((float)startPosX + blockSize * 4, (float)startPosY);
-	tetrominos[2].SetPosition((float)startPosX + blockSize * 8, (float)startPosY);
-	tetrominos[3].SetPosition((float)startPosX + blockSize * 12, (float)startPosY);
-	tetrominos[4].SetPosition((float)startPosX + blockSize * 2, (float)startPosY + blockSize * 4);
-	tetrominos[5].SetPosition((float)startPosX + blockSize * 6, (float)startPosY + blockSize * 4);
-	tetrominos[6].SetPosition((float)startPosX + blockSize * 10, (float)startPosY + blockSize * 4);
+	shapes[0].SetPosition((float)startPosX, (float)startPosY);
+	shapes[1].SetPosition((float)startPosX + blockSize * 4, (float)startPosY);
+	shapes[2].SetPosition((float)startPosX + blockSize * 8, (float)startPosY);
+	shapes[3].SetPosition((float)startPosX + blockSize * 12, (float)startPosY);
+	shapes[4].SetPosition((float)startPosX + blockSize * 2, (float)startPosY + blockSize * 4);
+	shapes[5].SetPosition((float)startPosX + blockSize * 6, (float)startPosY + blockSize * 4);
+	shapes[6].SetPosition((float)startPosX + blockSize * 10, (float)startPosY + blockSize * 4);
 
-	Block block(blockSize);
-	block.SetPosition(startPosX, startPosY);
-	block.SetColor(sf::Color::Red);
+	std::vector<Block> blocks;
+	for (int i = 1; i < 7; ++i)
+	{
+		for (auto block : shapes[i].GetBlocks())
+		{
+			blocks.emplace_back(block);
+		}
+	}
+
+	//Block block(blockSize);
+	//block.SetPosition(startPosX, startPosY);
+	//block.SetColor(sf::Color::Red);
 
 	while (window.isOpen())
 	{
@@ -47,19 +56,19 @@ int main()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				tetrominos[0].Move(Direction::Left);
+				shapes[0].SetDirection(Direction::Left);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				tetrominos[0].Move(Direction::Right);
+				shapes[0].SetDirection(Direction::Right);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
-				tetrominos[0].Move(Direction::Up);
+				shapes[0].SetDirection(Direction::Up);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			{
-				tetrominos[0].Move(Direction::Down);
+				shapes[0].SetDirection(Direction::Down);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
@@ -71,15 +80,25 @@ int main()
 			}
 		}
 
-		window.clear(sf::Color::Black);
+		shapes[0].Collides(blocks, grid.GetGridZone());
+
+		shapes[0].Update(0.0f);
+
+		if (shapes[0].GetCollides())
+		{
+			window.clear(sf::Color::Red);
+		}
+		else
+		{
+			window.clear(sf::Color::Black);
+		}
 
 		grid.Draw(window);
 
-		for (int i = 0; i < tetrominos.size(); ++i)
+		for (int i = 0; i < 7; ++i)
 		{
-			tetrominos[i].Draw(window);
+			shapes[i].Draw(window);
 		}
-		
 		window.display();
 	}
 

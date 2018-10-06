@@ -22,13 +22,15 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Tetromino.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Grid.h" />
-    <ClInclude Include="Tetromino.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
