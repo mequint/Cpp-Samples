@@ -1,9 +1,9 @@
 #include "Shape.h"
 
-Shape::Shape(ShapeType type)
-{
-	m_collides = false;
+#include <iostream> // For debug purposes, remove later
 
+Shape::Shape(ShapeType type, const sf::FloatRect& boundary) : m_boundary(boundary), m_hasLanded(false)
+{
 	const float blockSize = 16.0f;
 	const std::unordered_map<ShapeType, sf::Color> TetrominoColors
 	{
@@ -132,9 +132,54 @@ void Shape::SetPosition(float x, float y)
 
 void Shape::SetDirection(Direction direction)
 {
-	for (auto& block : m_blocks)
+	if (direction != Direction::None)
 	{
-		block.SetDirection(direction);
+		m_direction = direction;
+
+		// Block move if there is a potential collision
+		for (auto block : m_blocks)
+		{
+			switch (m_direction)
+			{
+				case Direction::Left:
+					if (block.GetPosition().x - block.GetSize() < m_boundary.left)
+					{
+						std::cout << "Collision Left" << std::endl;
+						m_direction = Direction::None;
+					}
+					break;
+
+				case Direction::Right:
+					if (block.GetPosition().x + block.GetSize() >= m_boundary.left + m_boundary.width)
+					{
+						std::cout << "Collision Right" << std::endl;
+						m_direction = Direction::None;
+					}
+					break;
+
+				case Direction::Up:
+					if (block.GetPosition().y - block.GetSize() < m_boundary.top)
+					{
+						std::cout << "Collision Up" << std::endl;
+						m_direction = Direction::None;
+					}
+					break;
+
+				case Direction::Down:
+					if (block.GetPosition().y + block.GetSize() >= m_boundary.top + m_boundary.height)
+					{
+						std::cout << "Collision Down" << std::endl;
+						m_direction = Direction::None;
+						m_hasLanded = true;
+					}
+					break;
+			}
+		}
+
+		for (auto& block : m_blocks)
+		{
+			block.SetDirection(m_direction);
+		}
 	}
 }
 
@@ -161,57 +206,7 @@ std::vector<Block>& Shape::GetBlocks()
 	return m_blocks;
 }
 
-void Shape::Collides(std::vector<Block>& blocks, const sf::FloatRect& gridZone)
+bool Shape::HasLanded() const
 {
-	float blockSize = m_blocks[0].GetSize();
-
-	sf::Vector2f dirVec;;
-	switch (m_direction)
-	{
-		case Direction::Left:
-			dirVec = sf::Vector2f(-blockSize, 0.0f);
-			break;
-
-		case Direction::Right:
-			dirVec = sf::Vector2f(blockSize, 0.0f);
-			break;
-
-		case Direction::Up:
-			dirVec = sf::Vector2f(0.0f, -blockSize);
-			break;
-
-		case Direction::Down:
-			dirVec = sf::Vector2f(0.0f, blockSize);
-			break;
-
-		default:
-			dirVec = sf::Vector2f(0.0f, 0.0f);
-	}
-
-	for (auto& block : m_blocks)
-	{
-		sf::Vector2f newPosition = block.GetPosition() + dirVec;
-		if (newPosition.x < gridZone.left || newPosition.x >= gridZone.left + gridZone.width ||
-			newPosition.y < gridZone.top || newPosition.y >= gridZone.top + gridZone.height)
-		{
-			m_collides = true;
-			return;
-		}
-
-		for (auto& other : blocks)
-		{
-			if (block.GetAABB().intersects(other.GetAABB()))
-			{
-				m_collides = true;
-				return;
-			}
-		}
-	}
-
-	m_collides = false;
-}
-
-bool Shape::GetCollides() const
-{
-	return m_collides;
+	return m_hasLanded;
 }

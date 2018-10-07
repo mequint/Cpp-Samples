@@ -1,11 +1,24 @@
 #include <SFML/Graphics.hpp>
 
+#include "Game.h"
+
 #include "Block.h"
 #include "Grid.h"
+#include "Random.h"
 #include "Shape.h"
 
 int main()
 {
+	/*
+	Game game;
+	while (!game.GetWindow()->IsDone())
+	{
+		game.Update();
+		game.Draw();
+		game.PostProcess();
+	}
+	*/
+
 	const int windowWidth = 800;
 	const int windowHeight = 600;
 
@@ -16,34 +29,15 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Tetrominos");
 
 	Grid grid(10, 20, startPosX, startPosY, blockSize);
+	grid.ToggleVisibility();
 
-	std::vector<Shape> shapes;
-	for (int i = 0; i < 7; ++i)
-	{
-		shapes.push_back(ShapeType(i));
-	}
-	
-	shapes[0].SetPosition((float)startPosX, (float)startPosY);
-	shapes[1].SetPosition((float)startPosX + blockSize * 4, (float)startPosY);
-	shapes[2].SetPosition((float)startPosX + blockSize * 8, (float)startPosY);
-	shapes[3].SetPosition((float)startPosX + blockSize * 12, (float)startPosY);
-	shapes[4].SetPosition((float)startPosX + blockSize * 2, (float)startPosY + blockSize * 4);
-	shapes[5].SetPosition((float)startPosX + blockSize * 6, (float)startPosY + blockSize * 4);
-	shapes[6].SetPosition((float)startPosX + blockSize * 10, (float)startPosY + blockSize * 4);
+	Random rng;
+	Shape lander(ShapeType(rng.GetInt(0,6)), grid.GetGridZone());
+	lander.SetPosition((float)startPosX, (float)startPosY);
 
 	std::vector<Block> blocks;
-	for (int i = 1; i < 7; ++i)
-	{
-		for (auto block : shapes[i].GetBlocks())
-		{
-			blocks.emplace_back(block);
-		}
-	}
 
-	//Block block(blockSize);
-	//block.SetPosition(startPosX, startPosY);
-	//block.SetColor(sf::Color::Red);
-
+	bool spawnNewTetrimino = true;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -56,19 +50,19 @@ int main()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				shapes[0].SetDirection(Direction::Left);
+				lander.SetDirection(Direction::Left);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				shapes[0].SetDirection(Direction::Right);
+				lander.SetDirection(Direction::Right);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
-				shapes[0].SetDirection(Direction::Up);
+				lander.SetDirection(Direction::Up);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			{
-				shapes[0].SetDirection(Direction::Down);
+				lander.SetDirection(Direction::Down);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
@@ -80,25 +74,22 @@ int main()
 			}
 		}
 
-		shapes[0].Collides(blocks, grid.GetGridZone());
-
-		shapes[0].Update(0.0f);
-
-		if (shapes[0].GetCollides())
+		if (lander.HasLanded())
 		{
-			window.clear(sf::Color::Red);
-		}
-		else
-		{
-			window.clear(sf::Color::Black);
+			for (auto block : lander.GetBlocks())
+			{
+				grid.AddBlock(block);
+			}
+			lander = Shape(ShapeType(rng.GetInt(0, 6)), grid.GetGridZone());
+			lander.SetPosition((float)startPosX, (float)startPosY);
+			spawnNewTetrimino = false;
 		}
 
+		lander.Update(0.0f);
+
+		window.clear(sf::Color::Black);
 		grid.Draw(window);
-
-		for (int i = 0; i < 7; ++i)
-		{
-			shapes[i].Draw(window);
-		}
+		lander.Draw(window);
 		window.display();
 	}
 

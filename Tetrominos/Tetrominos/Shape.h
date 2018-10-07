@@ -11,7 +11,7 @@ enum class ShapeType { I, J, L, O, S, T, Z };
 class Shape
 {
 	public:
-		Shape(ShapeType type);
+		Shape(ShapeType type, const sf::FloatRect& boundary);
 
 		void SetPosition(float x, float y);
 		void SetDirection(Direction direction);
@@ -20,15 +20,14 @@ class Shape
 		void Draw(sf::RenderWindow& window);
 
 		std::vector<Block>& GetBlocks();
-
-		void Collides(std::vector<Block>& blocks, const sf::FloatRect& gridZone);
-		bool GetCollides() const;
+		bool HasLanded() const;
 
 	private:
 		sf::Vector2f m_position;
 		
+		sf::FloatRect m_boundary;
 		std::vector<Block> m_blocks;
 		Direction m_direction;
 
-		bool m_collides;
+		bool m_hasLanded;
 };

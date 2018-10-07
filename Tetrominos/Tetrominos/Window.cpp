@@ -1,14 +1,14 @@
 #include "Window.h"
 
-Window::Window(const std::string& title, sf::Vector2f& windowSize) :
+Window::Window(const std::string& title, const sf::Vector2u& windowSize) :
 	m_window(sf::VideoMode(windowSize.x, windowSize.y), title)
 {
+	m_windowSize = windowSize;
+	m_title = title;
+	m_backgroundColor = sf::Color::Black;
 	m_isDone = false;
 
-	m_backgroundColor = sf::Color::Black;
-
 	auto style = sf::Style::Default;
-
 	m_window.create(sf::VideoMode(windowSize.x, windowSize.y, 32), title, style);
 }
 
@@ -32,6 +32,11 @@ void Window::Update()
 			m_isDone = true;
 		}
 	}
+}
+
+bool Window::IsDone()
+{
+	return m_isDone;
 }
 
 void Window::SetBackgroundColor(sf::Color color)

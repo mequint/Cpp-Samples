@@ -5,19 +5,24 @@
 class Window
 {
 	public:
-		Window(const std::string& title, sf::Vector2f& windowSize);
+		Window(const std::string& title, const sf::Vector2u& windowSize);
 		~Window();
-
-		void Update();
 
 		void SetBackgroundColor(sf::Color color);
 		void BeginDraw();
 		void EndDraw();
+		
+		void Update();
+
+		bool IsDone();
 
 		sf::RenderWindow* GetRenderWindow();
 
 	private:
 		sf::RenderWindow m_window;
+
+		sf::Vector2u m_windowSize;
+		std::string m_title;
 		sf::Color m_backgroundColor;
 
 		bool m_isDone;

@@ -16,10 +16,13 @@ class Grid
 
 		sf::FloatRect GetGridZone();
 
-		std::vector<std::vector<Block>> m_blockPile;
+		void AddBlock(Block& block);
+		bool HasBlock(int col, int row);
 
 	private:
 		int m_posX, m_posY;
+
+		std::vector<std::vector<int>> m_blockPile;
 		int m_columns, m_rows;
 		int m_cellSize;
 
