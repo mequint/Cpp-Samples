@@ -24,16 +24,22 @@ int main()
 
 	const int blockSize = 16;
 
-	int startPosX = windowWidth / 2 - 5 * blockSize;
-	int startPosY = windowHeight / 2 - 10 * blockSize;
 	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Tetrominos");
 
+	// Grid 
+	int startPosX = windowWidth / 2 - 5 * blockSize;
+	int startPosY = windowHeight / 2 - 10 * blockSize;
 	Grid grid(10, 20, startPosX, startPosY, blockSize);
 	grid.ToggleVisibility();
 
 	Random rng;
-	Shape lander(ShapeType(rng.GetInt(0,6)), grid.GetGridZone());
-	lander.SetPosition((float)startPosX, (float)startPosY);
+
+	// Lander
+	int spawnX = windowWidth / 2 - blockSize;
+	int spawnY = startPosY;
+
+	Shape lander(ShapeType(rng.GetInt(0,6)), grid);
+	lander.SetPosition((float)spawnX, (float)spawnY);
 
 	std::vector<Block> blocks;
 
@@ -80,8 +86,8 @@ int main()
 			{
 				grid.AddBlock(block);
 			}
-			lander = Shape(ShapeType(rng.GetInt(0, 6)), grid.GetGridZone());
-			lander.SetPosition((float)startPosX, (float)startPosY);
+			lander = Shape(ShapeType(rng.GetInt(0, 6)), grid);
+			lander.SetPosition((float)spawnX, (float)spawnY);
 			spawnNewTetrimino = false;
 		}
 

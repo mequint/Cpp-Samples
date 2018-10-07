@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "Block.h"
+#include "Grid.h"
 #include "Direction.h"
 
 enum class ShapeType { I, J, L, O, S, T, Z };
@@ -11,7 +12,7 @@ enum class ShapeType { I, J, L, O, S, T, Z };
 class Shape
 {
 	public:
-		Shape(ShapeType type, const sf::FloatRect& boundary);
+		Shape(ShapeType type, Grid& grid);
 
 		void SetPosition(float x, float y);
 		void SetDirection(Direction direction);
@@ -25,7 +26,8 @@ class Shape
 	private:
 		sf::Vector2f m_position;
 		
-		sf::FloatRect m_boundary;
+		Grid m_grid;
+
 		std::vector<Block> m_blocks;
 		Direction m_direction;
 

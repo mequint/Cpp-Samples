@@ -2,7 +2,7 @@
 
 #include <iostream> // For debug purposes, remove later
 
-Shape::Shape(ShapeType type, const sf::FloatRect& boundary) : m_boundary(boundary), m_hasLanded(false)
+Shape::Shape(ShapeType type, Grid& grid) : m_hasLanded(false), m_grid(grid)
 {
 	const float blockSize = 16.0f;
 	const std::unordered_map<ShapeType, sf::Color> TetrominoColors
@@ -134,15 +134,24 @@ void Shape::SetDirection(Direction direction)
 {
 	if (direction != Direction::None)
 	{
+		auto boundary = m_grid.GetGridZone();
 		m_direction = direction;
 
 		// Block move if there is a potential collision
 		for (auto block : m_blocks)
 		{
+			float nextPosX, nextPosY;
+			int col, row;
+
 			switch (m_direction)
 			{
 				case Direction::Left:
-					if (block.GetPosition().x - block.GetSize() < m_boundary.left)
+					nextPosX = block.GetPosition().x - block.GetSize();
+
+					col = static_cast<int>((nextPosX - boundary.left) / block.GetSize());
+					row = static_cast<int>((block.GetPosition().y - boundary.top) / block.GetSize());
+
+					if (nextPosX < boundary.left || m_grid.HasBlock(col, row))
 					{
 						std::cout << "Collision Left" << std::endl;
 						m_direction = Direction::None;
@@ -150,7 +159,12 @@ void Shape::SetDirection(Direction direction)
 					break;
 
 				case Direction::Right:
-					if (block.GetPosition().x + block.GetSize() >= m_boundary.left + m_boundary.width)
+					nextPosX = block.GetPosition().x + block.GetSize();
+
+					col = static_cast<int>((nextPosX - boundary.left) / block.GetSize());
+					row = static_cast<int>((block.GetPosition().y - boundary.top) / block.GetSize());
+
+					if (nextPosX >= boundary.left + boundary.width || m_grid.HasBlock(col, row))
 					{
 						std::cout << "Collision Right" << std::endl;
 						m_direction = Direction::None;
@@ -158,7 +172,12 @@ void Shape::SetDirection(Direction direction)
 					break;
 
 				case Direction::Up:
-					if (block.GetPosition().y - block.GetSize() < m_boundary.top)
+					nextPosY = block.GetPosition().y - block.GetSize();
+
+					col = static_cast<int>((block.GetPosition().x - boundary.left) / block.GetSize());
+					row = static_cast<int>((nextPosY - boundary.top) / block.GetSize());
+
+					if (nextPosY < boundary.top || m_grid.HasBlock(col, row))
 					{
 						std::cout << "Collision Up" << std::endl;
 						m_direction = Direction::None;
@@ -166,7 +185,12 @@ void Shape::SetDirection(Direction direction)
 					break;
 
 				case Direction::Down:
-					if (block.GetPosition().y + block.GetSize() >= m_boundary.top + m_boundary.height)
+					nextPosY = block.GetPosition().y + block.GetSize();
+
+					col = static_cast<int>((block.GetPosition().x - boundary.left) / block.GetSize());
+					row = static_cast<int>((nextPosY - boundary.top) / block.GetSize());
+
+					if (nextPosY >= boundary.top + boundary.height || m_grid.HasBlock(col, row))
 					{
 						std::cout << "Collision Down" << std::endl;
 						m_direction = Direction::None;
@@ -188,6 +212,11 @@ void Shape::Update(float dt)
 	for (auto& block : m_blocks)
 	{
 		block.Update(dt);
+
+		if (m_hasLanded)
+		{
+			m_grid.AddBlock(block);
+		}
 	}
 
 	SetDirection(Direction::None);

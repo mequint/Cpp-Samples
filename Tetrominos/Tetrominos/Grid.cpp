@@ -4,7 +4,6 @@ Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
 	m_columns(columns), m_rows(rows), m_posX(posX), m_posY(posY), m_cellSize(cellSize), m_visible(false),
 	m_gridZone(posX, posY, columns * cellSize, rows * cellSize), m_blockPile(columns, std::vector<int>(rows, 0))
 {
-
 }
 
 void Grid::Draw(sf::RenderWindow & renderWindow)
