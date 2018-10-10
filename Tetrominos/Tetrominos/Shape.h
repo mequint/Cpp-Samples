@@ -15,7 +15,10 @@ class Shape
 		Shape(ShapeType type, Grid& grid);
 
 		void SetPosition(float x, float y);
+		void SetOrigin(float x, float y);
+
 		void SetDirection(Direction direction);
+		void SetRotation(Rotation rotation);
 
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);
@@ -25,11 +28,12 @@ class Shape
 
 	private:
 		sf::Vector2f m_position;
-		
+		sf::Vector2f m_origin;
 		Grid m_grid;
 
 		std::vector<Block> m_blocks;
 		Direction m_direction;
+		Rotation m_rotation;
 
 		bool m_hasLanded;
 };

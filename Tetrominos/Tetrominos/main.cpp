@@ -70,6 +70,14 @@ int main()
 			{
 				lander.SetDirection(Direction::Down);
 			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
+			{
+				lander.SetRotation(Rotation::CCW);
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
+			{
+				lander.SetRotation(Rotation::CW);
+			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
 				window.close();
