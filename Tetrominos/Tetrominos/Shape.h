@@ -3,18 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 
-#include "Block.h"
 #include "Grid.h"
 #include "Direction.h"
-
-enum class ShapeType { I, J, L, O, S, T, Z };
+#include "ShapeType.h"
 
 class Shape
 {
 	public:
 		Shape(ShapeType type, Grid& grid);
 
-		void SetPosition(float x, float y);
+		void SetPosition(int x, int y);
 		void SetOrigin(float x, float y);
 
 		void SetDirection(Direction direction);
@@ -23,15 +21,22 @@ class Shape
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);
 
-		std::vector<Block>& GetBlocks();
 		bool HasLanded() const;
 
+		std::vector<sf::Vector2i> GetBlocks();
+		sf::Vector2i GetPosition();
+		ShapeType GetType();
+
+
 	private:
-		sf::Vector2f m_position;
+		sf::Vector2i m_position;
 		sf::Vector2f m_origin;
+
+		std::vector<sf::Vector2i> m_blocks;
+		ShapeType m_type;
+
 		Grid m_grid;
 
-		std::vector<Block> m_blocks;
 		Direction m_direction;
 		Rotation m_rotation;
 

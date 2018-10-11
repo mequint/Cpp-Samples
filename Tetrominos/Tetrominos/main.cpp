@@ -2,7 +2,6 @@
 
 #include "Game.h"
 
-#include "Block.h"
 #include "Grid.h"
 #include "Random.h"
 #include "Shape.h"
@@ -35,13 +34,11 @@ int main()
 	Random rng;
 
 	// Lander
-	int spawnX = windowWidth / 2 - blockSize;
-	int spawnY = startPosY;
+	int spawnX = 5;
+	int spawnY = 2;
 
-	Shape lander(ShapeType(rng.GetInt(0,6)), grid);
-	lander.SetPosition((float)spawnX, (float)spawnY);
-
-	std::vector<Block> blocks;
+	Shape lander(ShapeType(rng.GetInt(1, 7)), grid);
+	lander.SetPosition(spawnX, spawnY);
 
 	bool spawnNewTetrimino = true;
 	while (window.isOpen())
@@ -90,13 +87,17 @@ int main()
 
 		if (lander.HasLanded())
 		{
+			sf::Vector2i landerPos = lander.GetPosition();
 			for (auto block : lander.GetBlocks())
 			{
-				grid.AddBlock(block);
+				int col = block.x + landerPos.x;
+				int row = block.y + landerPos.y;
+				int type = static_cast<int>(lander.GetType());
+
+				grid.AddBlock(col, row, type);
 			}
-			lander = Shape(ShapeType(rng.GetInt(0, 6)), grid);
-			lander.SetPosition((float)spawnX, (float)spawnY);
-			spawnNewTetrimino = false;
+
+			lander = Shape(ShapeType(rng.GetInt(1, 7)), grid);
 		}
 
 		lander.Update(0.0f);

@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "Block.h"
+#include "ShapeType.h"
 
 class Grid
 {
@@ -15,18 +15,20 @@ class Grid
 		void ToggleVisibility();
 
 		sf::FloatRect GetGridZone();
+		int GetCellSize() const;
 
-		void AddBlock(Block& block);
+		void AddBlock(int col, int row, int type);
 		bool HasBlock(int col, int row);
 
+		sf::Color GetBlockColor(ShapeType type);
+
 	private:
-		int m_posX, m_posY;
+
+		sf::Vector2i m_position;
+		int m_cellSize;
 
 		std::vector<std::vector<int>> m_blockPile;
 		int m_columns, m_rows;
-		int m_cellSize;
 
 		bool m_visible;
-
-		sf::FloatRect m_gridZone;
 };
