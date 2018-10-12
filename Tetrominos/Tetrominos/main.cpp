@@ -3,7 +3,7 @@
 #include "Game.h"
 
 #include "Grid.h"
-#include "Random.h"
+#include "RandomGenerator.h"
 #include "Shape.h"
 
 int main()
@@ -31,13 +31,13 @@ int main()
 	Grid grid(10, 20, startPosX, startPosY, blockSize);
 	grid.ToggleVisibility();
 
-	Random rng;
+	RandomGenerator randomGenerator((int)ShapeType::Z);
 
 	// Lander
 	int spawnX = 5;
 	int spawnY = 2;
 
-	Shape lander(ShapeType(rng.GetInt(1, 7)), grid);
+	Shape lander(ShapeType(randomGenerator.GetNextInt()), grid);
 	lander.SetPosition(spawnX, spawnY);
 
 	while (window.isOpen())
@@ -96,7 +96,7 @@ int main()
 				grid.AddBlock(col, row, type);
 			}
 
-			lander = Shape(ShapeType(rng.GetInt(1, 7)), grid);
+			lander = Shape(ShapeType(randomGenerator.GetNextInt()), grid);
 			lander.SetPosition(spawnX, spawnY);
 		}
 

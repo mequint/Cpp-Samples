@@ -2,7 +2,7 @@
 
 #include "State_Game.h"
 
-Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_currentState(nullptr)
+Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_currentState(nullptr), m_randomGenerator(7)
 {
 	m_clock.restart();
 	m_currentState = new State_Game();

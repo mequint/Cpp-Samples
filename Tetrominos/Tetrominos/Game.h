@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseState.h"
-#include "Random.h"
+#include "RandomGenerator.h"
 #include "Window.h"
 
 class Game
@@ -25,7 +25,7 @@ class Game
 		sf::Time m_elapsedTime;
 
 		// Contextual items
-		Random m_rng;
+		RandomGenerator m_randomGenerator;
 		Window m_window;
 
 		// Add to state machine

@@ -22,7 +22,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="State_Game.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -32,7 +32,7 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />
-    <ClInclude Include="Random.h" />
+    <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeType.h" />
     <ClInclude Include="State_Game.h" />
