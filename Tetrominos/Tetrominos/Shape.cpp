@@ -334,39 +334,45 @@ void Shape::SetRotation(Rotation rotation)
 {
 	m_rotation = rotation;
 
-	//if (m_rotation != Rotation::None)
-	//{
-	//	Block shape;
-	//	if (m_rotation == Rotation::CW)
-	//	{
-	//		int index = m_rotationIndex - 1;
-	//		if (index < 0)
-	//		{
-	//			index = 3;
-	//		}
+	if (m_rotation != Rotation::None)
+	{
+		Block shape;
+		if (m_rotation == Rotation::CW)
+		{
+			int index = m_rotationIndex - 1;
+			if (index < 0)
+			{
+				index = 3;
+			}
 
-	//		shape = m_blocks[index];
-	//	}
-	//	else if (m_rotation == Rotation::CCW)
-	//	{
-	//		int index = m_rotationIndex + 1;
-	//		if (index > 3)
-	//		{
-	//			index = 0;
-	//		}
+			shape = m_blocks[index];
+		}
+		else if (m_rotation == Rotation::CCW)
+		{
+			int index = m_rotationIndex + 1;
+			if (index > 3)
+			{
+				index = 0;
+			}
 
-	//		shape = m_blocks[index];
-	//	}
+			shape = m_blocks[index];
+		}
 
-	//	for (auto block : shape)
-	//	{
-	//		if (m_grid.HasBlock(block.x, block.y))
-	//		{
-	//			m_rotation = Rotation::None;
-	//			return;
-	//		}
-	//	}
-	//}
+		for (auto block : shape)
+		{
+			int x = m_position.x + block.x;
+			int y = m_position.y + block.y;
+
+			bool outOfBounds = x < 0 || x >= m_grid.GetGridZone().width / m_grid.GetCellSize() ||
+				y < 0 || y >= m_grid.GetGridZone().height / m_grid.GetCellSize();
+
+			if (outOfBounds || m_grid.HasBlock(block.x, block.y))
+			{
+				m_rotation = Rotation::None;
+				return;
+			}
+		}
+	}
 }
 
 void Shape::Update(float dt)
