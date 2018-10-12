@@ -7,13 +7,14 @@
 #include "Direction.h"
 #include "ShapeType.h"
 
+using Block = std::vector<sf::Vector2i>;
+
 class Shape
 {
 	public:
 		Shape(ShapeType type, Grid& grid);
 
 		void SetPosition(int x, int y);
-		void SetOrigin(float x, float y);
 
 		void SetDirection(Direction direction);
 		void SetRotation(Rotation rotation);
@@ -27,12 +28,12 @@ class Shape
 		sf::Vector2i GetPosition();
 		ShapeType GetType();
 
-
 	private:
 		sf::Vector2i m_position;
-		sf::Vector2f m_origin;
 
-		std::vector<sf::Vector2i> m_blocks;
+		std::vector<Block> m_blocks;
+		int m_rotationIndex;
+
 		ShapeType m_type;
 
 		Grid m_grid;

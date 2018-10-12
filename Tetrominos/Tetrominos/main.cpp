@@ -40,7 +40,6 @@ int main()
 	Shape lander(ShapeType(rng.GetInt(1, 7)), grid);
 	lander.SetPosition(spawnX, spawnY);
 
-	bool spawnNewTetrimino = true;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -98,6 +97,7 @@ int main()
 			}
 
 			lander = Shape(ShapeType(rng.GetInt(1, 7)), grid);
+			lander.SetPosition(spawnX, spawnY);
 		}
 
 		lander.Update(0.0f);

@@ -2,7 +2,7 @@
 
 #include <iostream> // For debug purposes, remove later
 
-Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLanded(false)
+Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLanded(false), m_rotationIndex(0)
 {
 	const float blockSize = 16.0f;
 	
@@ -11,86 +11,256 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 	switch (type)
 	{
 		case ShapeType::I:
+		{
 			std::cout << "I Block" << std::endl;
 
-			m_origin = sf::Vector2f(2.0f, 2.0f);
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
-			m_blocks.emplace_back(sf::Vector2i(2, 1));
-			m_blocks.emplace_back(sf::Vector2i(3, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			block1.emplace_back(sf::Vector2i(2, 1));
+			block1.emplace_back(sf::Vector2i(3, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(2, 0));
+			block2.emplace_back(sf::Vector2i(2, 1));
+			block2.emplace_back(sf::Vector2i(2, 2));
+			block2.emplace_back(sf::Vector2i(2, 3));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 2));
+			block3.emplace_back(sf::Vector2i(1, 2));
+			block3.emplace_back(sf::Vector2i(2, 2));
+			block3.emplace_back(sf::Vector2i(3, 2));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(1, 2));
+			block4.emplace_back(sf::Vector2i(1, 3));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
 
 		case ShapeType::J:
+		{
 			std::cout << "J Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.5f, 1.5f);
-			m_blocks.emplace_back(sf::Vector2i(0, 0));
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
-			m_blocks.emplace_back(sf::Vector2i(2, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(0, 0));
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			block1.emplace_back(sf::Vector2i(2, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(1, 0));
+			block2.emplace_back(sf::Vector2i(2, 0));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			block2.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 1));
+			block3.emplace_back(sf::Vector2i(1, 1));
+			block3.emplace_back(sf::Vector2i(2, 1));
+			block3.emplace_back(sf::Vector2i(2, 2));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(1, 2));
+			block4.emplace_back(sf::Vector2i(0, 2));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
 
 		case ShapeType::L:
+		{
 			std::cout << "L Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.5f, 1.5f);
-			m_blocks.emplace_back(sf::Vector2i(2, 0));
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
-			m_blocks.emplace_back(sf::Vector2i(2, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			block1.emplace_back(sf::Vector2i(2, 1));
+			block1.emplace_back(sf::Vector2i(2, 0));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(1, 0));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			block2.emplace_back(sf::Vector2i(1, 2));
+			block2.emplace_back(sf::Vector2i(2, 2));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 1));
+			block3.emplace_back(sf::Vector2i(0, 2));
+			block3.emplace_back(sf::Vector2i(1, 1));
+			block3.emplace_back(sf::Vector2i(2, 1));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(0, 0));
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
 
 		case ShapeType::O:
+		{
 			std::cout << "O Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.0f, 1.0f);
-			m_blocks.emplace_back(sf::Vector2i(0, 0));
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 0));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(0, 0));
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 0));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(0, 0));
+			block2.emplace_back(sf::Vector2i(0, 1));
+			block2.emplace_back(sf::Vector2i(1, 0));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 0));
+			block3.emplace_back(sf::Vector2i(0, 1));
+			block3.emplace_back(sf::Vector2i(1, 0));
+			block3.emplace_back(sf::Vector2i(1, 1));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(0, 0));
+			block4.emplace_back(sf::Vector2i(0, 1));
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			m_blocks.emplace_back(block4);
+
 			break;
-		
+		}
+
 		case ShapeType::S:
+		{
 			std::cout << "S Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.5f, 1.5f);
-			m_blocks.emplace_back(sf::Vector2i(1, 0));
-			m_blocks.emplace_back(sf::Vector2i(2, 0));
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(1, 0));
+			block1.emplace_back(sf::Vector2i(2, 0));
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(0, 0));
+			block2.emplace_back(sf::Vector2i(0, 1));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			block2.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(1, 1));
+			block3.emplace_back(sf::Vector2i(2, 1));
+			block3.emplace_back(sf::Vector2i(0, 2));
+			block3.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(2, 1));
+			block4.emplace_back(sf::Vector2i(2, 2));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
 
 		case ShapeType::T:
+		{
 			std::cout << "T Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.5f, 1.5f);
-			m_blocks.emplace_back(sf::Vector2i(1, 0));
-			m_blocks.emplace_back(sf::Vector2i(0, 1));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
-			m_blocks.emplace_back(sf::Vector2i(2, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(1, 0));
+			block1.emplace_back(sf::Vector2i(0, 1));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			block1.emplace_back(sf::Vector2i(2, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(1, 0));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			block2.emplace_back(sf::Vector2i(1, 2));
+			block2.emplace_back(sf::Vector2i(2, 1));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 1));
+			block3.emplace_back(sf::Vector2i(1, 1));
+			block3.emplace_back(sf::Vector2i(2, 1));
+			block3.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(0, 1));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
 
 		case ShapeType::Z:
+		{
 			std::cout << "Z Block" << std::endl;
 
-			m_origin = sf::Vector2f(1.5f, 1.5f);
-			m_blocks.emplace_back(sf::Vector2i(0, 0));
-			m_blocks.emplace_back(sf::Vector2i(1, 0));
-			m_blocks.emplace_back(sf::Vector2i(1, 1));
-			m_blocks.emplace_back(sf::Vector2i(2, 1));
+			Block block1;
+			block1.emplace_back(sf::Vector2i(0, 0));
+			block1.emplace_back(sf::Vector2i(1, 0));
+			block1.emplace_back(sf::Vector2i(1, 1));
+			block1.emplace_back(sf::Vector2i(2, 1));
+			m_blocks.emplace_back(block1);
+
+			Block block2;
+			block2.emplace_back(sf::Vector2i(2, 0));
+			block2.emplace_back(sf::Vector2i(1, 1));
+			block2.emplace_back(sf::Vector2i(2, 1));
+			block2.emplace_back(sf::Vector2i(1, 2));
+			m_blocks.emplace_back(block2);
+
+			Block block3;
+			block3.emplace_back(sf::Vector2i(0, 1));
+			block3.emplace_back(sf::Vector2i(1, 1));
+			block3.emplace_back(sf::Vector2i(1, 2));
+			block3.emplace_back(sf::Vector2i(2, 2));
+			m_blocks.emplace_back(block3);
+
+			Block block4;
+			block4.emplace_back(sf::Vector2i(1, 0));
+			block4.emplace_back(sf::Vector2i(0, 1));
+			block4.emplace_back(sf::Vector2i(1, 1));
+			block4.emplace_back(sf::Vector2i(0, 2));
+			m_blocks.emplace_back(block4);
+
 			break;
+		}
+
 	}
 }
 
 void Shape::SetPosition(int x, int y)
 {
 	m_position = sf::Vector2i(x, y);
-}
-
-void Shape::SetOrigin(float x, float y)
-{
-	m_origin.x = x;
-	m_origin.y = y;
 }
 
 void Shape::SetDirection(Direction direction)
@@ -102,7 +272,7 @@ void Shape::SetDirection(Direction direction)
 		auto boundary = m_grid.GetGridZone();
 
 		// Block move if there is a potential collision
-		for (auto block : m_blocks)
+		for (auto block : m_blocks[m_rotationIndex])
 		{
 			int x = m_position.x + block.x;
 			int y = m_position.y + block.y;
@@ -116,6 +286,7 @@ void Shape::SetDirection(Direction direction)
 					if (x < 0 || m_grid.HasBlock(x, y))
 					{
 						m_direction = Direction::None;
+						return;
 					}
 					break;
 				}
@@ -126,6 +297,7 @@ void Shape::SetDirection(Direction direction)
 					if (x >= m_grid.GetGridZone().width / m_grid.GetCellSize() || m_grid.HasBlock(x, y))
 					{
 						m_direction = Direction::None;
+						return;
 					}
 					break;
 				}
@@ -136,6 +308,7 @@ void Shape::SetDirection(Direction direction)
 					if (y < 0 || m_grid.HasBlock(x, y))
 					{
 						m_direction = Direction::None;
+						return;
 					}
 
 					break;
@@ -148,6 +321,7 @@ void Shape::SetDirection(Direction direction)
 					{
 						m_hasLanded = true;
 						m_direction = Direction::None;
+						return;
 					}
 					break;
 				}
@@ -159,6 +333,40 @@ void Shape::SetDirection(Direction direction)
 void Shape::SetRotation(Rotation rotation)
 {
 	m_rotation = rotation;
+
+	//if (m_rotation != Rotation::None)
+	//{
+	//	Block shape;
+	//	if (m_rotation == Rotation::CW)
+	//	{
+	//		int index = m_rotationIndex - 1;
+	//		if (index < 0)
+	//		{
+	//			index = 3;
+	//		}
+
+	//		shape = m_blocks[index];
+	//	}
+	//	else if (m_rotation == Rotation::CCW)
+	//	{
+	//		int index = m_rotationIndex + 1;
+	//		if (index > 3)
+	//		{
+	//			index = 0;
+	//		}
+
+	//		shape = m_blocks[index];
+	//	}
+
+	//	for (auto block : shape)
+	//	{
+	//		if (m_grid.HasBlock(block.x, block.y))
+	//		{
+	//			m_rotation = Rotation::None;
+	//			return;
+	//		}
+	//	}
+	//}
 }
 
 void Shape::Update(float dt)
@@ -187,20 +395,24 @@ void Shape::Update(float dt)
 
 	if (m_rotation == Rotation::CW)
 	{
-		for (auto& block : m_blocks)
+		if (m_rotationIndex == 3)
 		{
-			int temp = block.x;
-			block.x = block.y;
-			block.y = temp;
+			m_rotationIndex = 0;
+		}
+		else
+		{
+			m_rotationIndex++;
 		}
 	}
 	else if (m_rotation == Rotation::CCW)
 	{
-		for (auto& block : m_blocks)
+		if (m_rotationIndex == 0)
 		{
-			int temp = block.x;
-			block.x = block.y;
-			block.y = temp;
+			m_rotationIndex = 3;
+		}
+		else
+		{
+			m_rotationIndex--;
 		}
 	}
 
@@ -245,7 +457,7 @@ void Shape::Draw(sf::RenderWindow& window)
 	int cellSize = m_grid.GetCellSize();
 
 	auto cell = sf::RectangleShape(sf::Vector2f(cellSize, cellSize));
-	for (auto block : m_blocks)
+	for (auto block : m_blocks[m_rotationIndex])
 	{
 		sf::Color color = m_grid.GetBlockColor(m_type);
 		cell.setFillColor(color);
@@ -272,7 +484,7 @@ bool Shape::HasLanded() const
 
 std::vector<sf::Vector2i> Shape::GetBlocks()
 {
-	return m_blocks;
+	return m_blocks[m_rotationIndex];
 }
 
 sf::Vector2i Shape::GetPosition()
