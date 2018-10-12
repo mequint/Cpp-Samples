@@ -100,6 +100,20 @@ int Grid::RemoveCompleteLines()
 
 		if (completeLine)
 		{
+			for (int k = i; k > 0; --k)
+			{
+				for (int l = 0; l < m_blockPile.size(); ++l)
+				{
+					int temp = m_blockPile[l][k];
+					m_blockPile[l][k] = m_blockPile[l][k - 1];
+					m_blockPile[l][k - 1] = temp;
+				}
+			}
+
+			for (int k = 0; k < m_blockPile.size(); ++k)
+			{
+				m_blockPile[k][0] = 0;
+			}
 			score++;
 		}
 	}
