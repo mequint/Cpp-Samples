@@ -79,3 +79,30 @@ sf::Color Grid::GetBlockColor(ShapeType type)
 
 	return sf::Color::Magenta;
 }
+
+int Grid::RemoveCompleteLines()
+{
+	int score = 0;
+	// We want to check every row...not column
+	int rows = m_blockPile[0].size();
+
+	for (int i = 0; i < rows; ++i)
+	{
+		bool completeLine = true;
+
+		for (int j = m_blockPile.size() - 1; j >= 0; --j)
+		{
+			if (!m_blockPile[j][i])
+			{
+				completeLine = false;
+			}
+		}
+
+		if (completeLine)
+		{
+			score++;
+		}
+	}
+
+	return score;
+}

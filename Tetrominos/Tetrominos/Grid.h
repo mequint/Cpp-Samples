@@ -22,6 +22,8 @@ class Grid
 
 		sf::Color GetBlockColor(ShapeType type);
 
+		int RemoveCompleteLines();
+
 	private:
 
 		sf::Vector2i m_position;

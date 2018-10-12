@@ -6,6 +6,8 @@
 #include "RandomGenerator.h"
 #include "Shape.h"
 
+#include <iostream>
+
 int main()
 {
 	/*
@@ -96,6 +98,8 @@ int main()
 				grid.AddBlock(col, row, type);
 			}
 
+			int score = grid.RemoveCompleteLines();
+			std::cout << "Points: " << score << std::endl;
 			lander = Shape(ShapeType(randomGenerator.GetNextInt()), grid);
 			lander.SetPosition(spawnX, spawnY);
 		}
