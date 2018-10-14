@@ -42,6 +42,15 @@ int main()
 	Shape lander(ShapeType(randomGenerator.GetNextInt()), grid);
 	lander.SetPosition(spawnX, spawnY);
 
+	sf::Clock clock;
+	sf::Time elapsedTime = clock.restart();
+
+	float currentFallTime = 0.0f;
+	float nextFallTime = 1.0f;
+
+	int lines = 0;
+	int speedUp = 10;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -86,6 +95,13 @@ int main()
 			}
 		}
 
+		currentFallTime += elapsedTime.asSeconds();
+		if (currentFallTime >= nextFallTime)
+		{
+			currentFallTime = 0.0f;
+			lander.SetDirection(Direction::Down);
+		}
+
 		if (lander.HasLanded())
 		{
 			sf::Vector2i landerPos = lander.GetPosition();
@@ -99,17 +115,29 @@ int main()
 			}
 
 			int score = grid.RemoveCompleteLines();
-			std::cout << "Points: " << score << std::endl;
+			lines += score;
+
+			if (lines > speedUp)
+			{
+				nextFallTime -= 0.1f;
+
+				speedUp += 10;
+				std::cout << "Speed Up!" << std::endl;
+			}
+
+			std::cout << "Points: " << score << " Lines: " << lines << std::endl;
 			lander = Shape(ShapeType(randomGenerator.GetNextInt()), grid);
 			lander.SetPosition(spawnX, spawnY);
 		}
 
-		lander.Update(0.0f);
+		lander.Update(elapsedTime.asSeconds());
 
 		window.clear(sf::Color::Black);
 		grid.Draw(window);
 		lander.Draw(window);
 		window.display();
+
+		elapsedTime = clock.restart();
 	}
 
 	return EXIT_SUCCESS;

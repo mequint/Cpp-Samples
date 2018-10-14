@@ -21,7 +21,6 @@ void Game::Update()
 void Game::Draw()
 {
 	m_window.BeginDraw();
-
 	m_window.EndDraw();
 }
 
@@ -35,7 +34,7 @@ sf::Time Game::GetElapsedtime()
 	return m_clock.getElapsedTime();
 }
 
-Window * Game::GetWindow()
+Window* Game::GetWindow()
 {
 	return &m_window;
 }
