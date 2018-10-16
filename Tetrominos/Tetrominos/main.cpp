@@ -2,12 +2,6 @@
 
 #include "Game.h"
 
-#include "Grid.h"
-#include "RandomGenerator.h"
-#include "Shape.h"
-
-#include <iostream>
-
 int main()
 {
 	
