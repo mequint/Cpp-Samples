@@ -1,8 +1,10 @@
 #pragma once
 
-#include "BaseState.h"
-#include "RandomGenerator.h"
+#include "Context.h"
+#include "StateManager.h"
 #include "Window.h"
+
+#include "RandomGenerator.h"
 
 class Game
 {
@@ -25,9 +27,7 @@ class Game
 		sf::Time m_elapsedTime;
 
 		// Contextual items
-		RandomGenerator m_randomGenerator;
+		Context m_context;
+		StateManager m_stateManager;
 		Window m_window;
-
-		// Add to state machine
-		BaseState* m_currentState;
 };

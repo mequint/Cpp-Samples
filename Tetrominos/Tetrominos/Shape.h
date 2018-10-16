@@ -12,6 +12,7 @@ using Block = std::vector<sf::Vector2i>;
 class Shape
 {
 	public:
+		Shape();
 		Shape(ShapeType type, Grid& grid);
 
 		void SetPosition(int x, int y);

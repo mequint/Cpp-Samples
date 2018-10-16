@@ -2,25 +2,29 @@
 
 #include "State_Game.h"
 
-Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_currentState(nullptr), m_randomGenerator(7)
+Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_stateManager(&m_context)
 {
 	m_clock.restart();
-	m_currentState = new State_Game();
-	m_currentState->Activate();
+
+	m_context.m_window = &m_window;
+	
+	m_stateManager.ChangeState(StateType::Game);
 }
 
 Game::~Game() {}
 
 void Game::Update()
 {
-	m_window.Update();
+	m_stateManager.HandleEvents();
 
-	m_currentState->Update(m_elapsedTime);
+	m_window.Update();
+	m_stateManager.Update(m_elapsedTime);
 }
 
 void Game::Draw()
 {
 	m_window.BeginDraw();
+	m_stateManager.Draw();
 	m_window.EndDraw();
 }
 

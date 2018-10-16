@@ -8,6 +8,7 @@
 class Grid
 {
 	public:
+		Grid();
 		Grid(int columns, int rows, int posX, int posY, int cellSize);
 
 		void Draw(sf::RenderWindow& renderWindow);

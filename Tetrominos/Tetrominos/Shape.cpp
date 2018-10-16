@@ -2,6 +2,8 @@
 
 #include <iostream> // For debug purposes, remove later
 
+Shape::Shape() {}
+
 Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLanded(false), m_rotationIndex(0)
 {
 	const float blockSize = 16.0f;

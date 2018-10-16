@@ -18,6 +18,8 @@ class Window
 
 		sf::RenderWindow* GetRenderWindow();
 
+		void Close();
+
 	private:
 		sf::RenderWindow m_window;
 

@@ -3,6 +3,8 @@
 #include <unordered_map>
 
 
+Grid::Grid() {}
+
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
 	m_visible(true), m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0))
 {
