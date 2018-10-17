@@ -32,7 +32,10 @@ void Grid::Draw(sf::RenderWindow& renderWindow)
 			else
 			{
 				cell.setFillColor(sf::Color::Transparent);
-				cell.setOutlineColor(sf::Color::White);
+
+				sf::Color outlineColor = sf::Color::White;
+				outlineColor.a = 3 * outlineColor.a / 5;
+				cell.setOutlineColor(outlineColor);
 			}
 			cell.setOutlineThickness(-1.0f);
 			cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize));
