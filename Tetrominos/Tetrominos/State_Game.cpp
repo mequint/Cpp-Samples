@@ -8,7 +8,6 @@ State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 {
 	m_blockSize = 16;
 	m_grid = Grid(10, 20, 320, 160, 16);
-	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
 
 	m_spawnX = 5;
 	m_spawnY = 2;
@@ -26,6 +25,22 @@ State_Game::~State_Game()
 
 void State_Game::Create()
 {
+	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
+	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
+	m_font.loadFromFile("arial.ttf");
+
+	std::string text = "Hold";
+	m_holdBox = ShapeBox(m_font, text, 16);
+	m_holdBox.SetPosition(sf::Vector2f(220, 160));
+	m_holdBox.SetRectangle(80, 80);
+
+	text = "Next";
+	m_nextBox = ShapeBox(m_font, text, 16);	
+	m_nextBox.SetPosition(sf::Vector2f(500, 160));
+	m_nextBox.SetRectangle(80, 80);
+
+	m_linesBox = TextBox(m_font, 16);
+	m_linesBox.SetPosition(sf::Vector2f(375, 130)); 
 }
 
 void State_Game::Destroy()
@@ -121,14 +136,26 @@ void State_Game::Update(const sf::Time & time)
 
 		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
 		m_lander.SetPosition(m_spawnX, m_spawnY);
+
+		// TODO: This code was buggy - left ghost blocks in the grid
+		//m_lander = m_next;
+		//m_lander.SetPosition(m_spawnX, m_spawnY);
+		//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
+		//m_nextBox.SetShape(&m_next);
 	}
 
 	m_lander.Update(time.asSeconds());
+
+	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
 }
 
 void State_Game::Draw()
 {
 	auto renderWindow = m_stateManager->GetContext()->m_window->GetRenderWindow();
+
+	m_linesBox.Draw(*renderWindow);
+	m_holdBox.Draw(*renderWindow);
+	m_nextBox.Draw(*renderWindow);
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
 }

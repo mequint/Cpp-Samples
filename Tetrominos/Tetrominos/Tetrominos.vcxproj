@@ -24,8 +24,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="State_Game.cpp" />
+    <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,9 +38,11 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeBox.h" />
     <ClInclude Include="ShapeType.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="State_Game.h" />
+    <ClInclude Include="TextBox.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

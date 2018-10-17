@@ -4,8 +4,10 @@
 
 Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_stateManager(&m_context)
 {
+	// Start the clock
 	m_clock.restart();
 
+	// Setup context
 	m_context.m_window = &m_window;
 	
 	m_stateManager.ChangeState(StateType::Game);

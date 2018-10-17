@@ -5,6 +5,8 @@
 #include "Grid.h"
 #include "RandomGenerator.h"
 #include "Shape.h"
+#include "ShapeBox.h"
+#include "TextBox.h"
 
 class State_Game : public BaseState
 {
@@ -25,10 +27,20 @@ class State_Game : public BaseState
 	private:
 		RandomGenerator m_randomGenerator;
 
+		// Resources
+		sf::Font m_font;
+
+		// User Interface
+		ShapeBox m_holdBox;
+		ShapeBox m_nextBox;
+		TextBox m_linesBox;
+
+		// Game variables
 		int m_blockSize;
 
 		Grid m_grid;
 		Shape m_lander;
+		Shape m_next;
 
 		int m_spawnX, m_spawnY;
 
