@@ -6,7 +6,7 @@
 
 Shape::Shape() {}
 
-Shape::Shape(ShapeType type, sf::Vector2f referencePoint) : m_type(type), m_referencePoint(referencePoint), m_hasLanded(false), m_rotationIndex(0), m_blockSize(16.0f)
+Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false), m_rotationIndex(0), m_blockSize(blockSize)
 {	
 	switch (type)
 	{
@@ -331,6 +331,11 @@ void Shape::Draw(sf::RenderWindow& window)
 
 // ***** Accessors / Mutators ***** //
 
+void Shape::SetReferencePoint(sf::Vector2f referencePoint)
+{
+	m_referencePoint = referencePoint;
+}
+
 void Shape::SetCellPosition(int x, int y)
 {
 	m_cellPosition = sf::Vector2i(x, y);
@@ -386,4 +391,9 @@ Movement Shape::GetMovement()
 ShapeType Shape::GetType()
 {
 	return m_type;
+}
+
+float Shape::GetBlockSize()
+{
+	return m_blockSize;
 }

@@ -17,9 +17,5 @@ int main()
 }
 
 // TODO
-// -Bug: The Shape draw only works in context of the Grid.  Make it work outside of the grid context.
-// -Make the Shape appear into the Next box
-// -Move the Shape to grid once the last one landed
 // -Add a Score textbox
 // -Add a Level textbox
-// -Fine tune the drop speed per level

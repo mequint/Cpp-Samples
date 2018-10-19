@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 
-#include "Grid.h"
 #include "Movement.h"
 #include "ShapeType.h"
 
@@ -13,11 +12,12 @@ class Shape
 {
 	public:
 		Shape();
-		Shape(ShapeType type, sf::Vector2f m_referencePoint);
+		Shape(ShapeType type, float blockSize);
 
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);
 
+		void SetReferencePoint(sf::Vector2f referencePoint);
 		void SetCellPosition(int x, int y);
 		void SetMovement(Movement movement);
 		void SetLanded(bool landed);
@@ -28,6 +28,7 @@ class Shape
 		sf::Vector2i GetCellPosition();
 		Movement GetMovement();
 		ShapeType GetType();
+		float GetBlockSize();
 
 	private:
 		sf::Vector2i m_cellPosition;

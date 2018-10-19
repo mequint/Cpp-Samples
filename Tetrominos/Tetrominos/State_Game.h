@@ -36,7 +36,7 @@ class State_Game : public BaseState
 		TextBox m_linesBox;
 
 		// Game variables
-		int m_blockSize;
+		float m_blockSize;
 
 		Grid m_grid;
 		Shape m_lander;

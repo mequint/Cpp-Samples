@@ -6,7 +6,7 @@
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 	m_randomGenerator((int)ShapeType::Z)
 {
-	m_blockSize = 16;
+	m_blockSize = 16.0f;
 	m_grid = Grid(10, 20, 320, 160, 16);
 
 	m_spawnX = 5;
@@ -28,22 +28,20 @@ void State_Game::Create()
 	m_font.loadFromFile("arial.ttf");
 
 	std::string text = "Hold";
-	m_holdBox = ShapeBox(m_font, text, 16);
-	m_holdBox.SetPosition(sf::Vector2f(220, 160));
-	m_holdBox.SetRectangle(80, 80);
+	m_holdBox = ShapeBox(m_font, 16, sf::Vector2f(220, 160), sf::Vector2f(80,80), text);
 
 	text = "Next";
-	m_nextBox = ShapeBox(m_font, text, 16);	
-	m_nextBox.SetPosition(sf::Vector2f(500, 160));
-	m_nextBox.SetRectangle(80, 80);
+	m_nextBox = ShapeBox(m_font, 16, sf::Vector2f(500, 160), sf::Vector2f(80, 80), text);	
 
 	m_linesBox = TextBox(m_font, 16);
 	m_linesBox.SetPosition(sf::Vector2f(375, 130)); 
 
-	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid.GetPosition());
+	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	m_lander.SetReferencePoint(m_grid.GetPosition());
 	m_lander.SetCellPosition(m_spawnX, m_spawnY);
 
-	//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_nextBox.GetPosition());
+	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	m_nextBox.SetShape(&m_next);
 }
 
 void State_Game::Destroy()
@@ -129,25 +127,28 @@ void State_Game::Update(const sf::Time & time)
 			m_grid.AddBlock(col, row, type);
 		}
 
-		int score = m_grid.RemoveCompleteLines();
-		m_lines += score;
+		int linesRemoved = m_grid.RemoveCompleteLines();
+		m_lines += linesRemoved;
 
+		// Update the fall time
 		if (m_lines > m_speedUp)
 		{
-			// TODO: Fine tune this one
-			m_nextFallTime -= 0.1f;
+			m_nextFallTime -= 0.9f;
 
 			m_speedUp += 10;
+
+			if (m_nextFallTime < 0.05f)
+			{
+				m_nextFallTime = 0.05f;
+			}
 		}
 
-		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid.GetPosition());
+		m_lander = m_next;
+		m_lander.SetReferencePoint(m_grid.GetPosition());
 		m_lander.SetCellPosition(m_spawnX, m_spawnY);
 
-		//m_lander = m_next;
-		//m_lander.SetCellPosition(m_spawnX, m_spawnY);
-
-		//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_nextBox.GetPosition());
-		//m_nextBox.SetShape(&m_next);
+		m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+		m_nextBox.SetShape(&m_next);
 	}
 
 	m_lander.Update(time.asSeconds());
