@@ -256,13 +256,12 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 
 			break;
 		}
-
 	}
 }
 
-void Shape::SetPosition(int x, int y)
+void Shape::SetCellPosition(int x, int y)
 {
-	m_position = sf::Vector2i(x, y);
+	m_cellPosition = sf::Vector2i(x, y);
 }
 
 void Shape::SetDirection(Direction direction)
@@ -276,8 +275,8 @@ void Shape::SetDirection(Direction direction)
 		// Block move if there is a potential collision
 		for (auto block : m_blocks[m_rotationIndex])
 		{
-			int x = m_position.x + block.x;
-			int y = m_position.y + block.y;
+			int x = m_cellPosition.x + block.x;
+			int y = m_cellPosition.y + block.y;
 
 			switch (m_direction)
 			{
@@ -362,8 +361,8 @@ void Shape::SetRotation(Rotation rotation)
 
 		for (auto block : shape)
 		{
-			int x = m_position.x + block.x;
-			int y = m_position.y + block.y;
+			int x = m_cellPosition.x + block.x;
+			int y = m_cellPosition.y + block.y;
 
 			bool outOfBounds = x < 0 || x >= m_grid.GetGridZone().width / m_grid.GetCellSize() ||
 				y < 0 || y >= m_grid.GetGridZone().height / m_grid.GetCellSize();
@@ -384,19 +383,19 @@ void Shape::Update(float dt)
 		switch (m_direction)
 		{
 			case Direction::Left:
-				m_position.x -= 1;
+				m_cellPosition.x -= 1;
 				break;
 
 			case Direction::Right:
-				m_position.x += 1;
+				m_cellPosition.x += 1;
 				break;
 
 			case Direction::Up:
-				m_position.y -= 1;
+				m_cellPosition.y -= 1;
 				break;
 
 			case Direction::Down:
-				m_position.y += 1;
+				m_cellPosition.y += 1;
 				break;
 		}
 	}
@@ -424,37 +423,6 @@ void Shape::Update(float dt)
 		}
 	}
 
-	//for (auto& block : m_blocks)
-	//{
-	//	if (m_rotation != Rotation::None)
-	//	{
-	//		// Screen to Local Space
-	//		float localX = m_position.x - block.GetPosition().x + m_origin.x;
-	//		float localY = m_position.y - block.GetPosition().y + m_origin.y;
-
-	//		float x1 = -localY;
-	//		float y1 = localX;
-
-	//		float newX = -localY + m_position.x + m_origin.x;
-	//		float newY = localX + m_position.y + m_origin.y;
-	//		block.SetPosition(newX, newY);
-	//		
-	//		/*
-	//		block.SetPosition(block.GetPosition().x + m_position.x + m_origin.x,
-	//			block.GetPosition().y + m_position.y + m_origin.y);
-	//		*/
-
-	//		/*
-	//		std::cout <<
-	//			"(" << block.GetPosition().x << "," << block.GetPosition().y << ") -> " <<
-	//			"(" << localX << "," << localY << ")" << std::endl;
-	//		*/
-	//	}
-	//}
-
-	//if (m_rotation != Rotation::None)
-	//	std::cout << std::endl;
-
 	SetRotation(Rotation::None);
 	SetDirection(Direction::None);
 }
@@ -478,8 +446,8 @@ void Shape::Draw(sf::RenderWindow& window)
 
 		cell.setOutlineThickness(-1.0f);
 		cell.setPosition(
-			gridZone.left + (m_position.x + block.x) * cellSize,
-			gridZone.top + (m_position.y + block.y) * cellSize);
+			gridZone.left + (m_cellPosition.x + block.x) * cellSize,
+			gridZone.top + (m_cellPosition.y + block.y) * cellSize);
 
 		window.draw(cell);
 	}
@@ -497,7 +465,7 @@ std::vector<sf::Vector2i> Shape::GetBlocks()
 
 sf::Vector2i Shape::GetPosition()
 {
-	return m_position;
+	return m_cellPosition;
 }
 
 ShapeType Shape::GetType()

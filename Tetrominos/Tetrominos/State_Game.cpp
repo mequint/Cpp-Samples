@@ -75,10 +75,10 @@ void State_Game::HandleEvents()
 		{
 			m_lander.SetDirection(Direction::Right);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			m_lander.SetDirection(Direction::Up);
-		}
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		//{
+		//	m_lander.SetDirection(Direction::Up);
+		//}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 			m_lander.SetDirection(Direction::Down);
@@ -135,7 +135,7 @@ void State_Game::Update(const sf::Time & time)
 		}
 
 		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
-		m_lander.SetPosition(m_spawnX, m_spawnY);
+		m_lander.SetCellPosition(m_spawnX, m_spawnY);
 
 		// TODO: This code was buggy - left ghost blocks in the grid
 		//m_lander = m_next;

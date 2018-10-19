@@ -15,8 +15,7 @@ class Shape
 		Shape();
 		Shape(ShapeType type, Grid& grid);
 
-		void SetPosition(int x, int y);
-
+		void SetCellPosition(int x, int y);
 		void SetDirection(Direction direction);
 		void SetRotation(Rotation rotation);
 
@@ -30,7 +29,7 @@ class Shape
 		ShapeType GetType();
 
 	private:
-		sf::Vector2i m_position;
+		sf::Vector2i m_cellPosition;
 
 		std::vector<Block> m_blocks;
 		int m_rotationIndex;

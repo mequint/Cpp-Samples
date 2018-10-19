@@ -36,4 +36,6 @@ void ShapeBox::Draw(sf::RenderWindow & window)
 	window.draw(m_rectangle);
 	window.draw(m_titleText);
 	if (m_shape == nullptr) return;
+
+	//m_shape->Draw(window);
 }
