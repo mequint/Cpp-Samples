@@ -4,42 +4,43 @@
 #include <unordered_map>
 
 #include "Grid.h"
-#include "Direction.h"
+#include "Movement.h"
 #include "ShapeType.h"
 
-using Block = std::vector<sf::Vector2i>;
+using Blocks = std::vector<sf::Vector2i>;
 
 class Shape
 {
 	public:
 		Shape();
-		Shape(ShapeType type, Grid& grid);
-
-		void SetCellPosition(int x, int y);
-		void SetDirection(Direction direction);
-		void SetRotation(Rotation rotation);
+		Shape(ShapeType type, sf::Vector2f m_referencePoint);
 
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);
 
-		bool HasLanded() const;
+		void SetCellPosition(int x, int y);
+		void SetMovement(Movement movement);
+		void SetLanded(bool landed);
 
-		std::vector<sf::Vector2i> GetBlocks();
-		sf::Vector2i GetPosition();
+		bool HasLanded() const;
+		Blocks GetBlocks();
+		Blocks GetNextRotation(Movement rotation);
+		sf::Vector2i GetCellPosition();
+		Movement GetMovement();
 		ShapeType GetType();
 
 	private:
 		sf::Vector2i m_cellPosition;
+		float m_blockSize;
 
-		std::vector<Block> m_blocks;
+		std::vector<Blocks> m_blocks;
 		int m_rotationIndex;
 
 		ShapeType m_type;
 
-		Grid m_grid;
+		sf::Vector2f m_referencePoint;
 
-		Direction m_direction;
-		Rotation m_rotation;
+		Movement m_movement;
 
 		bool m_hasLanded;
 };

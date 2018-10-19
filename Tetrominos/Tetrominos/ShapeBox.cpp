@@ -31,6 +31,11 @@ void ShapeBox::SetShape(Shape* shape)
 	m_shape = shape;
 }
 
+sf::Vector2f ShapeBox::GetPosition()
+{
+	return m_position;
+}
+
 void ShapeBox::Draw(sf::RenderWindow & window)
 {
 	window.draw(m_rectangle);

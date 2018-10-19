@@ -2,12 +2,100 @@
 
 #include <unordered_map>
 
+#include "Shape.h"
 
 Grid::Grid() {}
 
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
 	m_visible(true), m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0))
 {
+}
+
+void Grid::CheckCollisions(Shape& shape)
+{
+	auto cellPos = shape.GetCellPosition();
+	auto movement = shape.GetMovement();
+
+	if (movement != Movement::None)
+	{
+		for (auto block : shape.GetBlocks())
+		{
+			int x = cellPos.x + block.x;
+			int y = cellPos.y + block.y;
+
+			switch (movement)
+			{
+				case Movement::Left:
+				{
+					x--;
+
+					if (x < 0 || HasBlock(x, y))
+					{
+						shape.SetMovement(Movement::None);
+						return;
+					}
+					break;
+				}
+
+				case Movement::Right:
+				{
+					x++;
+
+					if (x >= m_columns || HasBlock(x, y))
+					{
+						shape.SetMovement(Movement::None);
+						return;
+					}
+					break;
+				}
+
+				// TODO: Remove...will not need
+				case Movement::Up:
+				{
+					y--;
+					if (y < 0 || HasBlock(x, y))
+					{
+						shape.SetMovement(Movement::None);
+						return;
+					}
+					break;
+				}
+
+				case Movement::Down:
+				{
+					y++;
+					if (y >= m_rows || HasBlock(x, y))
+					{
+						shape.SetMovement(Movement::None);
+						shape.SetLanded(true);
+						return;
+					}
+					break;
+				}
+
+				case Movement::CW:
+				case Movement::CCW:
+				{
+					Blocks blocks = shape.GetNextRotation(movement);
+
+					for (auto block : blocks)
+					{
+						int x = cellPos.x + block.x;
+						int y = cellPos.y + block.y;
+
+						bool outOfBounds = (x < 0 || x >= m_columns) || (y < 0 || y >= m_rows * m_cellSize);
+
+						if (outOfBounds || HasBlock(block.x, block.y))
+						{
+							shape.SetMovement(Movement::None);
+							return;
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Grid::Draw(sf::RenderWindow& renderWindow)
@@ -83,6 +171,11 @@ sf::Color Grid::GetBlockColor(ShapeType type)
 	}
 
 	return sf::Color::Magenta;
+}
+
+sf::Vector2f Grid::GetPosition()
+{
+	return m_position;
 }
 
 int Grid::RemoveCompleteLines()

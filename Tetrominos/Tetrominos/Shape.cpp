@@ -2,42 +2,40 @@
 
 #include <iostream> // For debug purposes, remove later
 
+#include "BlockHelper.h"
+
 Shape::Shape() {}
 
-Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLanded(false), m_rotationIndex(0)
-{
-	const float blockSize = 16.0f;
-	
-	sf::Color color = m_grid.GetBlockColor(type);
-	
+Shape::Shape(ShapeType type, sf::Vector2f referencePoint) : m_type(type), m_referencePoint(referencePoint), m_hasLanded(false), m_rotationIndex(0), m_blockSize(16.0f)
+{	
 	switch (type)
 	{
 		case ShapeType::I:
 		{
 			std::cout << "I Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			block1.emplace_back(sf::Vector2i(2, 1));
 			block1.emplace_back(sf::Vector2i(3, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(2, 0));
 			block2.emplace_back(sf::Vector2i(2, 1));
 			block2.emplace_back(sf::Vector2i(2, 2));
 			block2.emplace_back(sf::Vector2i(2, 3));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 2));
 			block3.emplace_back(sf::Vector2i(1, 2));
 			block3.emplace_back(sf::Vector2i(2, 2));
 			block3.emplace_back(sf::Vector2i(3, 2));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(1, 1));
 			block4.emplace_back(sf::Vector2i(1, 2));
@@ -51,28 +49,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "J Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			block1.emplace_back(sf::Vector2i(2, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(1, 0));
 			block2.emplace_back(sf::Vector2i(2, 0));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			block2.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 1));
 			block3.emplace_back(sf::Vector2i(1, 1));
 			block3.emplace_back(sf::Vector2i(2, 1));
 			block3.emplace_back(sf::Vector2i(2, 2));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(1, 1));
 			block4.emplace_back(sf::Vector2i(1, 2));
@@ -86,28 +84,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "L Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			block1.emplace_back(sf::Vector2i(2, 1));
 			block1.emplace_back(sf::Vector2i(2, 0));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(1, 0));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			block2.emplace_back(sf::Vector2i(1, 2));
 			block2.emplace_back(sf::Vector2i(2, 2));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 1));
 			block3.emplace_back(sf::Vector2i(0, 2));
 			block3.emplace_back(sf::Vector2i(1, 1));
 			block3.emplace_back(sf::Vector2i(2, 1));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(0, 0));
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(1, 1));
@@ -121,28 +119,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "O Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(0, 0));
 			block2.emplace_back(sf::Vector2i(0, 1));
 			block2.emplace_back(sf::Vector2i(1, 0));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 0));
 			block3.emplace_back(sf::Vector2i(0, 1));
 			block3.emplace_back(sf::Vector2i(1, 0));
 			block3.emplace_back(sf::Vector2i(1, 1));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(0, 0));
 			block4.emplace_back(sf::Vector2i(0, 1));
 			block4.emplace_back(sf::Vector2i(1, 0));
@@ -156,28 +154,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "S Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(2, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(0, 0));
 			block2.emplace_back(sf::Vector2i(0, 1));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			block2.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(1, 1));
 			block3.emplace_back(sf::Vector2i(2, 1));
 			block3.emplace_back(sf::Vector2i(0, 2));
 			block3.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(1, 1));
 			block4.emplace_back(sf::Vector2i(2, 1));
@@ -191,28 +189,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "T Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			block1.emplace_back(sf::Vector2i(2, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(1, 0));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			block2.emplace_back(sf::Vector2i(1, 2));
 			block2.emplace_back(sf::Vector2i(2, 1));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 1));
 			block3.emplace_back(sf::Vector2i(1, 1));
 			block3.emplace_back(sf::Vector2i(2, 1));
 			block3.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(0, 1));
 			block4.emplace_back(sf::Vector2i(1, 1));
@@ -226,28 +224,28 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 		{
 			std::cout << "Z Block" << std::endl;
 
-			Block block1;
+			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(1, 1));
 			block1.emplace_back(sf::Vector2i(2, 1));
 			m_blocks.emplace_back(block1);
 
-			Block block2;
+			Blocks block2;
 			block2.emplace_back(sf::Vector2i(2, 0));
 			block2.emplace_back(sf::Vector2i(1, 1));
 			block2.emplace_back(sf::Vector2i(2, 1));
 			block2.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block2);
 
-			Block block3;
+			Blocks block3;
 			block3.emplace_back(sf::Vector2i(0, 1));
 			block3.emplace_back(sf::Vector2i(1, 1));
 			block3.emplace_back(sf::Vector2i(1, 2));
 			block3.emplace_back(sf::Vector2i(2, 2));
 			m_blocks.emplace_back(block3);
 
-			Block block4;
+			Blocks block4;
 			block4.emplace_back(sf::Vector2i(1, 0));
 			block4.emplace_back(sf::Vector2i(0, 1));
 			block4.emplace_back(sf::Vector2i(1, 1));
@@ -259,183 +257,61 @@ Shape::Shape(ShapeType type, Grid& grid) : m_type(type), m_grid(grid), m_hasLand
 	}
 }
 
-void Shape::SetCellPosition(int x, int y)
-{
-	m_cellPosition = sf::Vector2i(x, y);
-}
-
-void Shape::SetDirection(Direction direction)
-{
-	m_direction = direction;
-
-	if (direction != Direction::None)
-	{
-		auto boundary = m_grid.GetGridZone();
-
-		// Block move if there is a potential collision
-		for (auto block : m_blocks[m_rotationIndex])
-		{
-			int x = m_cellPosition.x + block.x;
-			int y = m_cellPosition.y + block.y;
-
-			switch (m_direction)
-			{
-				case Direction::Left:
-				{
-					x--;
-
-					if (x < 0 || m_grid.HasBlock(x, y))
-					{
-						m_direction = Direction::None;
-						return;
-					}
-					break;
-				}
-
-				case Direction::Right:
-				{
-					x++;
-					if (x >= m_grid.GetGridZone().width / m_grid.GetCellSize() || m_grid.HasBlock(x, y))
-					{
-						m_direction = Direction::None;
-						return;
-					}
-					break;
-				}
-
-				case Direction::Up:
-				{
-					y--;
-					if (y < 0 || m_grid.HasBlock(x, y))
-					{
-						m_direction = Direction::None;
-						return;
-					}
-
-					break;
-				}
-
-				case Direction::Down:
-				{
-					y++;
-					if (y >= m_grid.GetGridZone().height / m_grid.GetCellSize() || m_grid.HasBlock(x, y))
-					{
-						m_hasLanded = true;
-						m_direction = Direction::None;
-						return;
-					}
-					break;
-				}
-			}
-		}
-	}
-}
-
-void Shape::SetRotation(Rotation rotation)
-{
-	m_rotation = rotation;
-
-	if (m_rotation != Rotation::None)
-	{
-		Block shape;
-		if (m_rotation == Rotation::CW)
-		{
-			int index = m_rotationIndex - 1;
-			if (index < 0)
-			{
-				index = 3;
-			}
-
-			shape = m_blocks[index];
-		}
-		else if (m_rotation == Rotation::CCW)
-		{
-			int index = m_rotationIndex + 1;
-			if (index > 3)
-			{
-				index = 0;
-			}
-
-			shape = m_blocks[index];
-		}
-
-		for (auto block : shape)
-		{
-			int x = m_cellPosition.x + block.x;
-			int y = m_cellPosition.y + block.y;
-
-			bool outOfBounds = x < 0 || x >= m_grid.GetGridZone().width / m_grid.GetCellSize() ||
-				y < 0 || y >= m_grid.GetGridZone().height / m_grid.GetCellSize();
-
-			if (outOfBounds || m_grid.HasBlock(block.x, block.y))
-			{
-				m_rotation = Rotation::None;
-				return;
-			}
-		}
-	}
-}
-
 void Shape::Update(float dt)
 {
-	if (m_direction != Direction::None)
+	if (m_movement != Movement::None)
 	{
-		switch (m_direction)
+		switch (m_movement)
 		{
-			case Direction::Left:
+			case Movement::Left:
 				m_cellPosition.x -= 1;
 				break;
 
-			case Direction::Right:
+			case Movement::Right:
 				m_cellPosition.x += 1;
 				break;
 
-			case Direction::Up:
+			case Movement::Up:
 				m_cellPosition.y -= 1;
 				break;
 
-			case Direction::Down:
+			case Movement::Down:
 				m_cellPosition.y += 1;
 				break;
-		}
-	}
 
-	if (m_rotation == Rotation::CW)
-	{
-		if (m_rotationIndex == 3)
-		{
-			m_rotationIndex = 0;
-		}
-		else
-		{
-			m_rotationIndex++;
-		}
-	}
-	else if (m_rotation == Rotation::CCW)
-	{
-		if (m_rotationIndex == 0)
-		{
-			m_rotationIndex = 3;
-		}
-		else
-		{
-			m_rotationIndex--;
-		}
-	}
+			case Movement::CW:
+				if (m_rotationIndex == 3)
+				{
+					m_rotationIndex = 0;
+				}
+				else
+				{
+					m_rotationIndex++;
+				}
+				break;
 
-	SetRotation(Rotation::None);
-	SetDirection(Direction::None);
+			case Movement::CCW:
+				if (m_rotationIndex == 0)
+				{
+					m_rotationIndex = 3;
+				}
+				else
+				{
+					m_rotationIndex--;
+				}
+				break;
+		}
+
+		m_movement = Movement::None;
+	}
 }
 
 void Shape::Draw(sf::RenderWindow& window)
 {
-	auto gridZone = m_grid.GetGridZone();
-	int cellSize = m_grid.GetCellSize();
-
-	auto cell = sf::RectangleShape(sf::Vector2f(cellSize, cellSize));
+	auto cell = sf::RectangleShape(sf::Vector2f(m_blockSize, m_blockSize));
 	for (auto block : m_blocks[m_rotationIndex])
 	{
-		sf::Color color = m_grid.GetBlockColor(m_type);
+		sf::Color color = BlockHelper::GetBlockColor(m_type);
 		cell.setFillColor(color);
 
 		sf::Color outlineColor = color;
@@ -446,11 +322,28 @@ void Shape::Draw(sf::RenderWindow& window)
 
 		cell.setOutlineThickness(-1.0f);
 		cell.setPosition(
-			gridZone.left + (m_cellPosition.x + block.x) * cellSize,
-			gridZone.top + (m_cellPosition.y + block.y) * cellSize);
+			m_referencePoint.x + (m_cellPosition.x + block.x) * m_blockSize,
+			m_referencePoint.y + (m_cellPosition.y + block.y) * m_blockSize);
 
 		window.draw(cell);
 	}
+}
+
+// ***** Accessors / Mutators ***** //
+
+void Shape::SetCellPosition(int x, int y)
+{
+	m_cellPosition = sf::Vector2i(x, y);
+}
+
+void Shape::SetMovement(Movement movement)
+{
+	m_movement = movement;
+}
+
+void Shape::SetLanded(bool landed)
+{
+	m_hasLanded = landed;
 }
 
 bool Shape::HasLanded() const
@@ -458,14 +351,36 @@ bool Shape::HasLanded() const
 	return m_hasLanded;
 }
 
-std::vector<sf::Vector2i> Shape::GetBlocks()
+Blocks Shape::GetBlocks()
 {
 	return m_blocks[m_rotationIndex];
 }
 
-sf::Vector2i Shape::GetPosition()
+Blocks Shape::GetNextRotation(Movement rotation)
+{
+	int index = m_rotationIndex;
+	if (rotation == Movement::CW)
+	{
+		index--;
+		if (index < 0) index = 3;
+	}
+	else if (rotation == Movement::CCW)
+	{
+		index++;
+		if (index > 3) index = 0;
+	}
+
+	return m_blocks[index];
+}
+
+sf::Vector2i Shape::GetCellPosition()
 {
 	return m_cellPosition;
+}
+
+Movement Shape::GetMovement()
+{
+	return m_movement;
 }
 
 ShapeType Shape::GetType()

@@ -5,11 +5,15 @@
 
 #include "ShapeType.h"
 
+class Shape;				/// Will need to add later...once the inversion is complete
+
 class Grid
 {
 	public:
 		Grid();
 		Grid(int columns, int rows, int posX, int posY, int cellSize);
+
+		void CheckCollisions(Shape& shape);
 
 		void Draw(sf::RenderWindow& renderWindow);
 
@@ -22,12 +26,13 @@ class Grid
 		bool HasBlock(int col, int row);
 
 		sf::Color GetBlockColor(ShapeType type);
+		sf::Vector2f GetPosition();
 
 		int RemoveCompleteLines();
 
 	private:
 
-		sf::Vector2i m_position;
+		sf::Vector2f m_position;
 		int m_cellSize;
 
 		std::vector<std::vector<int>> m_blockPile;

@@ -25,8 +25,6 @@ State_Game::~State_Game()
 
 void State_Game::Create()
 {
-	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
-	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
 	m_font.loadFromFile("arial.ttf");
 
 	std::string text = "Hold";
@@ -41,6 +39,11 @@ void State_Game::Create()
 
 	m_linesBox = TextBox(m_font, 16);
 	m_linesBox.SetPosition(sf::Vector2f(375, 130)); 
+
+	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid.GetPosition());
+	m_lander.SetCellPosition(m_spawnX, m_spawnY);
+
+	//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_nextBox.GetPosition());
 }
 
 void State_Game::Destroy()
@@ -69,27 +72,27 @@ void State_Game::HandleEvents()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			m_lander.SetDirection(Direction::Left);
+			m_lander.SetMovement(Movement::Left);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			m_lander.SetDirection(Direction::Right);
+			m_lander.SetMovement(Movement::Right);
 		}
 		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		//{
-		//	m_lander.SetDirection(Direction::Up);
+		//	m_lander.SetMovement(Movement::Up);
 		//}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			m_lander.SetDirection(Direction::Down);
+			m_lander.SetMovement(Movement::Down);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
 		{
-			m_lander.SetRotation(Rotation::CCW);
+			m_lander.SetMovement(Movement::CCW);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
 		{
-			m_lander.SetRotation(Rotation::CW);
+			m_lander.SetMovement(Movement::CW);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
@@ -104,16 +107,19 @@ void State_Game::HandleEvents()
 
 void State_Game::Update(const sf::Time & time)
 {
+	// This will replace the current movement...might want to consider collecting moves...
 	m_currentFallTime += time.asSeconds();
 	if (m_currentFallTime >= m_nextFallTime)
 	{
 		m_currentFallTime = 0.0f;
-		m_lander.SetDirection(Direction::Down);
+		m_lander.SetMovement(Movement::Down);
 	}
+
+	m_grid.CheckCollisions(m_lander);
 
 	if (m_lander.HasLanded())
 	{
-		sf::Vector2i landerPos = m_lander.GetPosition();
+		sf::Vector2i landerPos = m_lander.GetCellPosition();
 		for (auto block : m_lander.GetBlocks())
 		{
 			int col = block.x + landerPos.x;
@@ -134,13 +140,13 @@ void State_Game::Update(const sf::Time & time)
 			m_speedUp += 10;
 		}
 
-		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
+		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid.GetPosition());
 		m_lander.SetCellPosition(m_spawnX, m_spawnY);
 
-		// TODO: This code was buggy - left ghost blocks in the grid
 		//m_lander = m_next;
-		//m_lander.SetPosition(m_spawnX, m_spawnY);
-		//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_grid);
+		//m_lander.SetCellPosition(m_spawnX, m_spawnY);
+
+		//m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_nextBox.GetPosition());
 		//m_nextBox.SetShape(&m_next);
 	}
 

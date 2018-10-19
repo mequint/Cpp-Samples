@@ -9,12 +9,14 @@ class ShapeBox
 		ShapeBox();
 		ShapeBox(sf::Font& font, std::string& title, int fontSize);
 
-		void SetPosition(sf::Vector2f position);
-		void SetRectangle(float width, float height);
-
-		void SetShape(Shape* shape);
 		void Draw(sf::RenderWindow& window);
 
+		void SetPosition(sf::Vector2f position);
+		void SetRectangle(float width, float height);
+		void SetShape(Shape* shape);
+
+		sf::Vector2f GetPosition();
+		
 	private:
 		sf::Vector2f m_position;
 
