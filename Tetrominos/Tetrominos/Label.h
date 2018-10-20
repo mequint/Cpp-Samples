@@ -2,11 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 
-class TextBox
+class Label
 {
 	public:
-		TextBox();
-		TextBox(sf::Font& font, int fontSize);
+		Label();
+		Label(sf::Font& font, int fontSize);
 
 		void SetPosition(sf::Vector2f position);
 		void SetText(const std::string& text);

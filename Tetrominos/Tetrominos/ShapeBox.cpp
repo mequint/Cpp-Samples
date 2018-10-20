@@ -15,7 +15,7 @@ ShapeBox::ShapeBox(sf::Font& font, int fontSize, sf::Vector2f position, sf::Vect
 	m_titleText.setCharacterSize(fontSize);
 	m_titleText.setString(title);
 	m_titleText.setFillColor(sf::Color::White);
-
+	
 	sf::Vector2f textCenter = sf::Vector2f(m_titleText.getLocalBounds().width / 2.0f, 0.0f);
 	sf::Vector2f rectTopCenter = sf::Vector2f(m_rectangle.getSize().x / 2.0f, 0.0f);
 	m_titleText.setPosition(position + rectTopCenter - textCenter);

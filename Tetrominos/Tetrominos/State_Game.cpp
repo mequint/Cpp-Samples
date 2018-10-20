@@ -16,6 +16,7 @@ State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 	m_nextFallTime = 1.0f;
 
 	m_lines = 0;
+	m_score = 0;
 	m_speedUp = 10;
 }
 
@@ -33,8 +34,14 @@ void State_Game::Create()
 	text = "Next";
 	m_nextBox = ShapeBox(m_font, 16, sf::Vector2f(500, 160), sf::Vector2f(80, 80), text);	
 
-	m_linesBox = TextBox(m_font, 16);
+	m_linesBox = Label(m_font, 16);
 	m_linesBox.SetPosition(sf::Vector2f(375, 130)); 
+
+	text = "Level";
+	m_levelBox = TitledTextBox(m_font, sf::Vector2f(220, 400), sf::Vector2f(80.0f, 80.0f), 24, text, 16);
+
+	text = "Score";
+	m_scoreBox = TitledTextBox(m_font, sf::Vector2f(500, 400), sf::Vector2f(80.0f, 80.0f), 18, text, 16);
 
 	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
 	m_lander.SetReferencePoint(m_grid.GetPosition());
@@ -117,6 +124,7 @@ void State_Game::Update(const sf::Time & time)
 
 	if (m_lander.HasLanded())
 	{
+		// Add lander blocks to the block pile
 		sf::Vector2i landerPos = m_lander.GetCellPosition();
 		for (auto block : m_lander.GetBlocks())
 		{
@@ -127,13 +135,14 @@ void State_Game::Update(const sf::Time & time)
 			m_grid.AddBlock(col, row, type);
 		}
 
+		// Remove the lines
 		int linesRemoved = m_grid.RemoveCompleteLines();
 		m_lines += linesRemoved;
 
 		// Update the fall time
 		if (m_lines > m_speedUp)
 		{
-			m_nextFallTime -= 0.9f;
+			m_nextFallTime -= 0.09f;
 
 			m_speedUp += 10;
 
@@ -143,17 +152,26 @@ void State_Game::Update(const sf::Time & time)
 			}
 		}
 
+		// Update score
+		m_score += (400 * linesRemoved * linesRemoved);
+
+		// Move next lander to playing field
 		m_lander = m_next;
 		m_lander.SetReferencePoint(m_grid.GetPosition());
 		m_lander.SetCellPosition(m_spawnX, m_spawnY);
 
+		// Create a new next lander
 		m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
 		m_nextBox.SetShape(&m_next);
 	}
 
+	// Update lander
 	m_lander.Update(time.asSeconds());
 
+	// Update UI elements
 	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
+	m_levelBox.SetText(std::to_string(m_lines / 10));
+	m_scoreBox.SetText(std::to_string(m_score));
 }
 
 void State_Game::Draw()
@@ -163,6 +181,8 @@ void State_Game::Draw()
 	m_linesBox.Draw(*renderWindow);
 	m_holdBox.Draw(*renderWindow);
 	m_nextBox.Draw(*renderWindow);
+	m_levelBox.Draw(*renderWindow);
+	m_scoreBox.Draw(*renderWindow);
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
 }

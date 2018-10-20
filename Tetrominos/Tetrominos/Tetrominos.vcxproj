@@ -28,7 +28,8 @@
     <ClCompile Include="ShapeBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="State_Game.cpp" />
-    <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="TitledTextBox.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,7 +45,8 @@
     <ClInclude Include="ShapeType.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="State_Game.h" />
-    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="Label.h" />
+    <ClInclude Include="TitledTextBox.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

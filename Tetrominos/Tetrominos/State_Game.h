@@ -3,10 +3,11 @@
 #include "BaseState.h"
 
 #include "Grid.h"
+#include "Label.h"
 #include "RandomGenerator.h"
 #include "Shape.h"
 #include "ShapeBox.h"
-#include "TextBox.h"
+#include "TitledTextBox.h"
 
 class State_Game : public BaseState
 {
@@ -31,9 +32,11 @@ class State_Game : public BaseState
 		sf::Font m_font;
 
 		// User Interface
+		Label m_linesBox;
 		ShapeBox m_holdBox;
 		ShapeBox m_nextBox;
-		TextBox m_linesBox;
+		TitledTextBox m_levelBox;
+		TitledTextBox m_scoreBox;
 
 		// Game variables
 		float m_blockSize;
@@ -48,5 +51,6 @@ class State_Game : public BaseState
 		float m_nextFallTime;
 
 		int m_lines;
+		int m_score;
 		int m_speedUp;
 };

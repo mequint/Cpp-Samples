@@ -16,6 +16,36 @@ int main()
 	return EXIT_SUCCESS;
 }
 
-// TODO
-// -Add a Score textbox
-// -Add a Level textbox
+// TODO:
+// -Bug: Rotation collision detection may rotate a block into an already existing block...
+
+// -Add Slam Functionality
+// -Add Hold Functionality
+// -Spawn shape based on its type
+// -Extend grid and draw it slightly hidden at the top
+
+// -Update control scheme to allow for better movement
+// -Add Controller Functionality
+// -Friendlier color scheme for grid and boxes
+
+// -Pause State
+// --Event Manager
+// -Title State
+// -Credit State
+// -Pre-Game State
+// -Game Over
+// --Add lose condition check
+
+// -Sound Manager
+// -Add sound effects
+// -Add Music
+
+// -Add Animations
+// --Block Removal
+// -Add Message
+// --Animation: Fade In/Fade Out
+// --Level Up
+// --Single
+// --Double
+// --Triple
+// --Tetris!
