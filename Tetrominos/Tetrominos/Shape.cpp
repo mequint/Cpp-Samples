@@ -42,6 +42,7 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(1, 3));
 			m_blocks.emplace_back(block4);
 
+			m_spawnPoint = sf::Vector2i(3, 1);
 			break;
 		}
 
@@ -77,6 +78,7 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(0, 2));
 			m_blocks.emplace_back(block4);
 
+			m_spawnPoint = sf::Vector2i(4, 1);
 			break;
 		}
 
@@ -111,6 +113,8 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(1, 1));
 			block4.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block4);
+
+			m_spawnPoint = sf::Vector2i(4, 1);
 
 			break;
 		}
@@ -147,6 +151,8 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(1, 1));
 			m_blocks.emplace_back(block4);
 
+			m_spawnPoint = sf::Vector2i(4, 1);
+
 			break;
 		}
 
@@ -181,6 +187,8 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(2, 1));
 			block4.emplace_back(sf::Vector2i(2, 2));
 			m_blocks.emplace_back(block4);
+
+			m_spawnPoint = sf::Vector2i(4, 2);
 
 			break;
 		}
@@ -217,6 +225,8 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(1, 2));
 			m_blocks.emplace_back(block4);
 
+			m_spawnPoint = sf::Vector2i(4, 1);
+
 			break;
 		}
 
@@ -251,6 +261,8 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 			block4.emplace_back(sf::Vector2i(1, 1));
 			block4.emplace_back(sf::Vector2i(0, 2));
 			m_blocks.emplace_back(block4);
+
+			m_spawnPoint = sf::Vector2i(4, 1);
 
 			break;
 		}
@@ -308,9 +320,16 @@ void Shape::Update(float dt)
 
 void Shape::Draw(sf::RenderWindow& window)
 {
-	auto cell = sf::RectangleShape(sf::Vector2f(m_blockSize, m_blockSize));
 	for (auto block : m_blocks[m_rotationIndex])
 	{
+		int blockY = m_cellPosition.y + block.y;
+
+		auto cell = (blockY == 1 && m_onField) ?
+			sf::RectangleShape(sf::Vector2f(m_blockSize, m_blockSize / 4.0f)) :
+			sf::RectangleShape(sf::Vector2f(m_blockSize, m_blockSize));
+
+		auto offset = (blockY == 1 && m_onField) ? m_blockSize - m_blockSize / 4.0f : 0;
+
 		sf::Color color = BlockHelper::GetBlockColor(m_type);
 		cell.setFillColor(color);
 
@@ -323,7 +342,7 @@ void Shape::Draw(sf::RenderWindow& window)
 		cell.setOutlineThickness(-1.0f);
 		cell.setPosition(
 			m_referencePoint.x + (m_cellPosition.x + block.x) * m_blockSize,
-			m_referencePoint.y + (m_cellPosition.y + block.y) * m_blockSize);
+			m_referencePoint.y + (m_cellPosition.y + block.y) * m_blockSize + offset);
 
 		window.draw(cell);
 	}
@@ -349,6 +368,11 @@ void Shape::SetMovement(Movement movement)
 void Shape::SetLanded(bool landed)
 {
 	m_hasLanded = landed;
+}
+
+void Shape::SetOnField(bool onField)
+{
+	m_onField = onField;
 }
 
 bool Shape::HasLanded() const
@@ -391,6 +415,11 @@ Movement Shape::GetMovement()
 ShapeType Shape::GetType()
 {
 	return m_type;
+}
+
+sf::Vector2i Shape::GetSpawnPoint()
+{
+	return m_spawnPoint;
 }
 
 float Shape::GetBlockSize()

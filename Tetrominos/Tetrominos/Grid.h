@@ -15,6 +15,8 @@ class Grid
 
 		void CheckCollisions(Shape& shape);
 
+		void Update(Shape& shape, float dt);
+		void SlamShape(Shape & shape);
 		void Draw(sf::RenderWindow& renderWindow);
 
 		void ToggleVisibility();
@@ -25,7 +27,6 @@ class Grid
 		void AddBlock(int col, int row, int type);
 		bool HasBlock(int col, int row);
 
-		sf::Color GetBlockColor(ShapeType type);
 		sf::Vector2f GetPosition();
 
 		int RemoveCompleteLines();

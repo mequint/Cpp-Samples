@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "BlockHelper.h"
 #include "Shape.h"
 
 Grid::Grid() {}
@@ -98,6 +99,43 @@ void Grid::CheckCollisions(Shape& shape)
 	}
 }
 
+void Grid::Update(Shape& shape, float dt)
+{
+	CheckCollisions(shape);
+}
+
+void Grid::SlamShape(Shape & shape)
+{
+	auto cellPos = shape.GetCellPosition();
+	auto blocks = shape.GetBlocks();
+
+	int yMove = 0;
+
+	bool bottomOut = false;
+	while (!bottomOut)
+	{
+		for (auto block : blocks)
+		{
+			int nextY = cellPos.y + block.y + yMove + 1;
+			if (nextY >= m_rows || HasBlock(cellPos.x, nextY))
+			{
+				bottomOut = true;
+				break;
+			}
+		}
+
+		if (bottomOut)
+		{
+			shape.SetCellPosition(cellPos.x, cellPos.y + yMove);
+			shape.SetLanded(true);
+		}
+		else
+		{
+			yMove++;
+		}
+	}
+}
+
 void Grid::Draw(sf::RenderWindow& renderWindow)
 {
 	sf::RectangleShape cell(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
@@ -108,7 +146,7 @@ void Grid::Draw(sf::RenderWindow& renderWindow)
 		{
 			if (m_blockPile[col][row])
 			{
-				sf::Color color = GetBlockColor((ShapeType)(m_blockPile[col][row]));
+				sf::Color color = BlockHelper::GetBlockColor((ShapeType)(m_blockPile[col][row]));
 				cell.setFillColor(color);
 
 				sf::Color outlineColor = color;
@@ -166,22 +204,6 @@ void Grid::AddBlock(int col, int row, int type)
 bool Grid::HasBlock(int col, int row)
 {
 	return m_blockPile[col][row];
-}
-
-sf::Color Grid::GetBlockColor(ShapeType type)
-{
-	switch (type)
-	{
-		case ShapeType::I: return sf::Color::Cyan;
-		case ShapeType::J: return sf::Color::Blue;
-		case ShapeType::L: return sf::Color(255, 165, 0);
-		case ShapeType::O: return sf::Color::Yellow;
-		case ShapeType::S: return sf::Color::Green;
-		case ShapeType::T: return sf::Color(128, 0, 128);
-		case ShapeType::Z: return sf::Color::Red;
-	}
-
-	return sf::Color::Magenta;
 }
 
 sf::Vector2f Grid::GetPosition()

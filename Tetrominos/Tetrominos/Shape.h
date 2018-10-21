@@ -21,6 +21,7 @@ class Shape
 		void SetCellPosition(int x, int y);
 		void SetMovement(Movement movement);
 		void SetLanded(bool landed);
+		void SetOnField(bool onField);
 
 		bool HasLanded() const;
 		Blocks GetBlocks();
@@ -28,6 +29,7 @@ class Shape
 		sf::Vector2i GetCellPosition();
 		Movement GetMovement();
 		ShapeType GetType();
+		sf::Vector2i GetSpawnPoint();
 		float GetBlockSize();
 
 	private:
@@ -37,7 +39,9 @@ class Shape
 		std::vector<Blocks> m_blocks;
 		int m_rotationIndex;
 
+		sf::Vector2i m_spawnPoint;
 		ShapeType m_type;
+		bool m_onField;
 
 		sf::Vector2f m_referencePoint;
 

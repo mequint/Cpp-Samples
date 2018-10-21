@@ -21,7 +21,6 @@ int main()
 // -Add Slam Functionality
 // --Add Block Shadow
 // -Add Hold Functionality
-// -Spawn shape based on its type
 
 // -Update control scheme to allow for better movement
 // -Add Controller Functionality
