@@ -27,8 +27,13 @@
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="State_Credits.cpp" />
     <ClCompile Include="State_Game.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="State_GameOver.cpp" />
+    <ClCompile Include="State_Pause.cpp" />
+    <ClCompile Include="State_PreGame.cpp" />
+    <ClCompile Include="State_Title.cpp" />
     <ClCompile Include="TitledTextBox.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -44,8 +49,13 @@
     <ClInclude Include="ShapeBox.h" />
     <ClInclude Include="ShapeType.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="State_Credits.h" />
     <ClInclude Include="State_Game.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="State_GameOver.h" />
+    <ClInclude Include="State_Pause.h" />
+    <ClInclude Include="State_PreGame.h" />
+    <ClInclude Include="State_Title.h" />
     <ClInclude Include="TitledTextBox.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
