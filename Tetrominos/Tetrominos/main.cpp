@@ -4,7 +4,6 @@
 
 int main()
 {
-	
 	Game game;
 	while (!game.GetWindow()->IsDone())
 	{
@@ -20,9 +19,9 @@ int main()
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
 
 // -Add Slam Functionality
+// --Add Block Shadow
 // -Add Hold Functionality
 // -Spawn shape based on its type
-// -Extend grid and draw it slightly hidden at the top
 
 // -Update control scheme to allow for better movement
 // -Add Controller Functionality

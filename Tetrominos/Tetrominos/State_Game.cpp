@@ -7,7 +7,7 @@ State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 	m_randomGenerator((int)ShapeType::Z)
 {
 	m_blockSize = 16.0f;
-	m_grid = Grid(10, 20, 320, 160, 16);
+	m_grid = Grid(10, 22, 320, 128, 16);
 
 	m_spawnX = 5;
 	m_spawnY = 2;
@@ -35,7 +35,7 @@ void State_Game::Create()
 	m_nextBox = ShapeBox(m_font, 16, sf::Vector2f(500, 160), sf::Vector2f(80, 80), text);	
 
 	m_linesBox = Label(m_font, 16);
-	m_linesBox.SetPosition(sf::Vector2f(375, 130)); 
+	m_linesBox.SetPosition(sf::Vector2f(375, 128)); 
 
 	text = "Level";
 	m_levelBox = TitledTextBox(m_font, sf::Vector2f(220, 400), sf::Vector2f(80.0f, 80.0f), 24, text, 16);

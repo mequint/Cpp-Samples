@@ -104,7 +104,7 @@ void Grid::Draw(sf::RenderWindow& renderWindow)
 
 	for (auto col = 0; col < m_blockPile.size(); ++col)
 	{
-		for (auto row = 0; row < m_blockPile[col].size(); ++row)
+		for (auto row = 1; row < m_blockPile[col].size(); ++row)
 		{
 			if (m_blockPile[col][row])
 			{
@@ -126,7 +126,18 @@ void Grid::Draw(sf::RenderWindow& renderWindow)
 				cell.setOutlineColor(outlineColor);
 			}
 			cell.setOutlineThickness(-1.0f);
-			cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize));
+
+			if (row == 1)
+			{
+				cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize / 4.0f));
+				cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize + 3 * m_cellSize / 4));
+			}
+			else
+			{
+				cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
+				cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize));
+			}
+
 			renderWindow.draw(cell);
 		}
 	}
