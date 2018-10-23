@@ -22,6 +22,7 @@ class Shape
 		void SetMovement(Movement movement);
 		void SetLanded(bool landed);
 		void SetOnField(bool onField);
+		void SetRotationIndex(int index);
 
 		bool HasLanded() const;
 		Blocks GetBlocks();

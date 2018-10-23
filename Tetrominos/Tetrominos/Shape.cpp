@@ -320,7 +320,9 @@ void Shape::Update(float dt)
 
 void Shape::Draw(sf::RenderWindow& window)
 {
-	for (auto block : m_blocks[m_rotationIndex])
+	if (m_blocks.empty()) return;
+
+ 	for (auto block : m_blocks[m_rotationIndex])
 	{
 		int blockY = m_cellPosition.y + block.y;
 
@@ -373,6 +375,11 @@ void Shape::SetLanded(bool landed)
 void Shape::SetOnField(bool onField)
 {
 	m_onField = onField;
+}
+
+void Shape::SetRotationIndex(int index)
+{
+	m_rotationIndex = 0;
 }
 
 bool Shape::HasLanded() const

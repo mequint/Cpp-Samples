@@ -26,6 +26,9 @@ class State_Game : public BaseState
 		void Draw();
 
 	private:
+
+		void SwapLanderWithHold();
+
 		RandomGenerator m_randomGenerator;
 
 		// Resources
@@ -44,11 +47,12 @@ class State_Game : public BaseState
 		Grid m_grid;
 		Shape m_lander;
 		Shape m_next;
-
-		int m_spawnX, m_spawnY;
+		Shape m_hold;
 
 		float m_currentFallTime;
 		float m_nextFallTime;
+
+		bool m_swap;
 
 		int m_lines;
 		int m_score;

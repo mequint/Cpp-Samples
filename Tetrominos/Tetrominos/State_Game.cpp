@@ -49,6 +49,10 @@ void State_Game::Create()
 	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
 	m_next.SetOnField(false);
 	m_nextBox.SetShape(&m_next);
+
+	m_hold = Shape(ShapeType::None, m_blockSize);
+	m_next.SetOnField(false);
+	m_holdBox.SetShape(&m_hold);
 }
 
 void State_Game::Destroy()
@@ -99,6 +103,10 @@ void State_Game::HandleEvents()
 		{
 			m_lander.SetMovement(Movement::CW);
 		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Keyboard::isKeyPressed(sf::Keyboard::Slash))
+		{
+			m_swap = true;
+		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			m_stateManager->GetContext()->m_window->Close();
@@ -112,6 +120,12 @@ void State_Game::HandleEvents()
 
 void State_Game::Update(const sf::Time & time)
 {
+	if (m_swap)
+	{
+		SwapLanderWithHold();
+		m_swap = false;
+	}
+
 	// This will replace the current movement...might want to consider collecting moves...
 	m_currentFallTime += time.asSeconds();
 	if (m_currentFallTime >= m_nextFallTime)
@@ -187,4 +201,36 @@ void State_Game::Draw()
 	m_scoreBox.Draw(*renderWindow);
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
+}
+
+void State_Game::SwapLanderWithHold()
+{
+	if (m_hold.GetType() == ShapeType::None)
+	{
+		m_hold = m_lander;
+		m_hold.SetCellPosition(0, 0);
+		m_hold.SetOnField(false);
+		m_hold.SetRotationIndex(0);
+		m_holdBox.SetShape(&m_hold);
+
+		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+		m_lander.SetReferencePoint(m_grid.GetPosition());
+		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
+		m_lander.SetOnField(true);
+	}
+	else
+	{
+		auto temp = m_hold;
+		m_hold = m_lander;
+		m_lander = temp;
+		
+		m_hold.SetCellPosition(0, 0);
+		m_hold.SetOnField(false);
+		m_hold.SetRotationIndex(0);
+		m_holdBox.SetShape(&m_hold);
+
+		m_lander.SetReferencePoint(m_grid.GetPosition());
+		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
+		m_lander.SetOnField(true);
+	}
 }
