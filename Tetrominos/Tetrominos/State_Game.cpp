@@ -75,27 +75,27 @@ void State_Game::HandleEvents()
 			m_stateManager->GetContext()->m_window->Close();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			m_lander.SetMovement(Movement::Left);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			m_lander.SetMovement(Movement::Right);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			m_lander.SetMovement(Movement::Slam);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 			m_lander.SetMovement(Movement::Down);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
 		{
 			m_lander.SetMovement(Movement::CCW);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
 		{
 			m_lander.SetMovement(Movement::CW);
 		}

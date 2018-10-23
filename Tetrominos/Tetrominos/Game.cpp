@@ -32,6 +32,7 @@ void Game::Draw()
 
 void Game::PostProcess()
 {
+	m_stateManager.ProcessRequests();
 	RestartClock();
 }
 

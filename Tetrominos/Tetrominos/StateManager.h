@@ -7,9 +7,10 @@
 #include "BaseState.h"
 #include "Context.h"
 
-enum class StateType { Game };
+enum class StateType { Title, PreGame, Game, GameOver, Pause, Credits };
 
 using StateContainer = std::vector<std::pair<StateType, BaseState*>>;
+using TypeContainer = std::vector<StateType>;
 using StateFactory = std::unordered_map<StateType, std::function<BaseState*(void)>>;
 
 class StateManager
@@ -21,13 +22,13 @@ class StateManager
 		void HandleEvents();
 		void Update(const sf::Time& time);
 		void Draw();
+		void ProcessRequests();
 
 		Context* GetContext();
-
-		//bool HasState(const StateType& type);
+		bool HasState(const StateType& type);
 
 		void ChangeState(const StateType& type);
-		//void Remove(const StateType& type);
+		void Remove(const StateType& type);
 
 	private:
 		template <class T>
@@ -42,8 +43,10 @@ class StateManager
 		void CreateState(const StateType& type);
 		void RemoveState(const StateType& type);
 
+
 		Context* m_context;
 
 		StateContainer m_states;
+		TypeContainer m_toRemove;
 		StateFactory m_stateFactory;
 };
