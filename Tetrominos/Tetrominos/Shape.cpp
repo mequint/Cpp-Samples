@@ -345,9 +345,9 @@ void Shape::Draw(sf::RenderWindow& window)
 		cell.setFillColor(color);
 
 		sf::Color outlineColor = color;
-		outlineColor.r = 3 * outlineColor.r / 5;
-		outlineColor.g = 3 * outlineColor.g / 5;
-		outlineColor.b = 3 * outlineColor.b / 5;
+		outlineColor.r = 2 * outlineColor.r / 5;
+		outlineColor.g = 2 * outlineColor.g / 5;
+		outlineColor.b = 2 * outlineColor.b / 5;
 
 		if (m_isShadow)
 		{

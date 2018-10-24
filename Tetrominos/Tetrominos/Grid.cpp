@@ -104,35 +104,13 @@ void Grid::Update(Shape& shape, float dt)
 	CheckCollisions(shape);
 }
 
-void Grid::SlamShape(Shape & shape)
+void Grid::SlamShape(Shape& shape)
 {
-	auto cellPos = shape.GetCellPosition();
-	auto blocks = shape.GetBlocks();
-
-	int yMove = 0;
-
-	bool bottomOut = false;
-	while (!bottomOut)
+	while (!shape.HasLanded())
 	{
-		for (auto block : blocks)
-		{
-			int nextY = cellPos.y + block.y + yMove + 1;
-			if (nextY >= m_rows || HasBlock(cellPos.x, nextY))
-			{
-				bottomOut = true;
-				break;
-			}
-		}
-
-		if (bottomOut)
-		{
-			shape.SetCellPosition(cellPos.x, cellPos.y + yMove);
-			shape.SetLanded(true);
-		}
-		else
-		{
-			yMove++;
-		}
+		shape.SetMovement(Movement::Down);
+		CheckCollisions(shape);
+		shape.Update(0.0f);
 	}
 }
 

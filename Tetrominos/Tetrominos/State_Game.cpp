@@ -87,9 +87,9 @@ void State_Game::HandleEvents()
 		{
 			m_lander.SetMovement(Movement::Right);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			m_lander.SetMovement(Movement::Slam);
+			m_grid.SlamShape(m_lander);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
