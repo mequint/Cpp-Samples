@@ -23,6 +23,7 @@ class Shape
 		void SetLanded(bool landed);
 		void SetOnField(bool onField);
 		void SetRotationIndex(int index);
+		void SetShadow(bool shadow);
 
 		bool HasLanded() const;
 		Blocks GetBlocks();
@@ -42,6 +43,7 @@ class Shape
 
 		sf::Vector2i m_spawnPoint;
 		ShapeType m_type;
+		bool m_isShadow;
 		bool m_onField;
 
 		sf::Vector2f m_referencePoint;

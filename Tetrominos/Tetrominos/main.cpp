@@ -20,14 +20,11 @@ int main()
 
 // -Add Slam Functionality
 // --Add Block Shadow
-// -Add Hold Functionality
-
-// -Update control scheme to allow for better movement
 // -Add Controller Functionality
-// -Friendlier color scheme for grid and boxes
 
 // -Pause State
 // --Event Manager
+// --Update control scheme to allow for better movement
 // -Title State
 // -Credit State
 // -Pre-Game State
@@ -49,19 +46,12 @@ int main()
 // --Tetris!
 
 // Polish!
+// -Make block size configurable
+// -Friendlier color scheme for grid and boxes
 // -Make the grids lines and blocks glow
 // -Project the light onto the grid
 
 /*
-***Shape Swap
-
-- If Hold has No Shape
---Move Lander into Hold
---Create a new Lander
-- Else
-- Swap Hold with Lander
-*Add a shape type of None to the Constructor, everything should work(by doing nothing)
-
 ***Slam
 - Create a temp shape based on the Lander
 - Move the temp shape down one

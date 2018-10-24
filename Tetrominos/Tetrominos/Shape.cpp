@@ -1,19 +1,15 @@
 #include "Shape.h"
 
-#include <iostream> // For debug purposes, remove later
-
 #include "BlockHelper.h"
 
 Shape::Shape() {}
 
-Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false), m_rotationIndex(0), m_blockSize(blockSize)
+Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false), m_rotationIndex(0), m_blockSize(blockSize), m_isShadow(false)
 {	
 	switch (type)
 	{
 		case ShapeType::I:
 		{
-			std::cout << "I Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
@@ -48,8 +44,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::J:
 		{
-			std::cout << "J Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
@@ -84,8 +78,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::L:
 		{
-			std::cout << "L Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 1));
 			block1.emplace_back(sf::Vector2i(1, 1));
@@ -121,8 +113,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::O:
 		{
-			std::cout << "O Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
@@ -158,8 +148,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::S:
 		{
-			std::cout << "S Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(2, 0));
@@ -195,8 +183,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::T:
 		{
-			std::cout << "T Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(1, 0));
 			block1.emplace_back(sf::Vector2i(0, 1));
@@ -232,8 +218,6 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 
 		case ShapeType::Z:
 		{
-			std::cout << "Z Block" << std::endl;
-
 			Blocks block1;
 			block1.emplace_back(sf::Vector2i(0, 0));
 			block1.emplace_back(sf::Vector2i(1, 0));
@@ -333,12 +317,23 @@ void Shape::Draw(sf::RenderWindow& window)
 		auto offset = (blockY == 1 && m_onField) ? m_blockSize - m_blockSize / 4.0f : 0;
 
 		sf::Color color = BlockHelper::GetBlockColor(m_type);
+		
+		if (m_isShadow)
+		{
+			color.a = 128;
+		}
 		cell.setFillColor(color);
 
 		sf::Color outlineColor = color;
 		outlineColor.r = 3 * outlineColor.r / 5;
 		outlineColor.g = 3 * outlineColor.g / 5;
 		outlineColor.b = 3 * outlineColor.b / 5;
+
+		if (m_isShadow)
+		{
+			color.a = 128;
+		}
+
 		cell.setOutlineColor(outlineColor);
 
 		cell.setOutlineThickness(-1.0f);
@@ -380,6 +375,11 @@ void Shape::SetOnField(bool onField)
 void Shape::SetRotationIndex(int index)
 {
 	m_rotationIndex = 0;
+}
+
+void Shape::SetShadow(bool shadow)
+{
+	m_isShadow = shadow;
 }
 
 bool Shape::HasLanded() const

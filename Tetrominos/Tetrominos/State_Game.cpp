@@ -103,7 +103,7 @@ void State_Game::HandleEvents()
 		{
 			m_lander.SetMovement(Movement::CW);
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Keyboard::isKeyPressed(sf::Keyboard::Slash))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Keyboard::isKeyPressed(sf::Keyboard::Slash))
 		{
 			m_swap = true;
 		}
@@ -114,6 +114,10 @@ void State_Game::HandleEvents()
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 		{
 			m_grid.ToggleVisibility();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+		{
+			m_lander.SetShadow(true);
 		}
 	}
 }
