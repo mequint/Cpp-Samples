@@ -48,6 +48,7 @@ class State_Game : public BaseState
 		Shape m_lander;
 		Shape m_next;
 		Shape m_hold;
+		Shape m_shadow;
 
 		float m_currentFallTime;
 		float m_nextFallTime;

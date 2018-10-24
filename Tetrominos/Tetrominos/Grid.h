@@ -23,6 +23,7 @@ class Grid
 
 		sf::FloatRect GetGridZone();
 		int GetCellSize() const;
+		Shape GetShadow(Shape& shape);
 
 		void AddBlock(int col, int row, int type);
 		bool HasBlock(int col, int row);

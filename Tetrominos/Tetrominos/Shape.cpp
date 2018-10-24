@@ -253,6 +253,26 @@ Shape::Shape(ShapeType type, float blockSize) : m_type(type), m_hasLanded(false)
 	}
 }
 
+Shape::Shape(const Shape & shape)
+{
+	m_cellPosition = shape.m_cellPosition;
+	m_blockSize = shape.m_blockSize;
+
+	m_blocks = shape.m_blocks;
+	m_rotationIndex = shape.m_rotationIndex;
+
+	m_spawnPoint = shape.m_spawnPoint;
+	m_type = shape.m_type;
+	m_isShadow = shape.m_isShadow;
+	m_onField = shape.m_onField;
+
+	m_referencePoint = shape.m_referencePoint;
+
+	m_movement = shape.m_movement;
+
+	m_hasLanded = shape.m_hasLanded;
+}
+
 void Shape::Update(float dt)
 {
 	if (m_movement != Movement::None)

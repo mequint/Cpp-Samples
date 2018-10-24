@@ -13,6 +13,7 @@ class Shape
 	public:
 		Shape();
 		Shape(ShapeType type, float blockSize);
+		Shape(const Shape& shape);
 
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);

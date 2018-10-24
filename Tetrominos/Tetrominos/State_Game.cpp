@@ -187,6 +187,8 @@ void State_Game::Update(const sf::Time & time)
 
 	// Update lander
 	m_lander.Update(time.asSeconds());
+	
+	m_shadow = m_grid.GetShadow(m_lander);
 
 	// Update UI elements
 	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
@@ -205,6 +207,7 @@ void State_Game::Draw()
 	m_scoreBox.Draw(*renderWindow);
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
+	m_shadow.Draw(*renderWindow);
 }
 
 void State_Game::SwapLanderWithHold()

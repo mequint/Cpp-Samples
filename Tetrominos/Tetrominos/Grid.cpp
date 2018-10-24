@@ -196,6 +196,22 @@ int Grid::GetCellSize() const
 	return m_cellSize;
 }
 
+Shape Grid::GetShadow(Shape& shape)
+{
+	Shape shadow(shape);
+	shadow.SetShadow(true);
+
+	while (!shadow.HasLanded())
+	{
+		shadow.SetMovement(Movement::Down);
+		CheckCollisions(shadow);
+		shadow.Update(0.0f);
+	}
+
+	
+	return shadow;
+}
+
 void Grid::AddBlock(int col, int row, int type)
 {
 	m_blockPile[col][row] = type;
@@ -214,6 +230,7 @@ sf::Vector2f Grid::GetPosition()
 int Grid::RemoveCompleteLines()
 {
 	int score = 0;
+
 	// We want to check every row...not column
 	int rows = m_blockPile[0].size();
 

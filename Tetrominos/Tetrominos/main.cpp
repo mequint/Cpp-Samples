@@ -19,7 +19,6 @@ int main()
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
 
 // -Add Slam Functionality
-// --Add Block Shadow
 // -Add Controller Functionality
 
 // -Pause State
