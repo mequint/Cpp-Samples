@@ -17,8 +17,8 @@ int main()
 
 // TODO:
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
+// -Bug: Scoring system
 
-// -Add Slam Functionality
 // -Add Controller Functionality
 
 // -Pause State
@@ -29,6 +29,10 @@ int main()
 // -Pre-Game State
 // -Game Over
 // --Add lose condition check
+
+// -ResourceManager
+
+// -FontManager
 
 // -Sound Manager
 // -Add sound effects
@@ -49,25 +53,5 @@ int main()
 // -Friendlier color scheme for grid and boxes
 // -Make the grids lines and blocks glow
 // -Project the light onto the grid
-
-/*
-***Slam
-- Create a temp shape based on the Lander
-- Move the temp shape down one
-- Check to see if any of the blocks have gone over the top row
---If so, move one less
-- Check to see if any of the blocks are intersecting a block in the grid
-- If so, move one less
-*Make usable for shadow cast
-
-***Shadowcast
-- Build a "shape" based on the vector pairs of the all the blocks in the shape
---Cull internal lines(this is determined by removing "doubled" lines)
-- For all the pairs remainding
---Set the color outline based on the type
---Set the line thickness to an "appropriate" size
---Determine which pairs remain and draw the lines between them
-- Project the shadow using the Slam function
-*Easier: Create the piece using a more transparent version of the block...
-
-*/
+// -Add a "swoosh" animation when a shape is slammed
+// -Cause the grid to light up when a "tetris" occurs

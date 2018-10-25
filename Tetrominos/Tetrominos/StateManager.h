@@ -7,7 +7,7 @@
 #include "BaseState.h"
 #include "Context.h"
 
-enum class StateType { Title, PreGame, Game, GameOver, Pause, Credits };
+enum class StateType { Title = 1, PreGame, Game, GameOver, Pause, Credits };
 
 using StateContainer = std::vector<std::pair<StateType, BaseState*>>;
 using TypeContainer = std::vector<StateType>;
