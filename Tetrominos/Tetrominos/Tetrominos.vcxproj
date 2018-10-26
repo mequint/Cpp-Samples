@@ -32,7 +32,7 @@
     <ClCompile Include="State_Game.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="State_GameOver.cpp" />
-    <ClCompile Include="State_Pause.cpp" />
+    <ClCompile Include="State_Paused.cpp" />
     <ClCompile Include="State_PreGame.cpp" />
     <ClCompile Include="State_Title.cpp" />
     <ClCompile Include="TitledTextBox.cpp" />
@@ -55,7 +55,7 @@
     <ClInclude Include="State_Game.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="State_GameOver.h" />
-    <ClInclude Include="State_Pause.h" />
+    <ClInclude Include="State_Paused.h" />
     <ClInclude Include="State_PreGame.h" />
     <ClInclude Include="State_Title.h" />
     <ClInclude Include="TitledTextBox.h" />

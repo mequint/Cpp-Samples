@@ -3,8 +3,6 @@
 #include "BlockHelper.h"
 #include "StateManager.h"
 
-#include <iostream>
-
 // TODO: Make the block size configurable
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 	m_randomGenerator((int)ShapeType::Z)
@@ -192,8 +190,7 @@ void State_Game::Draw()
 
 void State_Game::Pause(EventDetails * details)
 {
-	std::cout << "Pause...just kidding!" << std::endl;
-	//m_stateManager->ChangeState(StateType::Pause);
+	m_stateManager->ChangeState(StateType::Paused);
 }
 
 void State_Game::MoveLander(EventDetails * details)

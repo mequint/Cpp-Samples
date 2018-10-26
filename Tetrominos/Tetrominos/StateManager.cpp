@@ -3,7 +3,7 @@
 #include "State_Title.h"
 #include "State_PreGame.h"
 #include "State_Game.h"
-#include "State_Pause.h"
+#include "State_Paused.h"
 #include "State_GameOver.h"
 #include "State_Credits.h"
 
@@ -12,7 +12,7 @@ StateManager::StateManager(Context* context) : m_context(context)
 	RegisterState<State_Title>(StateType::Title);
 	RegisterState<State_PreGame>(StateType::PreGame);
 	RegisterState<State_Game>(StateType::Game);
-	RegisterState<State_Pause>(StateType::Pause);
+	RegisterState<State_Paused>(StateType::Paused);
 	RegisterState<State_GameOver>(StateType::GameOver);
 	RegisterState<State_Credits>(StateType::Credits);
 }
@@ -79,6 +79,7 @@ void StateManager::Draw()
 		while (iter != m_states.end())
 		{
 			iter->second->Draw();
+			++iter;
 		}
 	}
 	else

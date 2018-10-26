@@ -21,9 +21,6 @@ int main()
 
 // -Add Controller Functionality
 
-// -Pause State
-// --Event Manager
-// --Update control scheme to allow for better movement
 // -Title State
 // -Credit State
 // -Pre-Game State
@@ -49,6 +46,7 @@ int main()
 // --Tetris!
 
 // Polish!
+// -Update control scheme to allow for better movement
 // -Make block size configurable
 // -Friendlier color scheme for grid and boxes
 // -Make the grids lines and blocks glow
