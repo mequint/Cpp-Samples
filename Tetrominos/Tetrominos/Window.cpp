@@ -10,6 +10,9 @@ Window::Window(const std::string& title, const sf::Vector2u& windowSize) :
 
 	auto style = sf::Style::Default;
 	m_window.create(sf::VideoMode(windowSize.x, windowSize.y, 32), title, style);
+
+	m_eventManager.AddCallback(StateType(0), "CloseWindow", &Window::Close, this);
+	m_eventManager.AddCallback(StateType(0), "Key_Escape", &Window::Close, this);
 }
 
 Window::~Window()
@@ -17,12 +20,10 @@ Window::~Window()
 	m_window.close();
 }
 
-sf::RenderWindow* Window::GetRenderWindow()
-{
-	return &m_window;
-}
+sf::RenderWindow* Window::GetRenderWindow() { return &m_window; }
+EventManager* Window::GetEventManager() { return &m_eventManager; }
 
-void Window::Close()
+void Window::Close(EventDetails* details)
 {
 	m_isDone = true;
 }
@@ -32,11 +33,10 @@ void Window::Update()
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
-		{
-			m_isDone = true;
-		}
+		m_eventManager.HandleEvent(event);
 	}
+
+	m_eventManager.Update();
 }
 
 bool Window::IsDone() { return m_isDone; }

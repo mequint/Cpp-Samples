@@ -4,8 +4,6 @@
 #include "StateManager.h"
 #include "Window.h"
 
-#include "RandomGenerator.h"
-
 class Game
 {
 	public:
@@ -23,11 +21,15 @@ class Game
 	private:
 		void RestartClock();
 
+		void SetupBindings();
+
 		sf::Clock m_clock;
 		sf::Time m_elapsedTime;
 
 		// Contextual items
 		Context m_context;
-		StateManager m_stateManager;
 		Window m_window;
+		StateManager m_stateManager;
 };
+
+// A buggy dependency...the Window must be declared above the State Manager (it will cause a break in the states when they are Destroyed).

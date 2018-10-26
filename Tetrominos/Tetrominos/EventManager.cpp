@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-EventManager::EventManager(bool loadFromFile) : m_currentState(StateType(0)), m_hasFocus(false)
+EventManager::EventManager(bool loadFromFile) : m_currentState(StateType(0)), m_hasFocus(true)
 {
 	if (loadFromFile)
 	{
@@ -21,20 +21,26 @@ EventManager::~EventManager()
 }
 
 /// Manually adds a binding to the event manager
-bool EventManager::AddBinding(const std::string & name, int eventType, int code)
+bool EventManager::AddBinding(const std::string& name, int eventType, int code)
 {
-	if (m_bindings.find(name) != m_bindings.end()) return false;
-
 	Binding* binding = new Binding(name);
 	EventType type = EventType(eventType);
 	EventInfo eventInfo(code);
 
 	binding->BindEvent(type, eventInfo);
 
-	return m_bindings.emplace(binding->m_name, binding).second;
+	if (!AddBinding(binding))
+	{
+		delete binding;
+		binding = nullptr;
+		return false;
+	}
+
+	binding = nullptr;
+	return true;
 }
 
-bool EventManager::AddBinding(Binding * binding)
+bool EventManager::AddBinding(Binding* binding)
 {
 	if (m_bindings.find(binding->m_name) != m_bindings.end()) return false;
 
@@ -62,8 +68,10 @@ void EventManager::SetFocus(bool focus)
 	m_hasFocus = focus;
 }
 
-bool EventManager::RemoveCallback(StateType state, const std::string & name)
+bool EventManager::RemoveCallback(StateType state, const std::string& name)
 {
+	if (m_callbacks.empty()) return false;
+
 	auto iter = m_callbacks.find(state);
 	if (iter == m_callbacks.end()) return false;
 
@@ -196,6 +204,15 @@ void EventManager::Update()
 			{
 				auto callIter = stateCallbacks->second.find(binding->m_name);
 				if (callIter != stateCallbacks->second.end())
+				{
+					callIter->second(&binding->m_details);
+				}
+			}
+
+			if (globalCallbacks != m_callbacks.end())
+			{
+				auto callIter = globalCallbacks->second.find(binding->m_name);
+				if (callIter != globalCallbacks->second.end())
 				{
 					callIter->second(&binding->m_details);
 				}

@@ -2,6 +2,7 @@
 
 #include "BaseState.h"
 
+#include "EventManager.h"
 #include "Grid.h"
 #include "Label.h"
 #include "RandomGenerator.h"
@@ -21,9 +22,11 @@ class State_Game : public BaseState
 		void Activate();
 		void Deactivate();
 
-		void HandleEvents();
 		void Update(const sf::Time& time);
 		void Draw();
+
+		void Pause(EventDetails* details);
+		void MoveLander(EventDetails* details);
 
 	private:
 
@@ -52,8 +55,6 @@ class State_Game : public BaseState
 
 		float m_currentFallTime;
 		float m_nextFallTime;
-
-		bool m_swap;
 
 		int m_lines;
 		int m_score;

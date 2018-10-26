@@ -24,10 +24,6 @@ void State_GameOver::Deactivate()
 {
 }
 
-void State_GameOver::HandleEvents()
-{
-}
-
 void State_GameOver::Update(const sf::Time & time)
 {
 }

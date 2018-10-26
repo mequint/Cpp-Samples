@@ -24,10 +24,6 @@ void State_Pause::Deactivate()
 {
 }
 
-void State_Pause::HandleEvents()
-{
-}
-
 void State_Pause::Update(const sf::Time & time)
 {
 }

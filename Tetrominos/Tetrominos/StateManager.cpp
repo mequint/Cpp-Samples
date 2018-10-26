@@ -26,35 +26,6 @@ StateManager::~StateManager()
 	}
 }
 
-void StateManager::HandleEvents()
-{
-	if (m_states.back().second->IsTranscendent() && m_states.size() > 1)
-	{
-		auto iter = m_states.end();
-		while (iter != m_states.begin())
-		{
-			if (iter != m_states.end())
-			{
-				if (iter->second->IsTranscendent())
-				{
-					break;
-				}
-			}
-			--iter;
-		}
-
-		while (iter != m_states.end())
-		{
-			iter->second->HandleEvents();
-			++iter;
-		}
-	}
-	else
-	{
-		m_states.back().second->HandleEvents();
-	}
-}
-
 void StateManager::Update(const sf::Time & time)
 {
 	if (m_states.empty()) return;
@@ -97,7 +68,7 @@ void StateManager::Draw()
 		{
 			if (iter != m_states.end())
 			{
-				if (iter->second->IsTranscendent())
+				if (!iter->second->IsTransparent())
 				{
 					break;
 				}
@@ -152,6 +123,8 @@ bool StateManager::HasState(const StateType & type)
 
 void StateManager::ChangeState(const StateType & type)
 {
+	m_context->m_eventManager->SetCurrentState(type);
+
 	for (auto iter = m_states.begin(); iter != m_states.end(); ++iter)
 	{
 		if (iter->first == type)

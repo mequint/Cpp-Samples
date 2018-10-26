@@ -3,6 +3,8 @@
 #include "BlockHelper.h"
 #include "StateManager.h"
 
+#include <iostream>
+
 // TODO: Make the block size configurable
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
 	m_randomGenerator((int)ShapeType::Z)
@@ -24,6 +26,26 @@ State_Game::~State_Game()
 
 void State_Game::Create()
 {
+	auto* eventManager = m_stateManager->GetContext()->m_eventManager;
+	eventManager->AddCallback(StateType::Game, "Key_P", &State_Game::Pause, this);
+
+	eventManager->AddCallback(StateType::Game, "Key_Left", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Right", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Up", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Down", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_W", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_A", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_S", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_D", &State_Game::MoveLander, this);
+
+	eventManager->AddCallback(StateType::Game, "Key_Z", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_X", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_C", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Space", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Comma", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Period", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Key_Slash", &State_Game::MoveLander, this);
+
 	m_font.loadFromFile("arial.ttf");
 
 	std::string text = "Hold";
@@ -57,6 +79,25 @@ void State_Game::Create()
 
 void State_Game::Destroy()
 {
+	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
+	eventManager->RemoveCallback(StateType::Game, "Key_P");
+
+	eventManager->RemoveCallback(StateType::Game, "Key_Left");
+	eventManager->RemoveCallback(StateType::Game, "Key_Right");
+	eventManager->RemoveCallback(StateType::Game, "Key_Up");
+	eventManager->RemoveCallback(StateType::Game, "Key_Down");
+	eventManager->RemoveCallback(StateType::Game, "Key_W");
+	eventManager->RemoveCallback(StateType::Game, "Key_A");
+	eventManager->RemoveCallback(StateType::Game, "Key_S");
+	eventManager->RemoveCallback(StateType::Game, "Key_D");
+
+	eventManager->RemoveCallback(StateType::Game, "Key_Z");
+	eventManager->RemoveCallback(StateType::Game, "Key_X");
+	eventManager->RemoveCallback(StateType::Game, "Key_C");
+	eventManager->RemoveCallback(StateType::Game, "Key_Space");
+	eventManager->RemoveCallback(StateType::Game, "Key_Comma");
+	eventManager->RemoveCallback(StateType::Game, "Key_Period");
+	eventManager->RemoveCallback(StateType::Game, "Key_Slash");
 }
 
 void State_Game::Activate()
@@ -67,69 +108,8 @@ void State_Game::Deactivate()
 {
 }
 
-void State_Game::HandleEvents()
-{
-	auto window = m_stateManager->GetContext()->m_window->GetRenderWindow();
-
-	sf::Event event;
-	while (window->pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-		{
-			m_stateManager->GetContext()->m_window->Close();
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			m_lander.SetMovement(Movement::Left);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			m_lander.SetMovement(Movement::Right);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			m_grid.SlamShape(m_lander);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		{
-			m_lander.SetMovement(Movement::Down);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
-		{
-			m_lander.SetMovement(Movement::CCW);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
-		{
-			m_lander.SetMovement(Movement::CW);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C) || sf::Keyboard::isKeyPressed(sf::Keyboard::Slash))
-		{
-			m_swap = true;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			m_stateManager->GetContext()->m_window->Close();
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-		{
-			m_grid.ToggleVisibility();
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
-		{
-			m_lander.SetShadow(true);
-		}
-	}
-}
-
 void State_Game::Update(const sf::Time & time)
 {
-	if (m_swap)
-	{
-		SwapLanderWithHold();
-		m_swap = false;
-	}
-
 	// This will replace the current movement...might want to consider collecting moves...
 	m_currentFallTime += time.asSeconds();
 	if (m_currentFallTime >= m_nextFallTime)
@@ -208,6 +188,45 @@ void State_Game::Draw()
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
 	m_shadow.Draw(*renderWindow);
+}
+
+void State_Game::Pause(EventDetails * details)
+{
+	std::cout << "Pause...just kidding!" << std::endl;
+	//m_stateManager->ChangeState(StateType::Pause);
+}
+
+void State_Game::MoveLander(EventDetails * details)
+{
+	std::string detail = details->m_name;
+	if (detail == "Key_Down" || detail == "Key_S")
+	{
+		m_lander.SetMovement(Movement::Down);
+	}
+	else if (detail == "Key_Up" || detail == "Key_W" || detail == "Key_Space")
+	{
+		m_grid.SlamShape(m_lander);
+	}
+	else if (detail == "Key_Left" || detail == "Key_A")
+	{
+		m_lander.SetMovement(Movement::Left);
+	}
+	else if (detail == "Key_Right" || detail == "Key_D")
+	{
+		m_lander.SetMovement(Movement::Right);
+	}
+	else if (detail == "Key_Comma" || detail == "Key_Z")
+	{
+		m_lander.SetMovement(Movement::CCW);
+	}
+	else if (detail == "Key_Period" || detail == "Key_X")
+	{
+		m_lander.SetMovement(Movement::CW);
+	}
+	else if (detail == "Key_Slash" || detail == "Key_C")
+	{
+		SwapLanderWithHold();
+	}
 }
 
 void State_Game::SwapLanderWithHold()

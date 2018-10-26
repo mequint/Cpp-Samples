@@ -24,10 +24,6 @@ void State_Credits::Deactivate()
 {
 }
 
-void State_Credits::HandleEvents()
-{
-}
-
 void State_Credits::Update(const sf::Time & time)
 {
 }

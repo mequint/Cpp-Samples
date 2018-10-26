@@ -14,7 +14,6 @@ class State_Pause : public BaseState
 		void Activate();
 		void Deactivate();
 
-		void HandleEvents();
 		void Update(const sf::Time& time);
 		void Draw();
 };

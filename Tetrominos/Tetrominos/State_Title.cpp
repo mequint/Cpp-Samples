@@ -24,10 +24,6 @@ void State_Title::Deactivate()
 {
 }
 
-void State_Title::HandleEvents()
-{
-}
-
 void State_Title::Update(const sf::Time & time)
 {
 }

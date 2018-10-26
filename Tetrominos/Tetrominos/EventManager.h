@@ -105,7 +105,7 @@ class EventManager
 		bool AddCallback(StateType state, const std::string& name, void(T::*func)(EventDetails*), T* instance)
 		{
 			auto iter = m_callbacks.emplace(state, CallbackContainer()).first;
-			auto temp = std::bind(func, std::placeholders::_1);
+			auto temp = std::bind(func, instance, std::placeholders::_1);
 			return iter->second.emplace(name, temp).second;
 		}
 

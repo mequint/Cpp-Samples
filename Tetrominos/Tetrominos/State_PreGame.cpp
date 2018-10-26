@@ -24,10 +24,6 @@ void State_PreGame::Deactivate()
 {
 }
 
-void State_PreGame::HandleEvents()
-{
-}
-
 void State_PreGame::Update(const sf::Time & time)
 {
 }

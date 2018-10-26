@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "EventManager.h"
+
 class Window
 {
 	public:
@@ -17,11 +19,13 @@ class Window
 		bool IsDone();
 
 		sf::RenderWindow* GetRenderWindow();
+		EventManager* GetEventManager();
 
-		void Close();
+		void Close(EventDetails* details);
 
 	private:
 		sf::RenderWindow m_window;
+		EventManager m_eventManager;
 
 		sf::Vector2u m_windowSize;
 		std::string m_title;

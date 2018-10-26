@@ -19,7 +19,6 @@ class StateManager
 		StateManager(Context* context);
 		~StateManager();
 
-		void HandleEvents();
 		void Update(const sf::Time& time);
 		void Draw();
 		void ProcessRequests();
