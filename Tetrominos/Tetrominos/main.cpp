@@ -17,22 +17,8 @@ int main()
 
 // TODO:
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
-// -Bug: Scoring system
-// -Bug: Fine Tune Controller Functionality
-
-// -Title State
-// -Credit State
-// -Pre-Game State
-// -Game Over
-// --Add lose condition check
-
-// -ResourceManager
-
-// -FontManager
-
-// -Sound Manager
-// -Add sound effects
-// -Add Music
+// -Fine Tune: Scoring system
+// -Fine Tune: Move Responsiveness/Controller Functionality
 
 // -Add Animations
 // --Block Removal
@@ -44,11 +30,24 @@ int main()
 // --Triple
 // --Tetris!
 
+// -Title State
+// -Credit State
+// -Pre-Game State
+// -Reset Game
+
+// -ResourceManager
+// -FontManager
+
+// -Sound Manager
+// -Add sound effects
+// -Add Music
+
 // Polish!
-// -Update control scheme to allow for better movement
+// -Add Lock functionality
 // -Make block size configurable
 // -Friendlier color scheme for grid and boxes
 // -Make the grids lines and blocks glow
 // -Project the light onto the grid
 // -Add a "swoosh" animation when a shape is slammed
 // -Cause the grid to light up when a "tetris" occurs
+// -Particles in place of broken blocks

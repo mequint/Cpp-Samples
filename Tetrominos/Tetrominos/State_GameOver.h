@@ -16,4 +16,9 @@ class State_GameOver : public BaseState
 
 		void Update(const sf::Time& time);
 		void Draw();
+
+	private:
+		sf::Font m_font;
+		sf::Text m_text;
+		sf::RectangleShape m_rect;
 };

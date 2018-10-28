@@ -138,11 +138,12 @@ void State_Game::Deactivate()
 
 void State_Game::Update(const sf::Time & time)
 {
-	// This will replace the current movement...might want to consider collecting moves...
 	m_currentFallTime += time.asSeconds();
+
 	if (m_currentFallTime >= m_nextFallTime)
 	{
 		m_currentFallTime = 0.0f;
+		// This will replace the current movement...might want to consider collecting moves...
 		m_lander.SetMovement(Movement::Down);
 	}
 
@@ -197,10 +198,19 @@ void State_Game::Update(const sf::Time & time)
 		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
 		m_lander.SetOnField(true);
 
-		// Create a new next lander
+		// Create a new next lander 
 		m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
 		m_nextBox.SetShape(&m_next);
 		m_next.SetOnField(false);
+
+		// Check for game over condition
+		for (auto block : m_lander.GetBlocks())
+		{
+			if (m_grid.HasBlock(m_lander.GetCellPosition().x + block.x, m_lander.GetCellPosition().y + block.y))
+			{
+				m_stateManager->ChangeState(StateType::GameOver);
+			}
+		}
 	}
 
 	// Update lander
