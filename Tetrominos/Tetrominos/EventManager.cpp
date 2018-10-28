@@ -122,6 +122,21 @@ void EventManager::HandleEvent(sf::Event & event)
 					break;
 				}
 			}
+			else if (sfmlEvent == EventType::JButtonDown || sfmlEvent == EventType::JButtonUp)
+			{
+				// How will we know how the buttons are mapped?  
+				// Some joysticks may have the buttons enumerated differently...
+				if (eIter.second.m_code == event.joystickButton.button)
+				{
+					if (binding->m_details.m_keyCode != -1)
+					{
+						binding->m_details.m_keyCode = eIter.second.m_code;
+					}
+
+					++(binding->m_count);
+					break;
+				}
+			}
 			else
 			{
 				if (sfmlEvent == EventType::MouseWheel)
@@ -136,6 +151,29 @@ void EventManager::HandleEvent(sf::Event & event)
 				else if (sfmlEvent == EventType::TextEntered)
 				{
 					binding->m_details.m_textEntered = event.text.unicode;
+				}
+				else if (sfmlEvent == EventType::JoystickMoved)
+				{
+					binding->m_details.m_joystickXY.x = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X);
+					binding->m_details.m_joystickXY.y = sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y);
+
+					// Store the axis positions
+					/*
+					for (unsigned int i = 0; i < sf::Joystick::Count; ++i)
+					{
+						std::vector<sf::Joystick::Axis> axisList; //= joystickAxisContainer.find(i);
+						for (auto axis : axisList)
+						{
+							float pos = sf::Joystick::getAxisPosition(i, axis);
+							// m_joystickMoves.emplace_back(i, axis, pos);
+						}
+					}
+					*/
+				}
+				else if (sfmlEvent == EventType::MouseMoved)
+				{
+					binding->m_details.m_mouse.x = event.mouseMove.x;
+					binding->m_details.m_mouse.y = event.mouseMove.y;
 				}
 
 				++(binding->m_count);
@@ -189,7 +227,17 @@ void EventManager::Update()
 
 				case EventType::Joystick:
 				{
-					// Expand - will require a little trial and error on my part...
+					// Right now we are only looking button presses on controller one...
+					if (sf::Joystick::isButtonPressed(0, (unsigned int)eIter.second.m_code))
+					{
+						if (binding->m_details.m_keyCode != -1)
+						{
+							binding->m_details.m_keyCode = eIter.second.m_code;
+						}
+
+						++(binding->m_count);
+					}
+
 					break;
 				}
 			}

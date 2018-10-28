@@ -39,6 +39,21 @@ void Game::SetupBindings()
 	m_window.GetEventManager()->AddBinding("Key_Z", (int)EventType::KeyDown, (int)sf::Keyboard::Z);
 	m_window.GetEventManager()->AddBinding("Key_X", (int)EventType::KeyDown, (int)sf::Keyboard::X);
 	m_window.GetEventManager()->AddBinding("Key_C", (int)EventType::KeyDown, (int)sf::Keyboard::C);
+
+	m_window.GetEventManager()->AddBinding("Button_X", (int)EventType::JButtonDown, 0);
+	m_window.GetEventManager()->AddBinding("Button_A", (int)EventType::JButtonDown, 1);
+	m_window.GetEventManager()->AddBinding("Button_B", (int)EventType::JButtonDown, 2);
+	m_window.GetEventManager()->AddBinding("Button_Y", (int)EventType::JButtonDown, 3);
+	m_window.GetEventManager()->AddBinding("Button_L1", (int)EventType::JButtonDown, 4);
+	m_window.GetEventManager()->AddBinding("Button_R1", (int)EventType::JButtonDown, 5);
+	m_window.GetEventManager()->AddBinding("Button_L2", (int)EventType::JButtonDown, 6);
+	m_window.GetEventManager()->AddBinding("Button_R2", (int)EventType::JButtonDown, 7);
+	m_window.GetEventManager()->AddBinding("Button_Select", (int)EventType::JButtonDown, 8);
+	m_window.GetEventManager()->AddBinding("Button_Start", (int)EventType::JButtonDown, 9);
+	m_window.GetEventManager()->AddBinding("Button_L3", (int)EventType::JButtonDown, 10);
+	m_window.GetEventManager()->AddBinding("Button_R3", (int)EventType::JButtonDown, 11);
+
+	m_window.GetEventManager()->AddBinding("Joystick_Moved", (int)EventType::JoystickMoved, 0);
 }
 
 Game::~Game() {}

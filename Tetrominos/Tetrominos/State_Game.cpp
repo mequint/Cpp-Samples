@@ -44,6 +44,21 @@ void State_Game::Create()
 	eventManager->AddCallback(StateType::Game, "Key_Period", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_Slash", &State_Game::MoveLander, this);
 
+	eventManager->AddCallback(StateType::Game, "Button_X", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_A", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_B", &State_Game::MoveLander, this);
+	//eventManager->AddCallback(StateType::Game, "Button_Y", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_L1", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_R1", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_L2", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_R2", &State_Game::MoveLander, this);
+	//eventManager->AddCallback(StateType::Game, "Button_Select", &State_Game::MoveLander, this);
+	eventManager->AddCallback(StateType::Game, "Button_Start", &State_Game::Pause, this);
+	//eventManager->AddCallback(StateType::Game, "Button_L3", &State_Game::MoveLander, this);
+	//eventManager->AddCallback(StateType::Game, "Button_R3", &State_Game::MoveLander, this);
+
+	eventManager->AddCallback(StateType::Game, "Joystick_Moved", &State_Game::MoveLander, this);
+
 	m_font.loadFromFile("arial.ttf");
 
 	std::string text = "Hold";
@@ -73,6 +88,8 @@ void State_Game::Create()
 	m_hold = Shape(ShapeType::None, m_blockSize);
 	m_next.SetOnField(false);
 	m_holdBox.SetShape(&m_hold);
+
+	LoadSounds();
 }
 
 void State_Game::Destroy()
@@ -96,6 +113,19 @@ void State_Game::Destroy()
 	eventManager->RemoveCallback(StateType::Game, "Key_Comma");
 	eventManager->RemoveCallback(StateType::Game, "Key_Period");
 	eventManager->RemoveCallback(StateType::Game, "Key_Slash");
+
+	eventManager->RemoveCallback(StateType::Game, "Button_X");
+	eventManager->RemoveCallback(StateType::Game, "Button_A");
+	eventManager->RemoveCallback(StateType::Game, "Button_B");
+	//eventManager->RemoveCallback(StateType::Game, "Button_Y");
+	eventManager->RemoveCallback(StateType::Game, "Button_L1");
+	eventManager->RemoveCallback(StateType::Game, "Button_R1");
+	eventManager->RemoveCallback(StateType::Game, "Button_L2");
+	eventManager->RemoveCallback(StateType::Game, "Button_R2");
+	//eventManager->RemoveCallback(StateType::Game, "Button_Select");
+	eventManager->RemoveCallback(StateType::Game, "Button_Start");
+	//eventManager->RemoveCallback(StateType::Game, "Button_L3");
+	//eventManager->RemoveCallback(StateType::Game, "Button_R3");
 }
 
 void State_Game::Activate()
@@ -134,6 +164,16 @@ void State_Game::Update(const sf::Time & time)
 		// Remove the lines
 		int linesRemoved = m_grid.RemoveCompleteLines();
 		m_lines += linesRemoved;
+
+		// Play sounds...
+		if (linesRemoved > 0)
+		{
+			m_removeLines.play();
+		}
+		else
+		{
+			m_blockLand.play();
+		}
 
 		// Update the fall time
 		if (m_lines > m_speedUp)
@@ -212,17 +252,40 @@ void State_Game::MoveLander(EventDetails * details)
 	{
 		m_lander.SetMovement(Movement::Right);
 	}
-	else if (detail == "Key_Comma" || detail == "Key_Z")
+	else if (detail == "Key_Comma" || detail == "Key_Z" || detail == "Button_A")
 	{
 		m_lander.SetMovement(Movement::CCW);
 	}
-	else if (detail == "Key_Period" || detail == "Key_X")
+	else if (detail == "Key_Period" || detail == "Key_X" || detail == "Button_B")
 	{
 		m_lander.SetMovement(Movement::CW);
 	}
-	else if (detail == "Key_Slash" || detail == "Key_C")
+	else if (detail == "Key_Slash" || detail == "Key_C" || 
+		detail == "Button_X" || detail == "Button_L1" || detail == "Button_R1" || detail == "Button_L2" || detail == "Button_R2")
 	{
 		SwapLanderWithHold();
+	}
+	else if (detail == "Joystick_Moved")
+	{
+		float posX = details->m_joystickXY.x;
+		float posY = details->m_joystickXY.y;
+
+		if (posX == -100)
+		{
+			m_lander.SetMovement(Movement::Left);
+		}
+		else if (posX == 100)
+		{
+			m_lander.SetMovement(Movement::Right);
+		}
+		else if (posY == -100)
+		{
+			m_grid.SlamShape(m_lander);
+		}
+		else if (posY == 100)
+		{
+			m_lander.SetMovement(Movement::Down);
+		}
 	}
 }
 
@@ -256,4 +319,19 @@ void State_Game::SwapLanderWithHold()
 		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
 		m_lander.SetOnField(true);
 	}
+}
+
+void State_Game::LoadSounds()
+{
+	m_blockLandBuffer.loadFromFile("BlockLand.wav");
+	m_blockLand.setBuffer(m_blockLandBuffer);
+	m_blockLand.setVolume(100);
+
+	m_blockRotateBuffer.loadFromFile("BlockRotate.wav");
+	m_blockRotate.setBuffer(m_blockRotateBuffer);
+	m_blockRotate.setVolume(100);
+
+	m_removeLinesBuffer.loadFromFile("RemoveLines.wav");
+	m_removeLines.setBuffer(m_removeLinesBuffer);
+	m_removeLines.setVolume(100);
 }

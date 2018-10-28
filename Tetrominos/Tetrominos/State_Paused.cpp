@@ -27,12 +27,14 @@ void State_Paused::Create()
 
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->AddCallback(StateType::Paused, "Key_P", &State_Paused::Unpause, this);
+	eventManager->AddCallback(StateType::Paused, "Button_Start", &State_Paused::Unpause, this);
 }
 
 void State_Paused::Destroy()
 {
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Paused, "Key_P");
+	eventManager->RemoveCallback(StateType::Paused, "Button_Start");
 }
 
 void State_Paused::Activate() 

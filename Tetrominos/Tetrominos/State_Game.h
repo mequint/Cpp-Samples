@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Audio.hpp>
+
 #include "BaseState.h"
 
 #include "EventManager.h"
@@ -31,6 +33,7 @@ class State_Game : public BaseState
 	private:
 
 		void SwapLanderWithHold();
+		void LoadSounds();
 
 		RandomGenerator m_randomGenerator;
 
@@ -43,6 +46,14 @@ class State_Game : public BaseState
 		ShapeBox m_nextBox;
 		TitledTextBox m_levelBox;
 		TitledTextBox m_scoreBox;
+
+		// Sound Effects
+		sf::SoundBuffer m_blockLandBuffer;
+		sf::Sound m_blockLand;
+		sf::SoundBuffer m_blockRotateBuffer;
+		sf::Sound m_blockRotate;
+		sf::SoundBuffer m_removeLinesBuffer;
+		sf::Sound m_removeLines;
 
 		// Game variables
 		float m_blockSize;

@@ -7,18 +7,24 @@
 
 enum class EventType
 {
+	Closed = sf::Event::Closed,
+	WindowResized = sf::Event::Resized,
+	LostFocus = sf::Event::LostFocus,
+	GainedFocus = sf::Event::GainedFocus,
+	TextEntered = sf::Event::TextEntered,
 	KeyDown = sf::Event::KeyPressed,
 	KeyUp = sf::Event::KeyReleased,
+	MouseWheel = sf::Event::MouseWheelScrolled,
 	MButtonDown = sf::Event::MouseButtonPressed,
 	MButtonUp = sf::Event::MouseButtonReleased,
-	MouseWheel = sf::Event::MouseWheelScrolled,
-	WindowResized = sf::Event::Resized,
-	GainedFocus = sf::Event::GainedFocus,
-	LostFocus = sf::Event::LostFocus,
+	MouseMoved = sf::Event::MouseMoved,
 	MouseEntered = sf::Event::MouseEntered,
 	MouseLeft = sf::Event::MouseLeft,
-	Closed = sf::Event::Closed,
-	TextEntered = sf::Event::TextEntered,
+	JButtonDown = sf::Event::JoystickButtonPressed,
+	JButtonUp = sf::Event::JoystickButtonReleased,
+	JoystickMoved = sf::Event::JoystickMoved,
+	JoystickConnected = sf::Event::JoystickConnected,
+	JoystickDisconnected = sf::Event::JoystickDisconnected,
 	Keyboard = sf::Event::Count + 1,
 	Mouse,
 	Joystick
@@ -58,6 +64,7 @@ struct EventDetails
 	sf::Vector2i m_size;
 	sf::Uint32 m_textEntered;
 	sf::Vector2i m_mouse;
+	sf::Vector2f m_joystickXY;
 	int m_mouseWheelDelta;
 	int m_keyCode;
 };

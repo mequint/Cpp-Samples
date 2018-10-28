@@ -18,8 +18,7 @@ int main()
 // TODO:
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
 // -Bug: Scoring system
-
-// -Add Controller Functionality
+// -Bug: Fine Tune Controller Functionality
 
 // -Title State
 // -Credit State
