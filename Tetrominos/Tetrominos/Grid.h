@@ -3,14 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "ShapeType.h"
+#include "Shape.h"
+#include "Tweener.h"
 
-class Shape;				/// Will need to add later...once the inversion is complete
+enum class GridState { Waiting, Animating, RemovingLines };
 
 class Grid
 {
 	public:
-		Grid();
 		Grid(int columns, int rows, int posX, int posY, int cellSize);
 
 		void CheckCollisions(Shape& shape);
@@ -21,18 +21,20 @@ class Grid
 
 		void ToggleVisibility();
 
-		sf::FloatRect GetGridZone();
 		int GetCellSize() const;
 		Shape GetShadow(Shape& shape);
 
-		void AddBlock(int col, int row, int type);
 		bool HasBlock(int col, int row);
 
 		sf::Vector2f GetPosition();
 
 		int RemoveCompleteLines();
+		int GetLinesRemoved() const;
 
 	private:
+
+		void DrawBlock(sf::RenderWindow& renderWindow, int col, int row);
+		void DrawGridCell(int row, int col, sf::RenderWindow & renderWindow);
 
 		sf::Vector2f m_position;
 		int m_cellSize;
@@ -41,4 +43,10 @@ class Grid
 		int m_columns, m_rows;
 
 		bool m_visible;
+
+		GridState m_state;
+		std::vector<int> m_linesToRemove;
+
+		// Animation
+		IntTweener m_alphaTweener;
 };

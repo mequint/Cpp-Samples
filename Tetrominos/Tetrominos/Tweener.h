@@ -4,6 +4,8 @@ template <typename T>
 class Tweener
 {
 	public:
+		Tweener() {}
+
 		Tweener(T start, T end, int frames, float frameTime)
 		{
 			m_isPlaying = false;
@@ -69,3 +71,6 @@ class Tweener
 		bool m_isPlaying;
 		bool m_isComplete;
 };
+
+using FloatTweener = Tweener<float>;
+using IntTweener = Tweener<int>;

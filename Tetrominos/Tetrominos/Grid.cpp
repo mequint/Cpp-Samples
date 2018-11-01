@@ -5,11 +5,11 @@
 #include "BlockHelper.h"
 #include "Shape.h"
 
-Grid::Grid() {}
-
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
-	m_visible(true), m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0))
+	m_visible(true), m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0)),
+	m_alphaTweener(255, 0, 30, 1.0f / 120.0f)
 {
+	m_state = GridState::Waiting;
 }
 
 void Grid::CheckCollisions(Shape& shape)
@@ -101,7 +101,79 @@ void Grid::CheckCollisions(Shape& shape)
 
 void Grid::Update(Shape& shape, float dt)
 {
-	CheckCollisions(shape);
+	if (m_state == GridState::Waiting)
+	{
+		m_linesToRemove.clear();
+
+		if (shape.HasLanded())
+		{
+			sf::Vector2i landerPos = shape.GetCellPosition();
+			for (auto block : shape.GetBlocks())
+			{
+				int col = block.x + landerPos.x;
+				int row = block.y + landerPos.y;
+				int type = static_cast<int>(shape.GetType());
+
+				m_blockPile[col][row] = type;
+			}
+
+			int rows = m_blockPile[0].size();
+			for (int i = 0; i < rows; ++i)
+			{
+				bool completeLine = true;
+				for (int j = m_blockPile.size() - 1; j >= 0; --j)
+				{
+					if (!m_blockPile[j][i])
+					{
+						completeLine = false;
+					}
+				}
+
+				if (completeLine)
+				{
+					m_linesToRemove.push_back(i);
+				}
+			}
+
+			if (!m_linesToRemove.empty())
+			{
+				m_alphaTweener.Play();
+				m_state = GridState::Animating;
+			}
+		}
+	}
+	else if (m_state == GridState::Animating)
+	{
+		m_alphaTweener.Update(dt);
+
+		if (!m_alphaTweener.IsPlaying())
+		{
+			m_alphaTweener.Reset();
+			m_state = GridState::RemovingLines;
+		}
+	}
+	else if (m_state == GridState::RemovingLines)
+	{
+		for (auto i : m_linesToRemove)
+		{
+			for (int j = i; j > 0; --j)
+			{
+				for (int k = 0; k < m_blockPile.size(); ++k)
+				{
+					int temp = m_blockPile[k][j];
+					m_blockPile[k][j] = m_blockPile[k][j - 1];
+					m_blockPile[k][j - 1] = temp;
+				}
+			}
+
+			for (int j = 0; j < m_blockPile.size(); ++j)
+			{
+				m_blockPile[j][0] = 0;
+			}
+		}
+
+		m_state = GridState::Waiting;
+	}
 }
 
 void Grid::SlamShape(Shape& shape)
@@ -114,59 +186,107 @@ void Grid::SlamShape(Shape& shape)
 	}
 }
 
-void Grid::Draw(sf::RenderWindow& renderWindow)
+
+void Grid::DrawBlock(sf::RenderWindow& renderWindow, int col, int row)
 {
 	sf::RectangleShape cell(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
+
+	sf::Color color = BlockHelper::GetBlockColor((ShapeType)(m_blockPile[col][row]));
+	sf::Color outlineColor = color;
+	outlineColor.r = 3 * outlineColor.r / 5;
+	outlineColor.g = 3 * outlineColor.g / 5;
+	outlineColor.b = 3 * outlineColor.b / 5;
+
+	sf::Vector2f size = sf::Vector2f((float)m_cellSize, (float)m_cellSize);
+	sf::Vector2f position = sf::Vector2f((float)(m_position.x + col * m_cellSize), (float)(m_position.y + row * m_cellSize));
+	sf::Vector2f origin = sf::Vector2f(0.0f, 0.0f);
+
+	if (m_state == GridState::Animating)
+	{
+		for (auto line : m_linesToRemove)
+		{
+			if (row == line)
+			{
+				color.a = m_alphaTweener.CurrentStep();
+				outlineColor.a = m_alphaTweener.CurrentStep();
+				origin = sf::Vector2f((float)m_cellSize / 2.0f, (float)m_cellSize / 2.0f);
+				position = sf::Vector2f((float)m_position.x + col * m_cellSize + m_cellSize / 2.0f,
+					(float)m_position.y + row * m_cellSize + m_cellSize / 2.0f);
+			}
+		}
+	}
+	else if (m_state == GridState::RemovingLines)
+	{
+		color = sf::Color::Transparent;
+		outlineColor = sf::Color::Transparent;
+	}
+
+	cell.setOutlineColor(outlineColor);
+	cell.setFillColor(color);
+	cell.setOutlineThickness(-1.0f);
+
+	if (row == 1)
+	{
+		cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize / 4.0f));
+		cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize + 3 * m_cellSize / 4));
+	}
+	else
+	{
+		cell.setSize(size);
+		cell.setPosition(position);
+		cell.setOrigin(origin);
+	}
+
+	renderWindow.draw(cell);
+}
+
+void Grid::Draw(sf::RenderWindow& renderWindow)
+{
 
 	for (auto col = 0; col < m_blockPile.size(); ++col)
 	{
 		for (auto row = 1; row < m_blockPile[col].size(); ++row)
 		{
+			DrawGridCell(row, col, renderWindow);
+
 			if (m_blockPile[col][row])
 			{
-				sf::Color color = BlockHelper::GetBlockColor((ShapeType)(m_blockPile[col][row]));
-				cell.setFillColor(color);
-
-				sf::Color outlineColor = color;
-				outlineColor.r = 3 * outlineColor.r / 5;
-				outlineColor.g = 3 * outlineColor.g / 5;
-				outlineColor.b = 3 * outlineColor.b / 5;
-				cell.setOutlineColor(outlineColor);
+				DrawBlock(renderWindow, col, row);
 			}
-			else
-			{
-				cell.setFillColor(sf::Color::Transparent);
-
-				sf::Color outlineColor = sf::Color::White;
-				outlineColor.a = 3 * outlineColor.a / 5;
-				cell.setOutlineColor(outlineColor);
-			}
-			cell.setOutlineThickness(-1.0f);
-
-			if (row == 1)
-			{
-				cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize / 4.0f));
-				cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize + 3 * m_cellSize / 4));
-			}
-			else
-			{
-				cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
-				cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize));
-			}
-
-			renderWindow.draw(cell);
 		}
 	}
+}
+
+void Grid::DrawGridCell(int row, int col, sf::RenderWindow & renderWindow)
+{
+	sf::RectangleShape cell(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
+	cell.setFillColor(sf::Color::Transparent);
+
+	sf::Color outlineColor = sf::Color::White;
+	outlineColor.a = 3 * outlineColor.a / 5;
+	cell.setOutlineColor(outlineColor);
+	cell.setOutlineThickness(-1.0f);
+
+	if (row == 1)
+	{
+		cell.setSize(sf::Vector2f((float)m_cellSize, (float)m_cellSize / 4.0f));
+		cell.setPosition(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize + 3 * m_cellSize / 4));
+	}
+	else
+	{
+		sf::Vector2f size = sf::Vector2f((float)m_cellSize, (float)m_cellSize);
+		sf::Vector2f position = sf::Vector2f(static_cast<float>(m_position.x + col * m_cellSize), static_cast<float>(m_position.y + row * m_cellSize));
+
+		cell.setSize(size);
+		cell.setPosition(position);
+	}
+
+	renderWindow.draw(cell);
 }
 
 void Grid::ToggleVisibility()
 {
 	m_visible = !m_visible;
-}
-
-sf::FloatRect Grid::GetGridZone()
-{
-	return sf::FloatRect(sf::Vector2f(m_position.x, m_position.y), sf::Vector2f(m_columns * m_cellSize, m_rows * m_cellSize));
 }
 
 int Grid::GetCellSize() const
@@ -188,11 +308,6 @@ Shape Grid::GetShadow(Shape& shape)
 
 	
 	return shadow;
-}
-
-void Grid::AddBlock(int col, int row, int type)
-{
-	m_blockPile[col][row] = type;
 }
 
 bool Grid::HasBlock(int col, int row)
@@ -245,4 +360,14 @@ int Grid::RemoveCompleteLines()
 	}
 
 	return score;
+}
+
+int Grid::GetLinesRemoved() const
+{
+	if (m_state == GridState::RemovingLines)
+	{
+		return m_linesToRemove.size();
+	}
+
+	return 0;
 }

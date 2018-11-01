@@ -4,12 +4,11 @@
 #include "StateManager.h"
 
 // TODO: Make the block size configurable
-State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager),
-	m_randomGenerator((int)ShapeType::Z)
+State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_randomGenerator((int)ShapeType::Z),
+	m_grid(10, 22, 320, 128, 16)
 {
 	m_blockSize = 16.0f;
-	m_grid = Grid(10, 22, 320, 128, 16);
-
+	
 	m_currentFallTime = 0.0f;
 	m_nextFallTime = 1.0f;
 
@@ -129,23 +128,22 @@ void State_Game::Deactivate()
 
 void State_Game::Update(const sf::Time & time)
 {
-	m_currentFallTime += time.asSeconds();
+	float elapsedTime = time.asSeconds();
 
+	m_currentFallTime += elapsedTime;
 	if (m_currentFallTime >= m_nextFallTime)
 	{
 		m_currentFallTime = 0.0f;
-		// This will replace the current movement...might want to consider collecting moves...
 		m_lander.SetMovement(Movement::Down);
 	}
 
-	m_grid.Update(m_lander, time.asSeconds());
+	m_grid.CheckCollisions(m_lander);
+	m_grid.Update(m_lander, elapsedTime);
 
 	if (m_lander.HasLanded())
 	{
-		AddLanderToBlockPile();
-
 		// Remove the lines
-		int linesRemoved = m_grid.RemoveCompleteLines();
+		int linesRemoved = m_grid.GetLinesRemoved();
 		m_lines += linesRemoved;
 
 		// Play sounds...
@@ -161,7 +159,7 @@ void State_Game::Update(const sf::Time & time)
 		UpdateFallTime();
 		UpdateScore(linesRemoved);
 
-		RotateLander();
+		MoveNextLanderToGrid();
 
 		// Check for game over condition
 		for (auto block : m_lander.GetBlocks())
@@ -179,7 +177,7 @@ void State_Game::Update(const sf::Time & time)
 	UpdateUIPieces();
 }
 
-void State_Game::RotateLander()
+void State_Game::MoveNextLanderToGrid()
 {
 	// Move next lander to playing field
 	m_lander = m_next;
@@ -221,19 +219,6 @@ void State_Game::UpdateFallTime()
 	}
 }
 
-void State_Game::AddLanderToBlockPile()
-{
-	sf::Vector2i landerPos = m_lander.GetCellPosition();
-	for (auto block : m_lander.GetBlocks())
-	{
-		int col = block.x + landerPos.x;
-		int row = block.y + landerPos.y;
-		int type = static_cast<int>(m_lander.GetType());
-
-		m_grid.AddBlock(col, row, type);
-	}
-}
-
 void State_Game::Draw()
 {
 	auto renderWindow = m_stateManager->GetContext()->m_window->GetRenderWindow();
@@ -253,7 +238,7 @@ void State_Game::Pause(EventDetails * details)
 	m_stateManager->ChangeState(StateType::Paused);
 }
 
-void State_Game::MoveLander(EventDetails * details)
+void State_Game::MoveLander(EventDetails* details)
 {
 	std::string detail = details->m_name;
 	if (detail == "Key_Down" || detail == "Key_S")
