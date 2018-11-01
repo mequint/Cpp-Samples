@@ -47,16 +47,11 @@ void State_Game::Create()
 	eventManager->AddCallback(StateType::Game, "Button_X", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_A", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_B", &State_Game::MoveLander, this);
-	//eventManager->AddCallback(StateType::Game, "Button_Y", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_L1", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_R1", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_L2", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_R2", &State_Game::MoveLander, this);
-	//eventManager->AddCallback(StateType::Game, "Button_Select", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Button_Start", &State_Game::Pause, this);
-	//eventManager->AddCallback(StateType::Game, "Button_L3", &State_Game::MoveLander, this);
-	//eventManager->AddCallback(StateType::Game, "Button_R3", &State_Game::MoveLander, this);
-
 	eventManager->AddCallback(StateType::Game, "Joystick_Moved", &State_Game::MoveLander, this);
 
 	m_font.loadFromFile("arial.ttf");
@@ -117,15 +112,11 @@ void State_Game::Destroy()
 	eventManager->RemoveCallback(StateType::Game, "Button_X");
 	eventManager->RemoveCallback(StateType::Game, "Button_A");
 	eventManager->RemoveCallback(StateType::Game, "Button_B");
-	//eventManager->RemoveCallback(StateType::Game, "Button_Y");
 	eventManager->RemoveCallback(StateType::Game, "Button_L1");
 	eventManager->RemoveCallback(StateType::Game, "Button_R1");
 	eventManager->RemoveCallback(StateType::Game, "Button_L2");
 	eventManager->RemoveCallback(StateType::Game, "Button_R2");
-	//eventManager->RemoveCallback(StateType::Game, "Button_Select");
 	eventManager->RemoveCallback(StateType::Game, "Button_Start");
-	//eventManager->RemoveCallback(StateType::Game, "Button_L3");
-	//eventManager->RemoveCallback(StateType::Game, "Button_R3");
 }
 
 void State_Game::Activate()
@@ -151,16 +142,7 @@ void State_Game::Update(const sf::Time & time)
 
 	if (m_lander.HasLanded())
 	{
-		// Add lander blocks to the block pile
-		sf::Vector2i landerPos = m_lander.GetCellPosition();
-		for (auto block : m_lander.GetBlocks())
-		{
-			int col = block.x + landerPos.x;
-			int row = block.y + landerPos.y;
-			int type = static_cast<int>(m_lander.GetType());
-
-			m_grid.AddBlock(col, row, type);
-		}
+		AddLanderToBlockPile();
 
 		// Remove the lines
 		int linesRemoved = m_grid.RemoveCompleteLines();
@@ -176,32 +158,10 @@ void State_Game::Update(const sf::Time & time)
 			m_blockLand.play();
 		}
 
-		// Update the fall time
-		if (m_lines > m_speedUp)
-		{
-			m_nextFallTime -= 0.09f;
+		UpdateFallTime();
+		UpdateScore(linesRemoved);
 
-			m_speedUp += 10;
-
-			if (m_nextFallTime < 0.05f)
-			{
-				m_nextFallTime = 0.05f;
-			}
-		}
-
-		// Update score
-		m_score += (400 * linesRemoved * linesRemoved);
-
-		// Move next lander to playing field
-		m_lander = m_next;
-		m_lander.SetReferencePoint(m_grid.GetPosition());
-		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
-		m_lander.SetOnField(true);
-
-		// Create a new next lander 
-		m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
-		m_nextBox.SetShape(&m_next);
-		m_next.SetOnField(false);
+		RotateLander();
 
 		// Check for game over condition
 		for (auto block : m_lander.GetBlocks())
@@ -216,12 +176,62 @@ void State_Game::Update(const sf::Time & time)
 	// Update lander
 	m_lander.Update(time.asSeconds());
 	
-	m_shadow = m_grid.GetShadow(m_lander);
+	UpdateUIPieces();
+}
 
-	// Update UI elements
+void State_Game::RotateLander()
+{
+	// Move next lander to playing field
+	m_lander = m_next;
+	m_lander.SetReferencePoint(m_grid.GetPosition());
+	m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
+	m_lander.SetOnField(true);
+
+	// Create a new next lander 
+	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	m_nextBox.SetShape(&m_next);
+	m_next.SetOnField(false);
+}
+
+void State_Game::UpdateUIPieces()
+{
+	m_shadow = m_grid.GetShadow(m_lander);
 	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
 	m_levelBox.SetText(std::to_string(m_lines / 10));
 	m_scoreBox.SetText(std::to_string(m_score));
+}
+
+void State_Game::UpdateScore(int linesRemoved)
+{
+	m_score += (400 * linesRemoved * linesRemoved);
+}
+
+void State_Game::UpdateFallTime()
+{
+	if (m_lines > m_speedUp)
+	{
+		m_nextFallTime -= 0.09f;
+
+		m_speedUp += 10;
+
+		if (m_nextFallTime < 0.05f)
+		{
+			m_nextFallTime = 0.05f;
+		}
+	}
+}
+
+void State_Game::AddLanderToBlockPile()
+{
+	sf::Vector2i landerPos = m_lander.GetCellPosition();
+	for (auto block : m_lander.GetBlocks())
+	{
+		int col = block.x + landerPos.x;
+		int row = block.y + landerPos.y;
+		int type = static_cast<int>(m_lander.GetType());
+
+		m_grid.AddBlock(col, row, type);
+	}
 }
 
 void State_Game::Draw()

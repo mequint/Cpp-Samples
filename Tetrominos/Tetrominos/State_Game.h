@@ -25,6 +25,11 @@ class State_Game : public BaseState
 		void Deactivate();
 
 		void Update(const sf::Time& time);
+		void RotateLander();
+		void UpdateUIPieces();
+		void UpdateScore(int linesRemoved);
+		void UpdateFallTime();
+		void AddLanderToBlockPile();
 		void Draw();
 
 		void Pause(EventDetails* details);
