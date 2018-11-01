@@ -19,9 +19,8 @@ int main()
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
 // -Fine Tune: Scoring system
 // -Fine Tune: Move Responsiveness/Controller Functionality
+// -Fine Tune: Prevent spawning of next lander until the grid animation is complete
 
-// -Add Animations
-// --Block Removal
 // -Add Message
 // --Animation: Fade In/Fade Out
 // --Level Up

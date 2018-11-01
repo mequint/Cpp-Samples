@@ -19,16 +19,12 @@ class Grid
 		void SlamShape(Shape & shape);
 		void Draw(sf::RenderWindow& renderWindow);
 
-		void ToggleVisibility();
-
-		int GetCellSize() const;
 		Shape GetShadow(Shape& shape);
 
 		bool HasBlock(int col, int row);
 
 		sf::Vector2f GetPosition();
 
-		int RemoveCompleteLines();
 		int GetLinesRemoved() const;
 
 	private:
@@ -41,8 +37,6 @@ class Grid
 
 		std::vector<std::vector<int>> m_blockPile;
 		int m_columns, m_rows;
-
-		bool m_visible;
 
 		GridState m_state;
 		std::vector<int> m_linesToRemove;

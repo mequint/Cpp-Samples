@@ -6,7 +6,7 @@
 #include "Shape.h"
 
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
-	m_visible(true), m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0)),
+	m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0)),
 	m_alphaTweener(255, 0, 30, 1.0f / 120.0f)
 {
 	m_state = GridState::Waiting;
@@ -186,6 +186,22 @@ void Grid::SlamShape(Shape& shape)
 	}
 }
 
+void Grid::Draw(sf::RenderWindow& renderWindow)
+{
+
+	for (auto col = 0; col < m_blockPile.size(); ++col)
+	{
+		for (auto row = 1; row < m_blockPile[col].size(); ++row)
+		{
+			DrawGridCell(row, col, renderWindow);
+
+			if (m_blockPile[col][row])
+			{
+				DrawBlock(renderWindow, col, row);
+			}
+		}
+	}
+}
 
 void Grid::DrawBlock(sf::RenderWindow& renderWindow, int col, int row)
 {
@@ -240,23 +256,6 @@ void Grid::DrawBlock(sf::RenderWindow& renderWindow, int col, int row)
 	renderWindow.draw(cell);
 }
 
-void Grid::Draw(sf::RenderWindow& renderWindow)
-{
-
-	for (auto col = 0; col < m_blockPile.size(); ++col)
-	{
-		for (auto row = 1; row < m_blockPile[col].size(); ++row)
-		{
-			DrawGridCell(row, col, renderWindow);
-
-			if (m_blockPile[col][row])
-			{
-				DrawBlock(renderWindow, col, row);
-			}
-		}
-	}
-}
-
 void Grid::DrawGridCell(int row, int col, sf::RenderWindow & renderWindow)
 {
 	sf::RectangleShape cell(sf::Vector2f((float)m_cellSize, (float)m_cellSize));
@@ -284,29 +283,13 @@ void Grid::DrawGridCell(int row, int col, sf::RenderWindow & renderWindow)
 	renderWindow.draw(cell);
 }
 
-void Grid::ToggleVisibility()
-{
-	m_visible = !m_visible;
-}
-
-int Grid::GetCellSize() const
-{
-	return m_cellSize;
-}
-
 Shape Grid::GetShadow(Shape& shape)
 {
 	Shape shadow(shape);
 	shadow.SetShadow(true);
 
-	while (!shadow.HasLanded())
-	{
-		shadow.SetMovement(Movement::Down);
-		CheckCollisions(shadow);
-		shadow.Update(0.0f);
-	}
+	SlamShape(shadow);
 
-	
 	return shadow;
 }
 
@@ -320,51 +303,9 @@ sf::Vector2f Grid::GetPosition()
 	return m_position;
 }
 
-int Grid::RemoveCompleteLines()
-{
-	int score = 0;
-
-	// We want to check every row...not column
-	int rows = m_blockPile[0].size();
-
-	for (int i = 0; i < rows; ++i)
-	{
-		bool completeLine = true;
-
-		for (int j = m_blockPile.size() - 1; j >= 0; --j)
-		{
-			if (!m_blockPile[j][i])
-			{
-				completeLine = false;
-			}
-		}
-
-		if (completeLine)
-		{
-			for (int k = i; k > 0; --k)
-			{
-				for (int l = 0; l < m_blockPile.size(); ++l)
-				{
-					int temp = m_blockPile[l][k];
-					m_blockPile[l][k] = m_blockPile[l][k - 1];
-					m_blockPile[l][k - 1] = temp;
-				}
-			}
-
-			for (int k = 0; k < m_blockPile.size(); ++k)
-			{
-				m_blockPile[k][0] = 0;
-			}
-			score++;
-		}
-	}
-
-	return score;
-}
-
 int Grid::GetLinesRemoved() const
 {
-	if (m_state == GridState::RemovingLines)
+	if (m_state == GridState::Animating)
 	{
 		return m_linesToRemove.size();
 	}

@@ -118,13 +118,8 @@ void State_Game::Destroy()
 	eventManager->RemoveCallback(StateType::Game, "Button_Start");
 }
 
-void State_Game::Activate()
-{
-}
-
-void State_Game::Deactivate()
-{
-}
+void State_Game::Activate() {}
+void State_Game::Deactivate() {}
 
 void State_Game::Update(const sf::Time & time)
 {
@@ -172,7 +167,7 @@ void State_Game::Update(const sf::Time & time)
 	}
 
 	// Update lander
-	m_lander.Update(time.asSeconds());
+	m_lander.Update(elapsedTime);
 	
 	UpdateUIPieces();
 }
@@ -304,10 +299,7 @@ void State_Game::SwapLanderWithHold()
 		m_hold.SetRotationIndex(0);
 		m_holdBox.SetShape(&m_hold);
 
-		m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
-		m_lander.SetReferencePoint(m_grid.GetPosition());
-		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
-		m_lander.SetOnField(true);
+		MoveNextLanderToGrid();
 	}
 	else
 	{
