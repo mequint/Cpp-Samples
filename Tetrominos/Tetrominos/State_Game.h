@@ -40,6 +40,7 @@ class State_Game : public BaseState
 		void LoadSounds();
 
 		RandomGenerator m_randomGenerator;
+		bool m_holdActivated;
 
 		// Resources
 		sf::Font m_font;

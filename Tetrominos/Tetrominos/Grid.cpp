@@ -283,7 +283,7 @@ void Grid::DrawGridCell(int row, int col, sf::RenderWindow & renderWindow)
 	renderWindow.draw(cell);
 }
 
-Shape Grid::GetShadow(Shape& shape)
+Shape Grid::CastShadow(Shape& shape)
 {
 	Shape shadow(shape);
 	shadow.SetShadow(true);

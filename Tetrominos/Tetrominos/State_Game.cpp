@@ -15,6 +15,8 @@ State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_
 	m_lines = 0;
 	m_score = 0;
 	m_speedUp = 10;
+
+	m_holdActivated = false;
 }
 
 State_Game::~State_Game()
@@ -164,6 +166,8 @@ void State_Game::Update(const sf::Time & time)
 				m_stateManager->ChangeState(StateType::GameOver);
 			}
 		}
+
+		m_holdActivated = false;
 	}
 
 	// Update lander
@@ -188,7 +192,7 @@ void State_Game::MoveNextLanderToGrid()
 
 void State_Game::UpdateUIPieces()
 {
-	m_shadow = m_grid.GetShadow(m_lander);
+	m_shadow = m_grid.CastShadow(m_lander);
 	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
 	m_levelBox.SetText(std::to_string(m_lines / 10));
 	m_scoreBox.SetText(std::to_string(m_score));
@@ -291,6 +295,8 @@ void State_Game::MoveLander(EventDetails* details)
 
 void State_Game::SwapLanderWithHold()
 {
+	if (m_holdActivated) return;
+
 	if (m_hold.GetType() == ShapeType::None)
 	{
 		m_hold = m_lander;
@@ -316,6 +322,8 @@ void State_Game::SwapLanderWithHold()
 		m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
 		m_lander.SetOnField(true);
 	}
+
+	m_holdActivated = true;
 }
 
 void State_Game::LoadSounds()

@@ -14,21 +14,17 @@ class Grid
 		Grid(int columns, int rows, int posX, int posY, int cellSize);
 
 		void CheckCollisions(Shape& shape);
-
 		void Update(Shape& shape, float dt);
-		void SlamShape(Shape & shape);
 		void Draw(sf::RenderWindow& renderWindow);
 
-		Shape GetShadow(Shape& shape);
+		void SlamShape(Shape & shape);
+		Shape CastShadow(Shape& shape);
 
 		bool HasBlock(int col, int row);
-
 		sf::Vector2f GetPosition();
-
 		int GetLinesRemoved() const;
 
 	private:
-
 		void DrawBlock(sf::RenderWindow& renderWindow, int col, int row);
 		void DrawGridCell(int row, int col, sf::RenderWindow & renderWindow);
 
