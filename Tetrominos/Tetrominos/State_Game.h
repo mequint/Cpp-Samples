@@ -7,6 +7,7 @@
 #include "EventManager.h"
 #include "Grid.h"
 #include "Label.h"
+#include "MessageAnimator.h"
 #include "RandomGenerator.h"
 #include "Shape.h"
 #include "ShapeBox.h"
@@ -39,6 +40,8 @@ class State_Game : public BaseState
 		void SwapLanderWithHold();
 		void LoadSounds();
 
+		std::string GetLineRemovalMessage(int linesRemoved);
+
 		RandomGenerator m_randomGenerator;
 		bool m_holdActivated;
 
@@ -47,6 +50,8 @@ class State_Game : public BaseState
 
 		// User Interface
 		Label m_linesBox;
+		MessageAnimator m_messageAnimator;
+
 		ShapeBox m_holdBox;
 		ShapeBox m_nextBox;
 		TitledTextBox m_levelBox;
@@ -75,4 +80,6 @@ class State_Game : public BaseState
 		int m_lines;
 		int m_score;
 		int m_speedUp;
+
+		int m_lastLinesRemoved;
 };

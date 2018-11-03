@@ -38,5 +38,5 @@ class Grid
 		std::vector<int> m_linesToRemove;
 
 		// Animation
-		IntTweener m_alphaTweener;
+		FloatTweener m_alphaTweener;
 };

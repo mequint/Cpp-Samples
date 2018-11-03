@@ -5,7 +5,7 @@
 
 // TODO: Make the block size configurable
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_randomGenerator((int)ShapeType::Z),
-	m_grid(10, 22, 320, 128, 16)
+	m_grid(10, 22, 320, 128, 16), m_messageAnimator(800, 600), m_lastLinesRemoved(0)
 {
 	m_blockSize = 16.0f;
 	
@@ -146,10 +146,18 @@ void State_Game::Update(const sf::Time & time)
 		// Play sounds...
 		if (linesRemoved > 0)
 		{
+			std::string message = GetLineRemovalMessage(linesRemoved);
+			
+			m_messageAnimator.SetMessage(message);
+			m_messageAnimator.Start();
+
 			m_removeLines.play();
+
+			m_lastLinesRemoved = linesRemoved;
 		}
 		else
 		{
+			m_lastLinesRemoved = 0;
 			m_blockLand.play();
 		}
 
@@ -173,6 +181,9 @@ void State_Game::Update(const sf::Time & time)
 	// Update lander
 	m_lander.Update(elapsedTime);
 	
+	// Message animator update
+	m_messageAnimator.Update(elapsedTime);
+
 	UpdateUIPieces();
 }
 
@@ -230,6 +241,8 @@ void State_Game::Draw()
 	m_grid.Draw(*renderWindow);
 	m_lander.Draw(*renderWindow);
 	m_shadow.Draw(*renderWindow);
+
+	m_messageAnimator.Draw(*renderWindow);
 }
 
 void State_Game::Pause(EventDetails * details)
@@ -339,4 +352,30 @@ void State_Game::LoadSounds()
 	m_removeLinesBuffer.loadFromFile("RemoveLines.wav");
 	m_removeLines.setBuffer(m_removeLinesBuffer);
 	m_removeLines.setVolume(100);
+}
+
+std::string State_Game::GetLineRemovalMessage(int linesRemoved)
+{
+	std::string message = "";
+
+	switch (linesRemoved)
+	{
+		case 1:
+			message = "Sweet";
+			break;
+
+		case 2:
+			message = "Groovy";
+			break;
+
+		case 3:
+			message = "Great!";
+			break;
+
+		case 4:
+			message = "Awesome!!!";
+			break;
+	}
+
+	return message;
 }

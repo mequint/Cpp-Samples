@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Anim_DestroyBlock.cpp" />
     <ClCompile Include="BlockHelper.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageAnimator.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeBox.cpp" />
@@ -40,11 +40,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Anim_DestroyBlock.h" />
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BlockHelper.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="MessageAnimator.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />

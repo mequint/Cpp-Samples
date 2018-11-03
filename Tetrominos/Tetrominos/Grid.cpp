@@ -7,7 +7,7 @@
 
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
 	m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0)),
-	m_alphaTweener(255, 0, 30, 1.0f / 120.0f)
+	m_alphaTweener(1.0, 0, 30, 1.0f / 120.0f)
 {
 	m_state = GridState::Waiting;
 }
@@ -146,7 +146,7 @@ void Grid::Update(Shape& shape, float dt)
 	{
 		m_alphaTweener.Update(dt);
 
-		if (!m_alphaTweener.IsPlaying())
+		if (m_alphaTweener.IsComplete())
 		{
 			m_alphaTweener.Reset();
 			m_state = GridState::RemovingLines;
@@ -223,8 +223,8 @@ void Grid::DrawBlock(sf::RenderWindow& renderWindow, int col, int row)
 		{
 			if (row == line)
 			{
-				color.a = m_alphaTweener.CurrentStep();
-				outlineColor.a = m_alphaTweener.CurrentStep();
+				color.a = (float)color.a * m_alphaTweener.CurrentStep();
+				outlineColor.a = (float)outlineColor.a * m_alphaTweener.CurrentStep();
 				origin = sf::Vector2f((float)m_cellSize / 2.0f, (float)m_cellSize / 2.0f);
 				position = sf::Vector2f((float)m_position.x + col * m_cellSize + m_cellSize / 2.0f,
 					(float)m_position.y + row * m_cellSize + m_cellSize / 2.0f);

@@ -22,12 +22,14 @@ class Tweener
 
 		T CurrentStep()
 		{
+			if (m_isComplete) return m_end;
+
 			if (m_start > m_end)
 			{
-				return m_start - (m_start * m_currentFrame / m_frames);
+				return m_start - ((m_start - m_end) * m_currentFrame / m_frames);
 			}
 
-			return m_start + (m_end * m_currentFrame / m_frames);
+			return m_start + ((m_end - m_start) * m_currentFrame / m_frames);
 		}
 
 		void Update(float dt)
@@ -43,8 +45,8 @@ class Tweener
 
 			if (m_currentFrame == m_frames)
 			{
+				m_isPlaying = false;
 				m_isComplete = true;
-				Reset();
 			}
 		}
 
@@ -55,6 +57,7 @@ class Tweener
 		void Reset()
 		{
 			m_isPlaying = false;
+			m_isComplete = false;
 			m_currentFrame = 0;
 		}
 

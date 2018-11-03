@@ -21,14 +21,6 @@ int main()
 // -Fine Tune: Move Responsiveness/Controller Functionality
 // -Fine Tune: Prevent spawning of next lander until the grid animation is complete
 
-// -Add Message
-// --Animation: Fade In/Fade Out
-// --Level Up
-// --Single
-// --Double
-// --Triple
-// --Tetris!
-
 // -Title State
 // -Credit State
 // -Pre-Game State
@@ -51,3 +43,5 @@ int main()
 // -Cause the grid to light up when a "tetris" occurs
 // -Particles in place of broken blocks
 // -Build an animation system!!!
+// -Level Up Animated message
+// -Combo Animated message
