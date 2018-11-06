@@ -7,13 +7,15 @@
 
 Grid::Grid(int columns, int rows, int posX, int posY, int cellSize) :
 	m_columns(columns), m_rows(rows), m_position(posX, posY), m_cellSize(cellSize), m_blockPile(columns, std::vector<int>(rows, 0)),
-	m_alphaTweener(1.0, 0, 30, 1.0f / 120.0f)
+	m_alphaTweener(1.0, 0, 30, 1.0f / 120.0f), m_readyNextShape(false)
 {
 	m_state = GridState::Waiting;
 }
 
 void Grid::CheckCollisions(Shape& shape)
 {
+	if (shape.GetType() == ShapeType::None) return;
+
 	auto cellPos = shape.GetCellPosition();
 	auto movement = shape.GetMovement();
 
@@ -103,6 +105,8 @@ void Grid::Update(Shape& shape, float dt)
 {
 	if (m_state == GridState::Waiting)
 	{
+		m_readyNextShape = false;
+
 		m_linesToRemove.clear();
 
 		if (shape.HasLanded())
@@ -140,6 +144,10 @@ void Grid::Update(Shape& shape, float dt)
 				m_alphaTweener.Play();
 				m_state = GridState::Animating;
 			}
+			else
+			{
+				m_readyNextShape = true;
+			}
 		}
 	}
 	else if (m_state == GridState::Animating)
@@ -172,6 +180,7 @@ void Grid::Update(Shape& shape, float dt)
 			}
 		}
 
+		m_readyNextShape = true;
 		m_state = GridState::Waiting;
 	}
 }
@@ -285,6 +294,7 @@ void Grid::DrawGridCell(int row, int col, sf::RenderWindow & renderWindow)
 
 Shape Grid::CastShadow(Shape& shape)
 {
+	if (shape.GetType() == ShapeType::None) return Shape(ShapeType::None, shape.GetBlockSize());
 	Shape shadow(shape);
 	shadow.SetShadow(true);
 
@@ -311,4 +321,9 @@ int Grid::GetLinesRemoved() const
 	}
 
 	return 0;
+}
+
+bool Grid::ReadyNextShape() const
+{
+	return m_readyNextShape;
 }

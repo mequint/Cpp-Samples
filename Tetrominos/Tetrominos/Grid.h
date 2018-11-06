@@ -24,6 +24,8 @@ class Grid
 		sf::Vector2f GetPosition();
 		int GetLinesRemoved() const;
 
+		bool ReadyNextShape() const;
+
 	private:
 		void DrawBlock(sf::RenderWindow& renderWindow, int col, int row);
 		void DrawGridCell(int row, int col, sf::RenderWindow & renderWindow);
@@ -36,6 +38,7 @@ class Grid
 
 		GridState m_state;
 		std::vector<int> m_linesToRemove;
+		bool m_readyNextShape;
 
 		// Animation
 		FloatTweener m_alphaTweener;

@@ -275,6 +275,8 @@ Shape::Shape(const Shape & shape)
 
 void Shape::Update(float dt)
 {
+	if (m_type == ShapeType::None) return;
+
 	if (m_movement != Movement::None)
 	{
 		switch (m_movement)
@@ -324,6 +326,8 @@ void Shape::Update(float dt)
 
 void Shape::Draw(sf::RenderWindow& window)
 {
+	if (m_type == ShapeType::None) return;
+
 	if (m_blocks.empty()) return;
 
  	for (auto block : m_blocks[m_rotationIndex])

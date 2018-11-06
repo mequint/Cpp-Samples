@@ -147,7 +147,7 @@ void State_Game::Update(const sf::Time & time)
 		if (linesRemoved > 0)
 		{
 			std::string message = GetLineRemovalMessage(linesRemoved);
-			
+
 			m_messageAnimator.SetMessage(message);
 			m_messageAnimator.Start();
 
@@ -163,7 +163,11 @@ void State_Game::Update(const sf::Time & time)
 
 		UpdateFallTime();
 		UpdateScore(linesRemoved);
+		m_lander = Shape(ShapeType::None, m_blockSize);
+	}
 
+	if (m_grid.ReadyNextShape())
+	{
 		MoveNextLanderToGrid();
 
 		// Check for game over condition

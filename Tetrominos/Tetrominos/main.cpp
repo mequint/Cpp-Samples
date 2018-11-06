@@ -19,7 +19,6 @@ int main()
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
 // -Fine Tune: Scoring system
 // -Fine Tune: Move Responsiveness/Controller Functionality
-// -Fine Tune: Prevent spawning of next lander until the grid animation is complete
 
 // -Title State
 // -Credit State
@@ -43,5 +42,6 @@ int main()
 // -Cause the grid to light up when a "tetris" occurs
 // -Particles in place of broken blocks
 // -Build an animation system!!!
+// -Make the Animated Message system a queue - play each message one at a time
 // -Level Up Animated message
 // -Combo Animated message
