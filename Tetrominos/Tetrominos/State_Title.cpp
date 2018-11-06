@@ -34,12 +34,14 @@ void State_Title::Create()
 	// Set up callbacks
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->AddCallback(StateType::Title, "Key_Space", &State_Title::Continue, this);
+	eventManager->AddCallback(StateType::Title, "Key_Enter", &State_Title::Credits, this);
 }
 
 void State_Title::Destroy()
 {
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Title, "Key_Space");
+	eventManager->RemoveCallback(StateType::Title, "Key_Enter");
 }
 
 void State_Title::Activate() {}
@@ -58,4 +60,9 @@ void State_Title::Draw()
 void State_Title::Continue(EventDetails* details)
 {
 	m_stateManager->ChangeState(StateType::Game);
+}
+
+void State_Title::Credits(EventDetails * details)
+{
+	m_stateManager->ChangeState(StateType::Credits);
 }

@@ -19,6 +19,7 @@ class State_Title : public BaseState
 		void Draw();
 
 		void Continue(EventDetails* details);
+		void Credits(EventDetails* details);
 
 	private:
 		sf::Font m_font;

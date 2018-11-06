@@ -21,6 +21,7 @@ void Game::SetupBindings()
 {
 	m_window.GetEventManager()->AddBinding("CloseWindow", (int)EventType::Closed, 0);
 	m_window.GetEventManager()->AddBinding("Key_Escape", (int)EventType::KeyDown, (int)sf::Keyboard::Escape);
+	m_window.GetEventManager()->AddBinding("Key_Enter", (int)EventType::KeyDown, (int)sf::Keyboard::Return);
 	m_window.GetEventManager()->AddBinding("Key_P", (int)EventType::KeyDown, (int)sf::Keyboard::P);
 
 	m_window.GetEventManager()->AddBinding("Key_Up", (int)EventType::KeyDown, (int)sf::Keyboard::Up);

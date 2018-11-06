@@ -17,14 +17,11 @@ int main()
 
 // TODO:
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
-// -Fine Tune: Scoring system
-// -Fine Tune: Move Responsiveness/Controller Functionality
 
-// -Credit State
 // -Pre-Game State
 // -Reset Game
 
-// -ResourceManager
+// -ResourceManagers
 // -FontManager
 
 // -Sound Manager
@@ -32,6 +29,9 @@ int main()
 // -Add Music
 
 // Polish!
+// -Fix Keyboard and Controller Responsiveness
+// -Make Event Manager bindings configurable via a file
+// -Game State: "3,2,1.Go!" Animation - before game play
 // -Add Lock functionality
 // -Make block size configurable
 // -Friendlier color scheme for grid and boxes
@@ -44,3 +44,11 @@ int main()
 // -Make the Animated Message system a queue - play each message one at a time
 // -Level Up Animated message
 // -Combo Animated message
+// -Gussy up the Title State background and titles
+// -Gussy up the Messages
+// -Animate the Game Over message (pop in should be fine - or maybe some sort of animation should occur in the grid)
+// -Gussy up the Game State background
+// -Add Combos to the scoring system
+// -Update score based on time remaining till landing
+// -Game over show game stats
+// -Gussy up the Credits background

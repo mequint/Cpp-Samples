@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseState.h"
+#include "EventManager.h"
 
 class State_Credits : public BaseState
 {
@@ -16,4 +17,10 @@ class State_Credits : public BaseState
 
 		void Update(const sf::Time& time);
 		void Draw();
+
+		void Title(EventDetails* details);
+
+	private:
+		sf::Font m_font;
+		sf::Text m_labels[6];
 };
