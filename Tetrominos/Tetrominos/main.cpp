@@ -20,7 +20,6 @@ int main()
 // -Fine Tune: Scoring system
 // -Fine Tune: Move Responsiveness/Controller Functionality
 
-// -Title State
 // -Credit State
 // -Pre-Game State
 // -Reset Game
