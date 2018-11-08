@@ -11,10 +11,10 @@ void State_Title::Create()
 {
 	sf::Vector2u windowSize = m_stateManager->GetContext()->m_window->GetRenderWindow()->getSize();
 
-	m_font.loadFromFile("arial.ttf");
+	sf::Font* font = m_stateManager->GetContext()->m_fontManager->GetFont("Game");
 
 	// Set title
-	m_titleText.setFont(m_font);
+	m_titleText.setFont(*font);
 	m_titleText.setString(sf::String("Linebreaker"));
 	m_titleText.setCharacterSize(60);
 
@@ -23,7 +23,7 @@ void State_Title::Create()
 	m_titleText.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f - titleRect.height / 2.0f);
 
 	// Set subtitle
-	m_subTitle.setFont(m_font);
+	m_subTitle.setFont(*font);
 	m_subTitle.setString(sf::String("Press SPACE to begin"));
 	m_subTitle.setCharacterSize(16);
 

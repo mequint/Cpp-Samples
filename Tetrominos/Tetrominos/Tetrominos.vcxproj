@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="BlockHelper.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="BlockHelper.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="MessageAnimator.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="Game.h" />

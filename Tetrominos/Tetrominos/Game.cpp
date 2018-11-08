@@ -10,9 +10,13 @@ Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_stateManager(&m
 	// Setup context
 	m_context.m_window = &m_window;
 	m_context.m_eventManager = m_window.GetEventManager();
+	m_context.m_fontManager = &m_fontManager;
 
 	// Setup bindings
 	SetupBindings();
+
+	// Load fonts
+	m_fontManager.LoadFont("arial.ttf", "Game");
 
 	m_stateManager.ChangeState(StateType::Title);
 }
@@ -28,15 +32,9 @@ void Game::SetupBindings()
 	m_window.GetEventManager()->AddBinding("Key_Left", (int)EventType::KeyDown, (int)sf::Keyboard::Left);
 	m_window.GetEventManager()->AddBinding("Key_Right", (int)EventType::KeyDown, (int)sf::Keyboard::Right);
 	m_window.GetEventManager()->AddBinding("Key_Down", (int)EventType::KeyDown, (int)sf::Keyboard::Down);
-	m_window.GetEventManager()->AddBinding("Key_Comma", (int)EventType::KeyDown, (int)sf::Keyboard::Comma);
-	m_window.GetEventManager()->AddBinding("Key_Period", (int)EventType::KeyDown, (int)sf::Keyboard::Period);
 	m_window.GetEventManager()->AddBinding("Key_Slash", (int)EventType::KeyDown, (int)sf::Keyboard::Slash);
 	m_window.GetEventManager()->AddBinding("Key_Space", (int)EventType::KeyDown, (int)sf::Keyboard::Space);
 
-	m_window.GetEventManager()->AddBinding("Key_W", (int)EventType::KeyDown, (int)sf::Keyboard::W);
-	m_window.GetEventManager()->AddBinding("Key_A", (int)EventType::KeyDown, (int)sf::Keyboard::A);
-	m_window.GetEventManager()->AddBinding("Key_D", (int)EventType::KeyDown, (int)sf::Keyboard::D);
-	m_window.GetEventManager()->AddBinding("Key_S", (int)EventType::KeyDown, (int)sf::Keyboard::S);
 	m_window.GetEventManager()->AddBinding("Key_Z", (int)EventType::KeyDown, (int)sf::Keyboard::Z);
 	m_window.GetEventManager()->AddBinding("Key_X", (int)EventType::KeyDown, (int)sf::Keyboard::X);
 	m_window.GetEventManager()->AddBinding("Key_C", (int)EventType::KeyDown, (int)sf::Keyboard::C);

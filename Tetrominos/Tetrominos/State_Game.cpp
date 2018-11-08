@@ -32,17 +32,11 @@ void State_Game::Create()
 	eventManager->AddCallback(StateType::Game, "Key_Right", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_Up", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_Down", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_W", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_A", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_S", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_D", &State_Game::MoveLander, this);
 
 	eventManager->AddCallback(StateType::Game, "Key_Z", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_X", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_C", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_Space", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_Comma", &State_Game::MoveLander, this);
-	eventManager->AddCallback(StateType::Game, "Key_Period", &State_Game::MoveLander, this);
 	eventManager->AddCallback(StateType::Game, "Key_Slash", &State_Game::MoveLander, this);
 
 	eventManager->AddCallback(StateType::Game, "Button_X", &State_Game::MoveLander, this);
@@ -55,22 +49,22 @@ void State_Game::Create()
 	eventManager->AddCallback(StateType::Game, "Button_Start", &State_Game::Pause, this);
 	eventManager->AddCallback(StateType::Game, "Joystick_Moved", &State_Game::MoveLander, this);
 
-	m_font.loadFromFile("arial.ttf");
+	sf::Font* font = m_stateManager->GetContext()->m_fontManager->GetFont("Game");
 
 	std::string text = "Hold";
-	m_holdBox = ShapeBox(m_font, 16, sf::Vector2f(220, 160), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), text);
+	m_holdBox = ShapeBox(*font, 16, sf::Vector2f(220, 160), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), text);
 
 	text = "Next";
-	m_nextBox = ShapeBox(m_font, 16, sf::Vector2f(500, 160), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), text);
+	m_nextBox = ShapeBox(*font, 16, sf::Vector2f(500, 160), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), text);
 
-	m_linesBox = Label(m_font, 16);
+	m_linesBox = Label(*font, 16);
 	m_linesBox.SetPosition(sf::Vector2f(375, 128)); 
 
 	text = "Level";
-	m_levelBox = TitledTextBox(m_font, sf::Vector2f(220, 400), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), 24, text, 16);
+	m_levelBox = TitledTextBox(*font, sf::Vector2f(220, 400), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), 24, text, 16);
 
 	text = "Score";
-	m_scoreBox = TitledTextBox(m_font, sf::Vector2f(500, 400), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), 18, text, 16);
+	m_scoreBox = TitledTextBox(*font, sf::Vector2f(500, 400), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), 18, text, 16);
 
 	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
 	m_lander.SetReferencePoint(m_grid.GetPosition());
@@ -97,17 +91,11 @@ void State_Game::Destroy()
 	eventManager->RemoveCallback(StateType::Game, "Key_Right");
 	eventManager->RemoveCallback(StateType::Game, "Key_Up");
 	eventManager->RemoveCallback(StateType::Game, "Key_Down");
-	eventManager->RemoveCallback(StateType::Game, "Key_W");
-	eventManager->RemoveCallback(StateType::Game, "Key_A");
-	eventManager->RemoveCallback(StateType::Game, "Key_S");
-	eventManager->RemoveCallback(StateType::Game, "Key_D");
 
 	eventManager->RemoveCallback(StateType::Game, "Key_Z");
 	eventManager->RemoveCallback(StateType::Game, "Key_X");
 	eventManager->RemoveCallback(StateType::Game, "Key_C");
-	eventManager->RemoveCallback(StateType::Game, "Key_Space");
-	eventManager->RemoveCallback(StateType::Game, "Key_Comma");
-	eventManager->RemoveCallback(StateType::Game, "Key_Period");
+	eventManager->RemoveCallback(StateType::Game, "Key_Space");;
 	eventManager->RemoveCallback(StateType::Game, "Key_Slash");
 
 	eventManager->RemoveCallback(StateType::Game, "Button_X");
@@ -257,27 +245,27 @@ void State_Game::Pause(EventDetails * details)
 void State_Game::MoveLander(EventDetails* details)
 {
 	std::string detail = details->m_name;
-	if (detail == "Key_Down" || detail == "Key_S")
+	if (detail == "Key_Down")
 	{
 		m_lander.SetMovement(Movement::Down);
 	}
-	else if (detail == "Key_Up" || detail == "Key_W" || detail == "Key_Space")
+	else if (detail == "Key_Up" || detail == "Key_Space")
 	{
 		m_grid.SlamShape(m_lander);
 	}
-	else if (detail == "Key_Left" || detail == "Key_A")
+	else if (detail == "Key_Left")
 	{
 		m_lander.SetMovement(Movement::Left);
 	}
-	else if (detail == "Key_Right" || detail == "Key_D")
+	else if (detail == "Key_Right")
 	{
 		m_lander.SetMovement(Movement::Right);
 	}
-	else if (detail == "Key_Comma" || detail == "Key_Z" || detail == "Button_A")
+	else if (detail == "Key_Z" || detail == "Button_A")
 	{
 		m_lander.SetMovement(Movement::CCW);
 	}
-	else if (detail == "Key_Period" || detail == "Key_X" || detail == "Button_B")
+	else if (detail == "Key_X" || detail == "Button_B")
 	{
 		m_lander.SetMovement(Movement::CW);
 	}

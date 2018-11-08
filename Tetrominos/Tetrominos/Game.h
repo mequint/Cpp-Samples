@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Context.h"
+#include "FontManager.h"
 #include "StateManager.h"
 #include "Window.h"
 
@@ -30,6 +31,7 @@ class Game
 		Context m_context;
 		Window m_window;
 		StateManager m_stateManager;
+		FontManager m_fontManager;
 };
 
 // A buggy dependency...the Window must be declared above the State Manager (it will cause a break in the states when they are Destroyed).

@@ -21,7 +21,6 @@ class State_Paused : public BaseState
 		void Unpause(EventDetails* details);
 
 	private:
-		sf::Font m_font;
 		sf::Text m_text;
 		sf::RectangleShape m_rect;
 

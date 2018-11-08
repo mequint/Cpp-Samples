@@ -21,15 +21,14 @@ int main()
 // -Pre-Game State
 // -Reset Game
 
-// -ResourceManagers
-// -FontManager
-
 // -Sound Manager
 // -Add sound effects
 // -Add Music
 
 // Polish!
 // -Fix Keyboard and Controller Responsiveness
+// -Make the shape wait
+// -Make font loading configurable
 // -Make Event Manager bindings configurable via a file
 // -Game State: "3,2,1.Go!" Animation - before game play
 // -Add Lock functionality
@@ -50,5 +49,6 @@ int main()
 // -Gussy up the Game State background
 // -Add Combos to the scoring system
 // -Update score based on time remaining till landing
-// -Game over show game stats
+// -Game Over state shows game stats
+// -Tutorial State
 // -Gussy up the Credits background

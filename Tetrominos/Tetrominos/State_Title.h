@@ -22,7 +22,6 @@ class State_Title : public BaseState
 		void Credits(EventDetails* details);
 
 	private:
-		sf::Font m_font;
 		sf::Text m_titleText;
 		sf::Text m_subTitle;
 };

@@ -45,9 +45,6 @@ class State_Game : public BaseState
 		RandomGenerator m_randomGenerator;
 		bool m_holdActivated;
 
-		// Resources
-		sf::Font m_font;
-
 		// User Interface
 		Label m_linesBox;
 		MessageAnimator m_messageAnimator;

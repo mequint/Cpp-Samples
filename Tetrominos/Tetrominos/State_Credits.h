@@ -21,6 +21,5 @@ class State_Credits : public BaseState
 		void Title(EventDetails* details);
 
 	private:
-		sf::Font m_font;
 		sf::Text m_labels[6];
 };

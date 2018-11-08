@@ -8,8 +8,9 @@ void State_GameOver::Create()
 {
 	SetTransparent(true);
 
-	m_font.loadFromFile("arial.ttf");
-	m_text.setFont(m_font);
+	sf::Font* font = m_stateManager->GetContext()->m_fontManager->GetFont("Game");
+
+	m_text.setFont(*font);
 	m_text.setString(sf::String("GAME OVER"));
 	m_text.setCharacterSize(14);
 	m_text.setStyle(sf::Text::Bold);

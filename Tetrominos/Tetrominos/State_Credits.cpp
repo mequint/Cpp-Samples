@@ -7,7 +7,7 @@ State_Credits::~State_Credits() {}
 
 void State_Credits::Create()
 {
-	m_font.loadFromFile("arial.ttf");
+	sf::Font* font = m_stateManager->GetContext()->m_fontManager->GetFont("Game");
 
 	std::string str[6];
 	str[0] = "Programmed by: Michael E. Quint";
@@ -23,7 +23,7 @@ void State_Credits::Create()
 
 	for (int i = 0; i < 6; ++i)
 	{
-		m_labels[i].setFont(m_font);
+		m_labels[i].setFont(*font);
 		m_labels[i].setString(sf::String(str[i]));
 		m_labels[i].setCharacterSize(16);
 
