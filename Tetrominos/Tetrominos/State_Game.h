@@ -5,6 +5,7 @@
 #include "BaseState.h"
 
 #include "EventManager.h"
+#include "GameData.h"
 #include "Grid.h"
 #include "Label.h"
 #include "MessageAnimator.h"
@@ -27,7 +28,6 @@ class State_Game : public BaseState
 
 		void Update(const sf::Time& time);
 		void UpdateUIPieces();
-		void UpdateScore(int linesRemoved);
 		void UpdateFallTime();
 		void Draw();
 
@@ -41,6 +41,7 @@ class State_Game : public BaseState
 		void LoadSounds();
 
 		std::string GetLineRemovalMessage(int linesRemoved);
+		void UpdateGameStats(int linesRemoved);
 
 		RandomGenerator m_randomGenerator;
 		bool m_holdActivated;
@@ -63,8 +64,10 @@ class State_Game : public BaseState
 		sf::Sound m_removeLines;
 
 		// Game variables
+		GameData* m_gameData;
 		float m_blockSize;
 
+		// Game Objects
 		Grid m_grid;
 		Shape m_lander;
 		Shape m_next;
@@ -73,10 +76,10 @@ class State_Game : public BaseState
 
 		float m_currentFallTime;
 		float m_nextFallTime;
+		int m_linesToNextLevel;
 
-		int m_lines;
-		int m_score;
-		int m_speedUp;
-
+		bool m_currentComboCount;
+		bool m_lastBlockRemovedLines;
 		int m_lastLinesRemoved;
+
 };

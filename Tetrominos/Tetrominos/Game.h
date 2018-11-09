@@ -2,6 +2,7 @@
 
 #include "Context.h"
 #include "FontManager.h"
+#include "GameData.h"
 #include "StateManager.h"
 #include "Window.h"
 
@@ -28,6 +29,8 @@ class Game
 		sf::Time m_elapsedTime;
 
 		// Contextual items
+		GameData m_multiStateVariables;
+
 		Context m_context;
 		Window m_window;
 		StateManager m_stateManager;

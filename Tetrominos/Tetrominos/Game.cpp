@@ -11,6 +11,7 @@ Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_stateManager(&m
 	m_context.m_window = &m_window;
 	m_context.m_eventManager = m_window.GetEventManager();
 	m_context.m_fontManager = &m_fontManager;
+	m_context.m_gameData = &m_multiStateVariables;
 
 	// Setup bindings
 	SetupBindings();

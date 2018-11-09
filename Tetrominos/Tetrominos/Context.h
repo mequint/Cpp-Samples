@@ -2,6 +2,7 @@
 
 #include "EventManager.h"
 #include "FontManager.h"
+#include "GameData.h"
 #include "Window.h"
 
 struct Context
@@ -10,5 +11,6 @@ struct Context
 
 	EventManager* m_eventManager;
 	FontManager* m_fontManager;
+	GameData* m_gameData;
 	Window* m_window;
 };

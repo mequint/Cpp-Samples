@@ -3,20 +3,22 @@
 #include "BlockHelper.h"
 #include "StateManager.h"
 
+#include <iostream>
+
 // TODO: Make the block size configurable
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_randomGenerator((int)ShapeType::Z),
-	m_grid(10, 22, 320, 128, 16), m_messageAnimator(800, 600), m_lastLinesRemoved(0)
+	m_grid(10, 22, 320, 128, 16), m_messageAnimator(800, 600), m_lastLinesRemoved(0), m_currentComboCount(0), m_lastBlockRemovedLines(false)
 {
 	m_blockSize = 16.0f;
 	
 	m_currentFallTime = 0.0f;
 	m_nextFallTime = 1.0f;
 
-	m_lines = 0;
-	m_score = 0;
-	m_speedUp = 10;
+	m_linesToNextLevel = 10;
 
 	m_holdActivated = false;
+
+	m_gameData = m_stateManager->GetContext()->m_gameData;
 }
 
 State_Game::~State_Game()
@@ -129,7 +131,6 @@ void State_Game::Update(const sf::Time & time)
 	{
 		// Remove the lines
 		int linesRemoved = m_grid.GetLinesRemoved();
-		m_lines += linesRemoved;
 
 		// Play sounds...
 		if (linesRemoved > 0)
@@ -141,16 +142,24 @@ void State_Game::Update(const sf::Time & time)
 
 			m_removeLines.play();
 
+			if (m_lastLinesRemoved)
+			{
+				m_lastBlockRemovedLines = true;
+				m_currentComboCount++;
+			}
+
 			m_lastLinesRemoved = linesRemoved;
 		}
 		else
 		{
+			m_lastBlockRemovedLines = false;
+			m_currentComboCount = 0;
 			m_lastLinesRemoved = 0;
 			m_blockLand.play();
 		}
 
-		UpdateFallTime();
-		UpdateScore(linesRemoved);
+		UpdateGameStats(linesRemoved);
+		UpdateFallTime();			
 		m_lander = Shape(ShapeType::None, m_blockSize);
 	}
 
@@ -188,31 +197,30 @@ void State_Game::MoveNextLanderToGrid()
 	m_lander.SetOnField(true);
 
 	// Create a new next lander 
-	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	int nextInt = m_randomGenerator.GetNextInt();
+	m_next = Shape(ShapeType(nextInt), m_blockSize);
 	m_nextBox.SetShape(&m_next);
 	m_next.SetOnField(false);
+
+	// Add shape count to the game stats
+	++(m_stateManager->GetContext()->m_gameData->ShapeCount[nextInt]);
 }
 
 void State_Game::UpdateUIPieces()
 {
 	m_shadow = m_grid.CastShadow(m_lander);
-	m_linesBox.SetText("Lines - " + std::to_string(m_lines));
-	m_levelBox.SetText(std::to_string(m_lines / 10));
-	m_scoreBox.SetText(std::to_string(m_score));
-}
-
-void State_Game::UpdateScore(int linesRemoved)
-{
-	m_score += (400 * linesRemoved * linesRemoved);
+	m_linesBox.SetText("Lines - " + std::to_string(m_gameData->Lines));
+	m_levelBox.SetText(std::to_string(m_gameData->Level));
+	m_scoreBox.SetText(std::to_string(m_gameData->Score));
 }
 
 void State_Game::UpdateFallTime()
 {
-	if (m_lines > m_speedUp)
+	if (m_gameData->Lines >= m_linesToNextLevel)
 	{
 		m_nextFallTime -= 0.09f;
 
-		m_speedUp += 10;
+		m_linesToNextLevel += 10;
 
 		if (m_nextFallTime < 0.05f)
 		{
@@ -370,4 +378,48 @@ std::string State_Game::GetLineRemovalMessage(int linesRemoved)
 	}
 
 	return message;
+}
+
+void State_Game::UpdateGameStats(int linesRemoved)
+{
+	int score = (100 * linesRemoved * linesRemoved);
+	int comboScore = score * m_currentComboCount;
+
+	m_gameData->Score += score + comboScore;
+
+	switch (linesRemoved)
+	{
+		case 1:
+			++(m_gameData->Singles);
+			break;
+
+		case 2:
+			++(m_gameData->Doubles);
+			break;
+
+		case 3:
+			++(m_gameData->Triples);
+			break;
+
+		case 4:
+			++(m_gameData->Quadruples);
+			break;
+	}
+
+	m_gameData->Lines += linesRemoved;
+	if (m_gameData->Lines >= m_linesToNextLevel)
+	{
+		++(m_gameData->Level);
+	}
+
+	if (m_lastBlockRemovedLines)
+	{
+		++(m_gameData->Combos);
+		++(m_currentComboCount);
+
+		if (m_currentComboCount > m_gameData->LongestCombo)
+		{
+			m_gameData->LongestCombo = m_currentComboCount;
+		}
+	}
 }
