@@ -1,13 +1,8 @@
 #include "RandomGenerator.h"
 
-RandomGenerator::RandomGenerator(int numbers) : m_generator((std::random_device())()),m_index(0)
+RandomGenerator::RandomGenerator(int numbers) : m_generator((std::random_device())()),m_index(0), m_numbers(numbers)
 {
-	for (int i = 1; i <= numbers; ++i)
-	{
-		m_sequence.emplace_back(i);
-	}
-
-	Shuffle();
+	Reset();
 }
 
 int RandomGenerator::GetNextInt()
@@ -19,6 +14,18 @@ int RandomGenerator::GetNextInt()
 	}
 
 	return m_sequence[m_index++];
+}
+
+void RandomGenerator::Reset()
+{
+	m_sequence.clear();
+
+	for (int i = 1; i <= m_numbers; ++i)
+	{
+		m_sequence.emplace_back(i);
+	}
+
+	Shuffle();
 }
 
 void RandomGenerator::Shuffle()

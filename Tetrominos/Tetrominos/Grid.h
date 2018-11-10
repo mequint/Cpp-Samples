@@ -26,6 +26,7 @@ class Grid
 
 		bool ReadyNextShape() const;
 
+		void Reset();
 	private:
 		void DrawBlock(sf::RenderWindow& renderWindow, int col, int row);
 		void DrawGridCell(int row, int col, sf::RenderWindow & renderWindow);

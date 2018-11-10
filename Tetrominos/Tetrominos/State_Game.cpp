@@ -10,14 +10,6 @@ State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_
 	m_grid(10, 22, 320, 128, 16), m_messageAnimator(800, 600), m_lastLinesRemoved(0), m_currentComboCount(0), m_lastBlockRemovedLines(false)
 {
 	m_blockSize = 16.0f;
-	
-	m_currentFallTime = 0.0f;
-	m_nextFallTime = 1.0f;
-
-	m_linesToNextLevel = 10;
-
-	m_holdActivated = false;
-
 	m_gameData = m_stateManager->GetContext()->m_gameData;
 }
 
@@ -68,20 +60,9 @@ void State_Game::Create()
 	text = "Score";
 	m_scoreBox = TitledTextBox(*font, sf::Vector2f(500, 400), sf::Vector2f(m_blockSize * 5.0f, m_blockSize * 5.0f), 18, text, 16);
 
-	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
-	m_lander.SetReferencePoint(m_grid.GetPosition());
-	m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
-	m_lander.SetOnField(true);
-
-	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
-	m_next.SetOnField(false);
-	m_nextBox.SetShape(&m_next);
-
-	m_hold = Shape(ShapeType::None, m_blockSize);
-	m_next.SetOnField(false);
-	m_holdBox.SetShape(&m_hold);
-
 	LoadSounds();
+
+	Reset();
 }
 
 void State_Game::Destroy()
@@ -110,7 +91,14 @@ void State_Game::Destroy()
 	eventManager->RemoveCallback(StateType::Game, "Button_Start");
 }
 
-void State_Game::Activate() {}
+void State_Game::Activate()
+{
+	if (m_gameData->NewGame)
+	{
+		Reset();
+	}
+}
+
 void State_Game::Deactivate() {}
 
 void State_Game::Update(const sf::Time & time)
@@ -247,6 +235,9 @@ void State_Game::Draw()
 
 void State_Game::Pause(EventDetails * details)
 {
+	// We don't want the game to reset if the game is returning from the puase state...
+	m_gameData->NewGame = false;
+
 	m_stateManager->ChangeState(StateType::Paused);
 }
 
@@ -304,6 +295,33 @@ void State_Game::MoveLander(EventDetails* details)
 			m_lander.SetMovement(Movement::Down);
 		}
 	}
+}
+
+void State_Game::Reset()
+{
+	m_lander = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	m_lander.SetReferencePoint(m_grid.GetPosition());
+	m_lander.SetCellPosition(m_lander.GetSpawnPoint().x, m_lander.GetSpawnPoint().y);
+	m_lander.SetOnField(true);
+
+	m_next = Shape(ShapeType(m_randomGenerator.GetNextInt()), m_blockSize);
+	m_next.SetOnField(false);
+	m_nextBox.SetShape(&m_next);
+
+	m_hold = Shape(ShapeType::None, m_blockSize);
+	m_next.SetOnField(false);
+	m_holdBox.SetShape(&m_hold);
+
+	m_currentFallTime = 0.0f;
+	m_nextFallTime = 1.0f;
+
+	m_linesToNextLevel = 10;
+
+	m_holdActivated = false;
+
+	m_grid.Reset();
+
+	m_gameData->Clear();
 }
 
 void State_Game::SwapLanderWithHold()

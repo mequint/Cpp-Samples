@@ -10,6 +10,8 @@ class RandomGenerator
 
 		int GetNextInt();
 
+		void Reset();
+
 	private:
 		void Shuffle();
 
@@ -17,4 +19,5 @@ class RandomGenerator
 
 		std::vector<int> m_sequence;
 		int m_index;
+		int m_numbers;
 };

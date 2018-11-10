@@ -34,6 +34,8 @@ class State_Game : public BaseState
 		void Pause(EventDetails* details);
 		void MoveLander(EventDetails* details);
 
+		void Reset();
+
 	private:
 
 		void MoveNextLanderToGrid();

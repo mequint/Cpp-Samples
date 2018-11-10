@@ -327,3 +327,21 @@ bool Grid::ReadyNextShape() const
 {
 	return m_readyNextShape;
 }
+
+void Grid::Reset()
+{
+	for (int i = 0; i < m_blockPile.size(); ++i)
+	{
+		for (int j = 0; j < m_blockPile[i].size(); ++j)
+		{
+			m_blockPile[i][j] = (int)ShapeType::None;
+		}
+	}
+
+	m_state = GridState::Waiting;
+	m_linesToRemove.clear();
+	m_readyNextShape = false;
+
+	m_alphaTweener.Reset();
+
+}
