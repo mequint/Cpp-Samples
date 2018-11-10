@@ -106,74 +106,91 @@ void State_Game::Update(const sf::Time & time)
 	float elapsedTime = time.asSeconds();
 
 	m_currentFallTime += elapsedTime;
-	if (m_currentFallTime >= m_nextFallTime)
+
+	if (m_gamePlaying)
 	{
-		m_currentFallTime = 0.0f;
-		m_lander.SetMovement(Movement::Down);
-	}
-
-	m_grid.CheckCollisions(m_lander);
-	m_grid.Update(m_lander, elapsedTime);
-
-	if (m_lander.HasLanded())
-	{
-		// Remove the lines
-		int linesRemoved = m_grid.GetLinesRemoved();
-
-		// Play sounds...
-		if (linesRemoved > 0)
+		if (m_currentFallTime >= m_nextFallTime)
 		{
-			std::string message = GetLineRemovalMessage(linesRemoved);
+			m_currentFallTime = 0.0f;
+			m_lander.SetMovement(Movement::Down);
+		}
 
-			m_messageAnimator.SetMessage(message);
-			m_messageAnimator.Start();
+		m_grid.CheckCollisions(m_lander);
+		m_grid.Update(m_lander, elapsedTime);
 
-			m_removeLines.play();
+		if (m_lander.HasLanded())
+		{
+			// Remove the lines
+			int linesRemoved = m_grid.GetLinesRemoved();
 
-			if (m_lastLinesRemoved)
+			// Play sounds...
+			if (linesRemoved > 0)
 			{
-				m_lastBlockRemovedLines = true;
-				m_currentComboCount++;
+				std::string message = GetLineRemovalMessage(linesRemoved);
+
+				m_messageAnimator.SetMessage(message);
+				m_messageAnimator.Start();
+
+				m_removeLines.play();
+
+				if (m_lastLinesRemoved)
+				{
+					m_lastBlockRemovedLines = true;
+					m_currentComboCount++;
+				}
+
+				m_lastLinesRemoved = linesRemoved;
+			}
+			else
+			{
+				m_lastBlockRemovedLines = false;
+				m_currentComboCount = 0;
+				m_lastLinesRemoved = 0;
+				m_blockLand.play();
 			}
 
-			m_lastLinesRemoved = linesRemoved;
-		}
-		else
-		{
-			m_lastBlockRemovedLines = false;
-			m_currentComboCount = 0;
-			m_lastLinesRemoved = 0;
-			m_blockLand.play();
+			UpdateGameStats(linesRemoved);
+			UpdateFallTime();			
+			m_lander = Shape(ShapeType::None, m_blockSize);
 		}
 
-		UpdateGameStats(linesRemoved);
-		UpdateFallTime();			
-		m_lander = Shape(ShapeType::None, m_blockSize);
-	}
-
-	if (m_grid.ReadyNextShape())
-	{
-		MoveNextLanderToGrid();
-
-		// Check for game over condition
-		for (auto block : m_lander.GetBlocks())
+		if (m_grid.ReadyNextShape())
 		{
-			if (m_grid.HasBlock(m_lander.GetCellPosition().x + block.x, m_lander.GetCellPosition().y + block.y))
+			MoveNextLanderToGrid();
+
+			// Check for game over condition
+			for (auto block : m_lander.GetBlocks())
 			{
-				m_stateManager->ChangeState(StateType::GameOver);
+				if (m_grid.HasBlock(m_lander.GetCellPosition().x + block.x, m_lander.GetCellPosition().y + block.y))
+				{
+					m_gamePlaying = false;
+
+					std::string message = "GAME OVER";
+					m_messageAnimator.SetMessage(message);
+					m_messageAnimator.Start();
+				}
 			}
+
+			m_holdActivated = false;
 		}
 
-		m_holdActivated = false;
+		// Update lander
+		m_lander.Update(elapsedTime);
+
+		// Message animator update
+		m_messageAnimator.Update(elapsedTime);
+
+		UpdateUIPieces();
 	}
+	else
+	{
+ 		m_messageAnimator.Update(elapsedTime);
 
-	// Update lander
-	m_lander.Update(elapsedTime);
-	
-	// Message animator update
-	m_messageAnimator.Update(elapsedTime);
-
-	UpdateUIPieces();
+		if (m_messageAnimator.IsAnimationComplete())
+		{
+			m_stateManager->ChangeState(StateType::GameOver);
+		}
+	}
 }
 
 void State_Game::MoveNextLanderToGrid()
@@ -322,6 +339,8 @@ void State_Game::Reset()
 	m_grid.Reset();
 
 	m_gameData->Clear();
+
+	m_gamePlaying = true;
 }
 
 void State_Game::SwapLanderWithHold()

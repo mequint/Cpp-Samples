@@ -18,6 +18,8 @@ class MessageAnimator
 
 		void Start();
 
+		bool IsAnimationComplete();
+
 	private:
 		
 		bool m_playing;

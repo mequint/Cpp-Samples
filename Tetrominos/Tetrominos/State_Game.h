@@ -84,4 +84,6 @@ class State_Game : public BaseState
 		bool m_lastBlockRemovedLines;
 		int m_lastLinesRemoved;
 
+		// In Game States
+		bool m_gamePlaying;
 };

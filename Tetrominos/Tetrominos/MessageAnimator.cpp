@@ -75,3 +75,8 @@ void MessageAnimator::Start()
 
 	m_playing = true;
 }
+
+bool MessageAnimator::IsAnimationComplete()
+{
+	return !m_alphaTweener.IsPlaying() && !m_scaleTweener.IsPlaying() && !m_waitTweener.IsPlaying();
+}
