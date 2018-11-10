@@ -17,9 +17,7 @@ int main()
 
 // TODO:
 // -Bug: Rotation collision detection may rotate a block into an already existing block...
-
-// -Develop Game Over state
-// --Game Over state should shows game stats
+// -Bug: Multiple combos are not being picked up correctly...
 
 // -Sound Manager
 // -Add sound effects
@@ -63,6 +61,7 @@ int main()
 // --Gussy up the Game State background
 // --Gussy up the Credits background
 // --Gussy up the Game State UI
+// --Gussy up the Game Over State
 
 // -Sound
 // --Speed up music when shape gets too close to the top
