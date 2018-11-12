@@ -38,8 +38,10 @@ class State_Game : public BaseState
 
 	private:
 
+		void CheckForGameOver();
 		void MoveNextLanderToGrid();
 		void SwapLanderWithHold();
+
 		void LoadSounds();
 
 		std::string GetLineRemovalMessage(int linesRemoved);

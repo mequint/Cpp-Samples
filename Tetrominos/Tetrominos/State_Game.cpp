@@ -128,13 +128,16 @@ void State_Game::Update(const sf::Time & time)
 			{
 				std::string message = GetLineRemovalMessage(linesRemoved);
 
-				m_messageAnimator.SetMessage(message);
+				m_messageAnimator.AddMessage(message);
 				m_messageAnimator.Start();
 
 				m_removeLines.play();
 
 				if (m_lastLinesRemoved)
 				{
+					message = "Combo";
+					m_messageAnimator.AddMessage(message);
+
 					m_lastBlockRemovedLines = true;
 					m_currentComboCount++;
 				}
@@ -158,18 +161,7 @@ void State_Game::Update(const sf::Time & time)
 		{
 			MoveNextLanderToGrid();
 
-			// Check for game over condition
-			for (auto block : m_lander.GetBlocks())
-			{
-				if (m_grid.HasBlock(m_lander.GetCellPosition().x + block.x, m_lander.GetCellPosition().y + block.y))
-				{
-					m_gamePlaying = false;
-
-					std::string message = "GAME OVER";
-					m_messageAnimator.SetMessage(message);
-					m_messageAnimator.Start();
-				}
-			}
+			CheckForGameOver();
 
 			m_holdActivated = false;
 		}
@@ -189,6 +181,23 @@ void State_Game::Update(const sf::Time & time)
 		if (m_messageAnimator.IsAnimationComplete())
 		{
 			m_stateManager->ChangeState(StateType::GameOver);
+		}
+	}
+}
+
+void State_Game::CheckForGameOver()
+{
+	for (auto block : m_lander.GetBlocks())
+	{
+		if (m_grid.HasBlock(m_lander.GetCellPosition().x + block.x, m_lander.GetCellPosition().y + block.y))
+		{
+			m_gamePlaying = false;
+
+			std::string message = "GAME OVER";
+			m_messageAnimator.AddMessage(message);
+			m_messageAnimator.Start();
+
+			return;
 		}
 	}
 }
@@ -447,6 +456,9 @@ void State_Game::UpdateGameStats(int linesRemoved)
 	if (m_gameData->Lines >= m_linesToNextLevel)
 	{
 		++(m_gameData->Level);
+
+		std::string message = "Level Up";
+		m_messageAnimator.AddMessage(message);
 	}
 
 	if (m_lastBlockRemovedLines)

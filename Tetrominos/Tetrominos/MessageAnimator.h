@@ -1,5 +1,6 @@
 #pragma once
 
+#include <queue>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
@@ -11,7 +12,7 @@ class MessageAnimator
 	public:
 		MessageAnimator(int sreenWidth, int screenHeight);
 
-		void SetMessage(std::string& message);
+		void AddMessage(std::string& message);
 
 		void Update(float dt);
 		void Draw(sf::RenderWindow& window);
@@ -22,10 +23,8 @@ class MessageAnimator
 
 	private:
 		
-		bool m_playing;
-
 		sf::Font m_font;
-		std::string m_message;
+		std::queue<std::string> m_messages;
 
 		int m_screenWidth, m_screenHeight;
 

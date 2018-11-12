@@ -46,9 +46,6 @@ int main()
 // --Add a "swoosh" animation when a shape is slammed
 // --Cause the grid to light up when a "quadruple" occurs
 // --Particles in place of broken blocks
-// --Make the Animated Message system a queue - play each message one at a time
-// --Combo animated message
-// --Level Up Animated message
 // --Animate the Game Over message (pop in should be fine - or maybe some sort of animation should occur in the grid)
 // --Message animation should pop in, then shoot off the screen
 

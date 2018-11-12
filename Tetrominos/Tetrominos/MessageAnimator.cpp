@@ -2,20 +2,20 @@
 
 #include <iostream>
 
-MessageAnimator::MessageAnimator(int screenWidth, int screenHeight) : m_screenWidth(screenWidth), m_screenHeight(screenHeight), m_message(""), m_playing(false),
+MessageAnimator::MessageAnimator(int screenWidth, int screenHeight) : m_screenWidth(screenWidth), m_screenHeight(screenHeight),
 	m_scaleTweener(0.2f, 1.0f, 30, 1.0f / 60.0f), m_alphaTweener(0.2f, 1.0f, 30, 1.0f / 60.0f), m_waitTweener(0.0f, 0.0f, 15, 1.0f / 60.0f)
 {
 	m_font.loadFromFile("arial.ttf");
 }
 
-void MessageAnimator::SetMessage(std::string & message)
+void MessageAnimator::AddMessage(std::string & message)
 {
-	m_message = message;
+	m_messages.push(message);
 }
 
 void MessageAnimator::Update(float dt)
 {
-	if (m_playing)
+	if (!m_messages.empty())
 	{
 		if (m_scaleTweener.IsPlaying() && m_alphaTweener.IsPlaying())
 		{
@@ -27,20 +27,22 @@ void MessageAnimator::Update(float dt)
 				m_waitTweener.Play();
 			}
 		}
-		
+
 		if (m_waitTweener.IsPlaying())
 		{
 			m_waitTweener.Update(dt);
 
 			if (m_waitTweener.IsComplete())
 			{
-				m_playing = false;
-
 				m_scaleTweener.Reset();
 				m_alphaTweener.Reset();
 				m_waitTweener.Reset();
+				m_messages.pop();
 
-				m_message = "";
+				if (!m_messages.empty())
+				{
+					Start();
+				}
 			}
 		}
 	}
@@ -48,13 +50,13 @@ void MessageAnimator::Update(float dt)
 
 void MessageAnimator::Draw(sf::RenderWindow& window)
 {
-	if (m_message != "")
+	if (!m_messages.empty())
 	{
 		sf::Text text;
 		text.setFillColor(sf::Color::White);
 		text.setFont(m_font);
 		text.setCharacterSize(32);
-		text.setString(m_message);
+		text.setString(m_messages.front());
 		text.setOrigin(text.getLocalBounds().width / 2.0f, text.getLocalBounds().height / 2.0f);
 		text.setPosition((float)m_screenWidth / 2.0f, (float)m_screenHeight / 2.0f);
 
@@ -72,8 +74,6 @@ void MessageAnimator::Start()
 {
 	m_scaleTweener.Play();
 	m_alphaTweener.Play();
-
-	m_playing = true;
 }
 
 bool MessageAnimator::IsAnimationComplete()
