@@ -11,8 +11,7 @@ public:
 	
 	void SetCurrentValue(int value);
 	void SetMaxValue(int value);
-	void SetMirrored(bool mirrored);
-
+	
 	void SetProgressColor(const sf::Color& color);
 	void SetEmptyColor(const sf::Color& color);
 
@@ -29,6 +28,4 @@ private:
 
 	int m_currentValue;
 	int m_maxValue;
-
-	bool m_isMirrored;
 };

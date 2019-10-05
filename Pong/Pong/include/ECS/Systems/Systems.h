@@ -2,7 +2,7 @@
 
 #include "Sys_Collision.h"
 #include "Sys_Control.h"
-#include "Sys_GameData.h"
+#include "Sys_HUD.h"
 #include "Sys_Movement.h"
 #include "Sys_PaddleAI.h"
 #include "Sys_Renderer.h"

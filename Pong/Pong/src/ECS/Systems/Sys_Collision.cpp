@@ -14,9 +14,6 @@ Sys_Collision::Sys_Collision(qe::SystemManager * systemManager) :
 	req.set(static_cast<size_t>(Component::Motion));
 
 	m_requiredComponents.push_back(req);
-
-	m_colliderTypes.set(static_cast<size_t>(Component::BoxCollider));
-	m_colliderTypes.set(static_cast<size_t>(Component::CircleCollider));
 }
 
 Sys_Collision::~Sys_Collision() = default;
@@ -188,9 +185,4 @@ void Sys_Collision::CheckOutOfBounds(const qe::EntityId& entity, Comp_Position *
 
 		m_systemManager->AddEvent(entity, static_cast<qe::EventId>(qe::EntityEvent::Collision_Y));
 	}
-}
-
-Comp_Collider * Sys_Collision::GetColliderFromType(const qe::EntityId & entityId)
-{
-	return nullptr;
 }

@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\Sys_HUD.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_Sound.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_PaddleAI.cpp" />
-    <ClCompile Include="src\ECS\Systems\Sys_GameData.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_Collision.cpp" />
     <ClCompile Include="src\ECS\Pong_SystemManager.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_Control.cpp" />
@@ -41,35 +41,34 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
-    <ClInclude Include="include\ECS\Components\Comp_BoxCollider.h" />
-    <ClInclude Include="include\ECS\Components\Comp_CircleCollider.h" />
     <ClInclude Include="include\ECS\Components\Comp_Collider.h" />
     <ClInclude Include="include\ECS\Components\Comp_Controller.h" />
     <ClInclude Include="include\ECS\Components\Comp_Drawable.h" />
+    <ClInclude Include="include\ECS\Components\Comp_Health.h" />
     <ClInclude Include="include\ECS\Components\Comp_Motion.h" />
     <ClInclude Include="include\ECS\Components\Comp_PaddleAI.h" />
     <ClInclude Include="include\ECS\Components\Comp_Position.h" />
     <ClInclude Include="include\ECS\Components\Comp_SoundEmitter.h" />
+    <ClInclude Include="include\ECS\Components\Comp_SpecialAbility.h" />
     <ClInclude Include="include\ECS\Components\Comp_Sprite.h" />
     <ClInclude Include="include\ECS\Components\Comp_State.h" />
-    <ClInclude Include="include\ECS\Components\Comp_Text.h" />
-    <ClInclude Include="include\ECS\Components\Comp_View.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Collision.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Control.h" />
+    <ClInclude Include="include\ECS\Systems\Sys_HUD.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Movement.h" />
     <ClInclude Include="include\ECS\Systems\Sys_PaddleAI.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Renderer.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Sound.h" />
     <ClInclude Include="include\ECS\Systems\Sys_State.h" />
     <ClInclude Include="include\Game Data\PongData.h" />
+    <ClInclude Include="include\Game Data\SpecialAbility.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\ECS\Pong_SystemManager.h" />
     <ClInclude Include="include\Views\ProgressBarView.h" />
     <ClInclude Include="include\State\States\State_Game.h" />
     <ClInclude Include="include\State\States\State_Paused.h" />
     <ClInclude Include="include\Utilities\Directions.h" />
-    <ClInclude Include="include\ECS\Systems\Sys_GameData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

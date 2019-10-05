@@ -3,22 +3,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include "qe/ECS/Core/Comp_Base.h"
 
-//class Comp_Collider : public qe::Comp_Base {
-//public:
-//	Comp_Collider(const Component& type) : Comp_Base(type) {}
-//	virtual ~Comp_Collider() {}
-//
-//	bool IsBouncy() const { return m_isBouncy; }
-//	bool IsCollidingOnX() const { return m_isCollidingOnX; }
-//	bool IsCollidingOnY() const { return m_isCollidingOnY; }
-//
-//private:
-//	bool m_isBouncy;
-//
-//	bool m_isCollidingOnX;
-//	bool m_isCollidingOnY;
-//};
-
 class Comp_Collider : public qe::Comp_Base {
 public:
 	Comp_Collider() : Comp_Base(Component::Collider), m_collidingOnX(false), m_collidingOnY(false) {}

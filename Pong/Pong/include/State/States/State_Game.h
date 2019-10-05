@@ -26,10 +26,13 @@ class State_Game : public qe::BaseState
 
 	private:
 		void CreateEntities();
-		void SetupViews();
+		//void SetupViews();
 
 		ProgressBarView m_leftHealthView;
 		ProgressBarView m_rightHealthView;
+
+		ProgressBarView m_leftSpecial;
+		ProgressBarView m_rightSpecial;
 
 		int m_playerId;
 };

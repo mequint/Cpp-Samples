@@ -5,9 +5,9 @@
 using ComponentType = unsigned int;
 
 enum class Component {
-	AIController = 0, BoxCollider, CircleCollider, Collider, Controller, Drawble, Motion, Position, SoundEmitter, Sprite, State, Text, COUNT
+	AIController = 0, Collider, Controller, Drawble, Health, Motion, Position, SoundEmitter, SpecialAbility, Sprite, State, Text, View, COUNT
 };
 
 enum class System {
-	Collision = 0, Control, GameData, Movement, PaddleAI, Renderer, Sound, State, COUNT
+	Collision = 0, Control, GameData, HUD, Movement, PaddleAI, Renderer, Sound, State, COUNT
 };

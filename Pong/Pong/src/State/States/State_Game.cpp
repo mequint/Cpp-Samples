@@ -7,7 +7,7 @@
 #include "qe/Window/Window.h"
 
 #include "ECS/Components/Components.h"
-#include "ECS/Systems/Sys_GameData.h"
+#include "ECS/Systems/Sys_HUD.h"
 #include "ECS/Systems/Sys_PaddleAI.h"
 #include "Utilities/Directions.h"
 
@@ -29,7 +29,6 @@ void State_Game::Create() {
 	eventManager->AddCallback(qe::StateType::Game, "Key_Down", &State_Game::MovePlayer, this);
 	eventManager->AddCallback(qe::StateType::Game, "Key_Down_Released", &State_Game::StopPlayer, this);
 
-	SetupViews();
 	CreateEntities();
 }
 
@@ -48,9 +47,6 @@ void State_Game::Update(const sf::Time& time)  {
 
 void State_Game::Draw() {
 	auto context = m_stateManager->GetContext();
-	m_leftHealthView.Draw(context->m_window->GetRenderWindow());
-	m_rightHealthView.Draw(context->m_window->GetRenderWindow());
-
 	context->m_systemManager->Draw(context->m_window, 0);
 }
 
@@ -84,6 +80,8 @@ void State_Game::CreateEntities() {
 	auto windowSize = m_stateManager->GetContext()->m_window->GetRenderWindow()->getSize();
 
 	auto paddleAiSystem = m_stateManager->GetContext()->m_systemManager->GetSystem<Sys_PaddleAI>(System::PaddleAI);
+	auto hudSystem = m_stateManager->GetContext()->m_systemManager->GetSystem<Sys_HUD>(System::HUD);
+
 	// Create the ball
 	qe::Bitmask ballBits;
 	ballBits.set(static_cast<size_t>(Component::Position));
@@ -111,7 +109,6 @@ void State_Game::CreateEntities() {
 	collidable->SetIsBouncy(true);
 
 	paddleAiSystem->SetBall(id);
-
 	// Create paddle 1
 	qe::Bitmask paddle1Bits;
 	paddle1Bits.set(static_cast<size_t>(Component::Position));
@@ -120,6 +117,7 @@ void State_Game::CreateEntities() {
 	paddle1Bits.set(static_cast<size_t>(Component::Collider));
 	paddle1Bits.set(static_cast<size_t>(Component::Controller));
 	paddle1Bits.set(static_cast<size_t>(Component::SoundEmitter));
+	paddle1Bits.set(static_cast<size_t>(Component::Health));
 
 	id = entityManager->AddEntity(paddle1Bits);
 	m_playerId = id;
@@ -138,9 +136,15 @@ void State_Game::CreateEntities() {
 	collidable->SetSize(static_cast<sf::Vector2f>(sprite->GetSize()));
 	collidable->SetIsBouncy(false);
 
+	auto health = entityManager->GetComponent<Comp_Health>(id, Component::Health);
+	health->SetMaxHealth(100);
+	health->SetHealth(100);
+
 	auto sound = entityManager->GetComponent<Comp_SoundEmitter>(id, Component::SoundEmitter);
 	sound->SetSound(EntitySound::Collision, "Bleep");
 	
+	hudSystem->SetLeftPlayer(m_playerId);
+
 	// Create paddle 2
 	qe::Bitmask paddle2Bits;
 	paddle2Bits.set(static_cast<size_t>(Component::Position));
@@ -148,6 +152,7 @@ void State_Game::CreateEntities() {
 	paddle2Bits.set(static_cast<size_t>(Component::Motion));
 	paddle2Bits.set(static_cast<size_t>(Component::Collider));
 	paddle2Bits.set(static_cast<size_t>(Component::SoundEmitter));
+	paddle2Bits.set(static_cast<size_t>(Component::Health));
 
 	id = entityManager->AddEntity(paddle2Bits);
 
@@ -164,56 +169,14 @@ void State_Game::CreateEntities() {
 	collidable->SetPosition(position->GetPosition());
 	collidable->SetSize(static_cast<sf::Vector2f>(sprite->GetSize()));
 	collidable->SetIsBouncy(false);
+	
+	health = entityManager->GetComponent<Comp_Health>(id, Component::Health);
+	health->SetMaxHealth(100);
+	health->SetHealth(100);
 
 	sound = entityManager->GetComponent<Comp_SoundEmitter>(id, Component::SoundEmitter);
 	sound->SetSound(EntitySound::Collision, "Bloop");
 
 	paddleAiSystem->SetPaddle(id);
-
-	// Get the scoring system
-	auto scoreSystem = m_stateManager->GetContext()->m_systemManager->GetSystem<Sys_GameData>(System::GameData);
-
-	// Create Left Side Score
-	qe::Bitmask leftScore;
-	leftScore.set(static_cast<size_t>(Component::Position));
-	leftScore.set(static_cast<size_t>(Component::Text));
-
-	id = entityManager->AddEntity(leftScore);
-
-	auto text = entityManager->GetComponent<Comp_Text>(id, Component::Text);
-	text->Create(m_stateManager->GetContext()->m_fontManager, "Game");
-	text->SetFontSize(24);
-	text->SetText("0");
-
-	position = entityManager->GetComponent<Comp_Position>(id, Component::Position);
-	position->SetPosition(static_cast<float>(windowSize.x / 4.0f), static_cast<float>(windowSize.y / 10.0f));
-
-	scoreSystem->SetLeftEntity(id);
-
-	// Create Left Side Score
-	qe::Bitmask rightScore;
-	rightScore.set(static_cast<size_t>(Component::Position));
-	rightScore.set(static_cast<size_t>(Component::Text));
-
-	id = entityManager->AddEntity(rightScore);
-
-	position = entityManager->GetComponent<Comp_Position>(id, Component::Position);
-	position->SetPosition(static_cast<float>(3 * windowSize.x / 4.0f), static_cast<float>(windowSize.y / 10.0f));
-
-	text = entityManager->GetComponent<Comp_Text>(id, Component::Text);
-	text->Create(m_stateManager->GetContext()->m_fontManager, "Game");
-	text->SetFontSize(24);
-	text->SetText("0");
-
-	scoreSystem->SetRightEntity(id);
-}
-
-void State_Game::SetupViews() {
-	auto windowSize = m_stateManager->GetContext()->m_window->GetRenderWindow()->getSize();
-
-	m_leftHealthView.SetPosition(sf::Vector2f(10.0f, 10.0f));
-	m_leftHealthView.SetBarSize(static_cast<float>(windowSize.x / 2 - 20), 30.0f);
-
-	m_rightHealthView.SetPosition(sf::Vector2f(static_cast<float>(windowSize.x / 2) + 10.0f, 10.0f));
-	m_rightHealthView.SetBarSize(static_cast<float>(windowSize.x / 2 - 20), 30.0f);
+	hudSystem->SetRightPlayer(m_playerId);
 }

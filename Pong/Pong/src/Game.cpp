@@ -90,27 +90,30 @@ void Game::SetupBindings() {
 
 void Game::SetupECS() {
 	m_entityManager.RegisterComponent<Comp_Collider>(Component::Collider);
+	m_entityManager.RegisterComponent<Comp_Health>(Component::Health);
+	m_entityManager.RegisterComponent<Comp_SpecialAbility>(Component::SpecialAbility);
 	m_entityManager.RegisterComponent<Comp_Position>(Component::Position);
 	m_entityManager.RegisterComponent<Comp_Motion>(Component::Motion);
 	m_entityManager.RegisterComponent<Comp_Controller>(Component::Controller);
 	m_entityManager.RegisterComponent<Comp_Sprite>(Component::Sprite);
 	m_entityManager.RegisterComponent<Comp_State>(Component::State);
-	m_entityManager.RegisterComponent<Comp_Text>(Component::Text);
 	m_entityManager.RegisterComponent<Comp_PaddleAI>(Component::AIController);
 	m_entityManager.RegisterComponent<Comp_SoundEmitter>(Component::SoundEmitter);
 
 	m_systemManager.RegisterSystem<Sys_Renderer>(System::Renderer);
 	m_systemManager.RegisterSystem<Sys_Movement>(System::Movement);
+	m_systemManager.RegisterSystem<Sys_HUD>(System::HUD);
 	m_systemManager.RegisterSystem<Sys_Control>(System::Control);
 	m_systemManager.RegisterSystem<Sys_State>(System::State);
 	m_systemManager.RegisterSystem<Sys_Collision>(System::Collision);
-	m_systemManager.RegisterSystem<Sys_GameData>(System::GameData);
 	m_systemManager.RegisterSystem<Sys_PaddleAI>(System::PaddleAI);
 	m_systemManager.RegisterSystem<Sys_Sound>(System::Sound);
 
 	auto windowSize = m_window.GetRenderWindow()->getSize();
 	m_systemManager.GetSystem<Sys_Collision>(System::Collision)->SetBoundary(
 		sf::FloatRect(sf::Vector2f(0.0f, 0.0f), static_cast<sf::Vector2f>(windowSize)));
+
+	m_systemManager.GetSystem<Sys_HUD>(System::HUD)->Setup(windowSize.x, windowSize.y);
 
 	m_systemManager.GetSystem<Sys_Sound>(System::Sound)->Setup(&m_audioManager, &m_soundManager);
 }

@@ -2,8 +2,7 @@
 
 ProgressBarView::ProgressBarView() : 
 	m_currentValue(100), 
-	m_maxValue(100), 
-	m_isMirrored(false),
+	m_maxValue(100),
 	m_progressColor(sf::Color::Red),
 	m_emptyColor(sf::Color::White) {
 }
@@ -24,7 +23,7 @@ void ProgressBarView::Draw(sf::RenderWindow * window) {
 	// Figure out the length of the bar on the right using the remainder of the bar rect
 	sf::RectangleShape rightSide;
 	rightSide.setPosition(m_barRect.left + leftSideWidth, m_barRect.top);
-	rightSide.setSize(sf::Vector2f(m_barRect.height, m_barRect.width - leftSideWidth));
+	rightSide.setSize(sf::Vector2f(m_barRect.width - leftSideWidth, m_barRect.height));
 	rightSide.setFillColor(m_emptyColor);
 
 	window->draw(leftSide);
@@ -50,10 +49,6 @@ void ProgressBarView::SetMaxValue(int value) {
 	else {
 		m_maxValue = value;
 	}
-}
-
-void ProgressBarView::SetMirrored(bool mirrored) {
-	m_isMirrored = mirrored;
 }
 
 void ProgressBarView::SetProgressColor(const sf::Color& color) {
