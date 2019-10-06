@@ -23,9 +23,9 @@ Sys_HUD::~Sys_HUD() = default;
 
 void Sys_HUD::Setup(const int width, const int height) {
 	float healthBarWidth = static_cast<float>(width / 2 - 20);
-	float healthBarHeight = 30.0f;
+	float healthBarHeight = 15.0f;
 	float specialBarWidth = static_cast<float>((width / 2 - 20) / 10);
-	float specialBarHeight = 20.0f;
+	float specialBarHeight = 10.0f;
 
 	m_leftHealthBar.SetPosition(sf::Vector2f(10.0f, 10.0f));
 	m_leftHealthBar.SetBarSize(healthBarWidth, healthBarHeight);
@@ -34,7 +34,7 @@ void Sys_HUD::Setup(const int width, const int height) {
 	m_leftHealthBar.SetCurrentValue(100);
 	m_leftHealthBar.SetMaxValue(100);
 
-	m_leftSpecialBar.SetPosition(sf::Vector2f(10.0f, 40.0f));
+	m_leftSpecialBar.SetPosition(sf::Vector2f(10.0f, 10.0f + healthBarHeight));
 	m_leftSpecialBar.SetBarSize(specialBarWidth, specialBarHeight);
 	m_leftSpecialBar.SetProgressColor(sf::Color(0x87, 0xce, 0xfa, 0xff));
 	m_leftSpecialBar.SetEmptyColor(sf::Color(0x46, 0x82, 0xb4, 0xff));
@@ -48,7 +48,7 @@ void Sys_HUD::Setup(const int width, const int height) {
 	m_rightHealthBar.SetCurrentValue(100);
 	m_rightHealthBar.SetMaxValue(100);
 
-	m_rightSpecialBar.SetPosition(sf::Vector2f(static_cast<float>(width - 10) - specialBarWidth, 40.0f));
+	m_rightSpecialBar.SetPosition(sf::Vector2f(static_cast<float>(width - 10) - specialBarWidth, 10.0f + healthBarHeight));
 	m_rightSpecialBar.SetBarSize(specialBarWidth, specialBarHeight);
 	m_rightSpecialBar.SetProgressColor(sf::Color(0x87, 0xce, 0xfa, 0xff));
 	m_rightSpecialBar.SetEmptyColor(sf::Color(0x46, 0x82, 0xb4, 0xff));
@@ -83,27 +83,35 @@ void Sys_HUD::Notify(const qe::Message & message) {
 				Comp_Health* health = entities->GetComponent<Comp_Health>(m_leftPlayer, Component::Health);
 				
 				auto currentHealth = health->GetHealth();
-				currentHealth -= 10;
+				currentHealth -= 25;
 				if (currentHealth < 0) return;
 				
 				health->SetHealth(currentHealth);
 				m_leftHealthBar.SetCurrentValue(currentHealth);
 
 				// Game is over...send a message
-				if (currentHealth <= 0) return;
+				if (currentHealth <= 0) {
+					qe::Message message(static_cast<qe::MessageType>(EntityMessage::Health_Depleted));
+					message.m_int = static_cast<int>(Direction::Left);
+					m_systemManager->GetMessageDispatcher()->Dispatch(message);
+				}
 			}
 			else if (dir == Direction::Right) {
 				Comp_Health* health = entities->GetComponent<Comp_Health>(m_rightPlayer, Component::Health);
 
 				auto currentHealth = health->GetHealth();
-				currentHealth -= 10;
+				currentHealth -= 25;
 				if (currentHealth < 0) return;
 
 				health->SetHealth(currentHealth);
 				m_rightHealthBar.SetCurrentValue(currentHealth);
 
 				// Game is over...send a message
-				if (currentHealth <= 0) return;
+				if (currentHealth <= 0) {
+					qe::Message message(static_cast<qe::MessageType>(EntityMessage::Health_Depleted));
+					message.m_int = static_cast<int>(Direction::Right);
+					m_systemManager->GetMessageDispatcher()->Dispatch(message);
+				}
 			}
 		}
 	}

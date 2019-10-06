@@ -1,7 +1,7 @@
 #pragma once
 
 #include "qe\ECS\Core\Comp_Base.h"
-#include "Game Data\SpecialAbility.h"
+#include "GameData\SpecialAbility.h"
 
 
 class Comp_SpecialAbility : public qe::Comp_Base {

@@ -5,7 +5,7 @@
 #include "qe/Window/Window.h"
 
 State_Paused::State_Paused(qe::StateManager* stateManager) : BaseState(stateManager) {}
-State_Paused::~State_Paused() {}
+State_Paused::~State_Paused() = default;
 
 void State_Paused::Create() {
 	SetTransparent(true);

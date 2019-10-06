@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\Sys_AppState.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_HUD.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_Sound.cpp" />
     <ClCompile Include="src\ECS\Systems\Sys_PaddleAI.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\State\States\State_Game.cpp" />
+    <ClCompile Include="src\State\States\State_GameOver.cpp" />
     <ClCompile Include="src\State\States\State_Paused.cpp" />
     <ClCompile Include="src\Views\ProgressBarView.cpp" />
   </ItemGroup>
@@ -53,6 +55,7 @@
     <ClInclude Include="include\ECS\Components\Comp_Sprite.h" />
     <ClInclude Include="include\ECS\Components\Comp_State.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
+    <ClInclude Include="include\ECS\Systems\Sys_AppState.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Collision.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Control.h" />
     <ClInclude Include="include\ECS\Systems\Sys_HUD.h" />
@@ -61,10 +64,11 @@
     <ClInclude Include="include\ECS\Systems\Sys_Renderer.h" />
     <ClInclude Include="include\ECS\Systems\Sys_Sound.h" />
     <ClInclude Include="include\ECS\Systems\Sys_State.h" />
-    <ClInclude Include="include\Game Data\PongData.h" />
-    <ClInclude Include="include\Game Data\SpecialAbility.h" />
+    <ClInclude Include="include\GameData\PongData.h" />
+    <ClInclude Include="include\GameData\SpecialAbility.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\ECS\Pong_SystemManager.h" />
+    <ClInclude Include="include\State\States\State_GameOver.h" />
     <ClInclude Include="include\Views\ProgressBarView.h" />
     <ClInclude Include="include\State\States\State_Game.h" />
     <ClInclude Include="include\State\States\State_Paused.h" />

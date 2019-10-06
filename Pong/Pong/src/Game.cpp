@@ -3,6 +3,7 @@
 #include "ECS\Components\Components.h"
 #include "ECS\Systems\Systems.h"
 #include "State\States\State_Game.h"
+#include "State\States\State_GameOver.h"
 #include "State\States\State_Paused.h"
 
 Game::Game() : 
@@ -56,6 +57,7 @@ Game::Game() :
 	// Setup States
 	m_stateManager.RegisterState<State_Game>(qe::StateType::Game);
 	m_stateManager.RegisterState<State_Paused>(qe::StateType::Paused);
+	m_stateManager.RegisterState<State_GameOver>(qe::StateType::GameOver);
 
 	m_stateManager.ChangeState(qe::StateType::Game);
 }
@@ -100,6 +102,7 @@ void Game::SetupECS() {
 	m_entityManager.RegisterComponent<Comp_PaddleAI>(Component::AIController);
 	m_entityManager.RegisterComponent<Comp_SoundEmitter>(Component::SoundEmitter);
 
+	m_systemManager.RegisterSystem<Sys_AppState>(System::AppState);
 	m_systemManager.RegisterSystem<Sys_Renderer>(System::Renderer);
 	m_systemManager.RegisterSystem<Sys_Movement>(System::Movement);
 	m_systemManager.RegisterSystem<Sys_HUD>(System::HUD);
@@ -113,8 +116,8 @@ void Game::SetupECS() {
 	m_systemManager.GetSystem<Sys_Collision>(System::Collision)->SetBoundary(
 		sf::FloatRect(sf::Vector2f(0.0f, 0.0f), static_cast<sf::Vector2f>(windowSize)));
 
+	m_systemManager.GetSystem<Sys_AppState>(System::AppState)->SetStateManager(&m_stateManager);
 	m_systemManager.GetSystem<Sys_HUD>(System::HUD)->Setup(windowSize.x, windowSize.y);
-
 	m_systemManager.GetSystem<Sys_Sound>(System::Sound)->Setup(&m_audioManager, &m_soundManager);
 }
 

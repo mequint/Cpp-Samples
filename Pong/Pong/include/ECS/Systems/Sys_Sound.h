@@ -18,5 +18,4 @@ public:
 private:
 	qe::AudioManager* m_audioManager;
 	qe::SoundManager* m_soundManager;
-
 };

@@ -9,5 +9,5 @@ enum class Component {
 };
 
 enum class System {
-	Collision = 0, Control, GameData, HUD, Movement, PaddleAI, Renderer, Sound, State, COUNT
+	AppState = 0, Collision, Control, GameData, HUD, Movement, PaddleAI, Renderer, Sound, State, COUNT
 };
