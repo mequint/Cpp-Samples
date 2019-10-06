@@ -143,7 +143,7 @@ void State_Game::CreateEntities() {
 	auto sound = entityManager->GetComponent<Comp_SoundEmitter>(id, Component::SoundEmitter);
 	sound->SetSound(EntitySound::Collision, "Bleep");
 	
-	hudSystem->SetLeftPlayer(m_playerId);
+	hudSystem->SetLeftPlayer(id);
 
 	// Create paddle 2
 	qe::Bitmask paddle2Bits;
@@ -178,5 +178,5 @@ void State_Game::CreateEntities() {
 	sound->SetSound(EntitySound::Collision, "Bloop");
 
 	paddleAiSystem->SetPaddle(id);
-	hudSystem->SetRightPlayer(m_playerId);
+	hudSystem->SetRightPlayer(id);
 }
