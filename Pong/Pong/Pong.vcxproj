@@ -34,6 +34,7 @@
     <ClCompile Include="src\State\States\State_Game.cpp" />
     <ClCompile Include="src\State\States\State_GameOver.cpp" />
     <ClCompile Include="src\State\States\State_Paused.cpp" />
+    <ClCompile Include="src\State\States\State_Title.cpp" />
     <ClCompile Include="src\Views\ProgressBarView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +70,7 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\ECS\Pong_SystemManager.h" />
     <ClInclude Include="include\State\States\State_GameOver.h" />
+    <ClInclude Include="include\State\States\State_Title.h" />
     <ClInclude Include="include\Views\ProgressBarView.h" />
     <ClInclude Include="include\State\States\State_Game.h" />
     <ClInclude Include="include\State\States\State_Paused.h" />

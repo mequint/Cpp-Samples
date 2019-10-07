@@ -5,9 +5,10 @@
 #include "State\States\State_Game.h"
 #include "State\States\State_GameOver.h"
 #include "State\States\State_Paused.h"
+#include "State\States\State_Title.h"
 
 Game::Game() : 
-	m_window("Pong", sf::Vector2u(800, 600)), 
+	m_window("Battle Pong", sf::Vector2u(800, 600)), 
 	m_stateManager(&m_context), 
 	m_entityManager(&m_systemManager),
 	m_soundManager(&m_audioManager) {
@@ -55,11 +56,12 @@ Game::Game() :
 	SetupECS();
 
 	// Setup States
+	m_stateManager.RegisterState<State_Title>(qe::StateType::Title);
 	m_stateManager.RegisterState<State_Game>(qe::StateType::Game);
 	m_stateManager.RegisterState<State_Paused>(qe::StateType::Paused);
 	m_stateManager.RegisterState<State_GameOver>(qe::StateType::GameOver);
 
-	m_stateManager.ChangeState(qe::StateType::Game);
+	m_stateManager.ChangeState(qe::StateType::Title);
 }
 
 void Game::SetupBindings() {
