@@ -7,7 +7,7 @@
 
 // TODO: Make the block size configurable
 State_Game::State_Game(StateManager* stateManager) : BaseState(stateManager), m_randomGenerator((int)ShapeType::Z),
-	m_grid(10, 22, 320, 128, 16), m_messageAnimator(800, 600), m_lastLinesRemoved(0), m_currentComboCount(0), m_lastBlockRemovedLines(false)
+	m_grid(10, 22, 320, 128, 16), m_lastLinesRemoved(0), m_currentComboCount(0), m_lastBlockRemovedLines(false)
 {
 	m_blockSize = 16.0f;
 	m_gameData = m_stateManager->GetContext()->m_gameData;
@@ -230,7 +230,7 @@ void State_Game::UpdateUIPieces()
 
 void State_Game::UpdateFallTime()
 {
-	if (m_gameData->Lines >= m_linesToNextLevel)
+	if (static_cast<int>(m_gameData->Lines) >= m_linesToNextLevel)
 	{
 		m_nextFallTime -= 0.09f;
 
@@ -453,7 +453,7 @@ void State_Game::UpdateGameStats(int linesRemoved)
 	}
 
 	m_gameData->Lines += linesRemoved;
-	if (m_gameData->Lines >= m_linesToNextLevel)
+	if (static_cast<int>(m_gameData->Lines) >= m_linesToNextLevel)
 	{
 		++(m_gameData->Level);
 
@@ -466,7 +466,7 @@ void State_Game::UpdateGameStats(int linesRemoved)
 		++(m_gameData->Combos);
 		++(m_currentComboCount);
 
-		if (m_currentComboCount > m_gameData->LongestCombo)
+		if (m_currentComboCount > static_cast<int>(m_gameData->LongestCombo))
 		{
 			m_gameData->LongestCombo = m_currentComboCount;
 		}
