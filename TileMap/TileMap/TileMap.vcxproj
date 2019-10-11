@@ -23,12 +23,6 @@
     <ClCompile Include="src\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ECS\Components\C_Drawable.h" />
-    <ClInclude Include="include\ECS\Components\C_Sprite.h" />
-    <ClInclude Include="include\ECS\Components\C_Transform.h" />
-    <ClInclude Include="include\ECS\Core\C_Base.h" />
-    <ClInclude Include="include\ECS\ECS_Types.h" />
-    <ClInclude Include="include\ECS\Entity.h" />
     <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\TileMap.h" />
   </ItemGroup>

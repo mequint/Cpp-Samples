@@ -1,5 +1,6 @@
 #include "TileMap.h"
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 
@@ -22,38 +23,36 @@ bool TileMap::LoadFromFile(const std::string& filename) {
 		if (type == "TileSize") {
 			stream >> m_tileSize;
 		}
-		else if (type == "MapSize") {
-			stream >> m_width >> m_height;
-			m_mapData.reserve(m_width * m_height);
-		}
-		else if (type == "PalleteSize") {
-			stream >> m_palleteSize;
-			m_palette.reserve(m_palleteSize);
-		}
 		else if (type == "Pallete") {
-			if (m_palleteSize <= 0) {
-				std::cout << "ERROR: PaletteSize has not been set" << std::endl;
+			int paletteSize;
+			stream >> paletteSize;
+
+			if (paletteSize <= 0) {
+				std::cout << "ERROR: Palette Size is invalid" << std::endl;
 				return false;
 			}
 
-			for (int i = 0; i < m_palleteSize; ++i) {
-				std::string tile;
+			m_palette.reserve(paletteSize);
 
-				if (std::getline(file, tile)) {
-					std::stringstream tilestream(tile);
+			for (int i = 0; i < paletteSize; ++i) {
+				std::string tileData;
 
-					std::string tileName;
-					int tileId;
-					bool isSolid;
-					tilestream >> tileName >> tileId >> isSolid;
+				if (std::getline(file, tileData)) {
+					std::stringstream tilestream(tileData);
+					
+					Tile tile;
+					tilestream >> tile.Name >> tile.Id >> tile.IsSolid >> tile.IsWarp;
 
-					m_palette.emplace_back(tileName, tileId, isSolid);
+					m_palette.emplace_back(tile);
 				}
 			}
 		}
 		else if (type == "MapData") {
+			stream >> m_width >> m_height;
+			m_mapData.reserve(m_width * m_height);
+
 			if (m_width <= 0 || m_height <= 0) {
-				std::cout << "ERROR: MapSize has not been set" << std::endl;
+				std::cout << "ERROR: Map width or height is invalid" << std::endl;
 				return false;
 			}
 
@@ -88,6 +87,27 @@ bool TileMap::LoadFromFile(const std::string& filename) {
 				}
 			}
 		}
+		else if (type == "Warps") {
+			int warpCount;
+			stream >> warpCount;
+			
+			if (warpCount < 0) {
+				std::cout << "ERROR: Warp count cannot be less then 0" << std::endl;
+				return false;
+			}
+
+			for (int i = 0; i < warpCount; ++i) {
+				std::string warpData;
+				if (std::getline(file, warpData)) {
+					std::stringstream warpStream(warpData);
+					Warp warp;
+
+					warpStream >> warp.MapName >> warp.FromX >> warp.FromY >> warp.ToX >> warp.ToY;
+
+					m_warps.emplace_back(warp);
+				}
+			}
+		}
 	}
 
 	file.close();
@@ -105,4 +125,14 @@ int TileMap::GetMapTile(int x, int y) const {
 
 Tile TileMap::GetTileData(int id) const {
 	return m_palette[id];
+}
+
+Warp TileMap::GetWarpData(int x, int y) const {
+	auto warp = std::find_if(m_warps.begin(), m_warps.end(), [x, y](Warp warp) {
+		return x == warp.FromX && y == warp.FromY;
+	});
+
+	if (warp == m_warps.end()) return Warp();
+
+	return *warp;
 }
