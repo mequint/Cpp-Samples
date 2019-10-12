@@ -204,8 +204,9 @@ void MoveCharacter(TileMap* map, sf::Vector2i& position, Direction dir) {
 
 	Insights: Palettizing the tile data instead storing that data tile by tile is a waste of space.
 		The tile palette allows for a map to only deal with Id's and has a further benefit of allowing the tile
-		texture to be changed in design time.  An example problem would be the implemenation of a weather and
-		seasons system.  Another example would be the introduction of biomes (such as in Minecraft).
+		texture to be changed in design time while still having the map structure.  An example problem would be 
+		the implemenation of a weather and seasons system.  Another example would be the introduction of biomes 
+		(such as in Minecraft).
 
 	10/11/2019a
 	Replaced the Id value in the Tile Palette to a Tile structure which has the following values
@@ -223,15 +224,14 @@ void MoveCharacter(TileMap* map, sf::Vector2i& position, Direction dir) {
 	Updated the Tile Map to implement Warp tiles.
 	Optimized map loading, ensuring that important map data is on the same line as the data being loaded
 
-	Gotchas: If you warp onto another warp tile, the tile will warp to the new warp warp location.  If this lands 
-		on the first warp, this will begin an infinite loop.  That said, upon arrival in the new area, warps need
-		to be disabled until the player moves.
+	Gotchas: If you warp onto another warp tile, the second tile will warp to the second warps warp location.  If the 
+		second warp lands on the first warp, this will begin an infinite loop.  That said, upon arrival in the new area, 
+		warps need to be disabled until the player moves.
 
-	Insights: The "warp" tile is an example of a concept called a "trigger".  A future feature would be to
-		make the "warp" tile generic and allow for a callback or a scripted event to be passed into the trigger.
-		Alternatively, trigger tiles could be removed enitrely and made into an invisible object that rests on top
-		of the map (perhaps a trigger layer), can be represented by a variety of different shapes and can work 
-		with a collision detection system.
+	Insights: The "warp" tile is an example of a "trigger".  A future feature would be to make the "warp" tile generic 
+		and allow for a callback or a scripted event to be passed into the trigger.  Alternatively, trigger tiles could 
+		be removed enitrely and made into an invisible object that rests on top of the map (perhaps a trigger layer), 
+		can be represented by a variety of different shapes and can work with a collision detection system.
 
 	Polish:
 		Add a transition animations between maps which pauses the game state until the transition is complete
