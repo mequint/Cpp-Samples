@@ -387,15 +387,15 @@ void State_Game::SwapLanderWithHold()
 
 void State_Game::LoadSounds()
 {
-	m_blockLandBuffer.loadFromFile("BlockLand.wav");
+	m_blockLandBuffer.loadFromFile("../media/Audio/BlockLand.wav");
 	m_blockLand.setBuffer(m_blockLandBuffer);
 	m_blockLand.setVolume(100);
 
-	m_blockRotateBuffer.loadFromFile("BlockRotate.wav");
+	m_blockRotateBuffer.loadFromFile("../media/Audio/BlockRotate.wav");
 	m_blockRotate.setBuffer(m_blockRotateBuffer);
 	m_blockRotate.setVolume(100);
 
-	m_removeLinesBuffer.loadFromFile("RemoveLines.wav");
+	m_removeLinesBuffer.loadFromFile("../media/Audio/RemoveLines.wav");
 	m_removeLines.setBuffer(m_removeLinesBuffer);
 	m_removeLines.setVolume(100);
 }

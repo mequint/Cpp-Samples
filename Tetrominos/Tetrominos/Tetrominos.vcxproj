@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,59 +19,59 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlockHelper.cpp" />
-    <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="FontManager.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MessageAnimator.cpp" />
-    <ClCompile Include="RandomGenerator.cpp" />
-    <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="ShapeBox.cpp" />
-    <ClCompile Include="StateManager.cpp" />
-    <ClCompile Include="State_Credits.cpp" />
-    <ClCompile Include="State_Game.cpp" />
-    <ClCompile Include="Label.cpp" />
-    <ClCompile Include="State_GameOver.cpp" />
-    <ClCompile Include="State_Paused.cpp" />
-    <ClCompile Include="State_PreGame.cpp" />
-    <ClCompile Include="State_Title.cpp" />
-    <ClCompile Include="TitledTextBox.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClInclude Include="include\BaseState.h" />
+    <ClInclude Include="include\BlockHelper.h" />
+    <ClInclude Include="include\Context.h" />
+    <ClInclude Include="include\EventManager.h" />
+    <ClInclude Include="include\FontManager.h" />
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\GameData.h" />
+    <ClInclude Include="include\Grid.h" />
+    <ClInclude Include="include\Label.h" />
+    <ClInclude Include="include\MessageAnimator.h" />
+    <ClInclude Include="include\Movement.h" />
+    <ClInclude Include="include\RandomGenerator.h" />
+    <ClInclude Include="include\Shape.h" />
+    <ClInclude Include="include\ShapeBox.h" />
+    <ClInclude Include="include\ShapeType.h" />
+    <ClInclude Include="include\StateManager.h" />
+    <ClInclude Include="include\State_Credits.h" />
+    <ClInclude Include="include\State_Game.h" />
+    <ClInclude Include="include\State_GameOver.h" />
+    <ClInclude Include="include\State_Paused.h" />
+    <ClInclude Include="include\State_PreGame.h" />
+    <ClInclude Include="include\State_Title.h" />
+    <ClInclude Include="include\TitledTextBox.h" />
+    <ClInclude Include="include\Tweener.h" />
+    <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseState.h" />
-    <ClInclude Include="BlockHelper.h" />
-    <ClInclude Include="Context.h" />
-    <ClInclude Include="EventManager.h" />
-    <ClInclude Include="FontManager.h" />
-    <ClInclude Include="MessageAnimator.h" />
-    <ClInclude Include="Movement.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="GameData.h" />
-    <ClInclude Include="RandomGenerator.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeBox.h" />
-    <ClInclude Include="ShapeType.h" />
-    <ClInclude Include="StateManager.h" />
-    <ClInclude Include="State_Credits.h" />
-    <ClInclude Include="State_Game.h" />
-    <ClInclude Include="Label.h" />
-    <ClInclude Include="State_GameOver.h" />
-    <ClInclude Include="State_Paused.h" />
-    <ClInclude Include="State_PreGame.h" />
-    <ClInclude Include="State_Title.h" />
-    <ClInclude Include="TitledTextBox.h" />
-    <ClInclude Include="Tweener.h" />
-    <ClInclude Include="Window.h" />
+    <ClCompile Include="src\BlockHelper.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
+    <ClCompile Include="src\FontManager.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\Label.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MessageAnimator.cpp" />
+    <ClCompile Include="src\RandomGenerator.cpp" />
+    <ClCompile Include="src\Shape.cpp" />
+    <ClCompile Include="src\ShapeBox.cpp" />
+    <ClCompile Include="src\StateManager.cpp" />
+    <ClCompile Include="src\State_Credits.cpp" />
+    <ClCompile Include="src\State_Game.cpp" />
+    <ClCompile Include="src\State_GameOver.cpp" />
+    <ClCompile Include="src\State_Paused.cpp" />
+    <ClCompile Include="src\State_PreGame.cpp" />
+    <ClCompile Include="src\State_Title.cpp" />
+    <ClCompile Include="src\TitledTextBox.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{3adea9eb-d68b-4595-b355-18d60d2a9659}</ProjectGuid>
+    <ProjectGuid>{c7a60dcc-5b5b-4f7c-bb68-684eebcb8ffd}</ProjectGuid>
     <RootNamespace>Tetrominos</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -125,12 +125,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.4.2\include;C:\src\glew-2.1.0\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\freetype-2.9\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)Tetrominos\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\src\SFML-2.4.2\lib;C:\src\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,12 +138,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.4.2\include;C:\src\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)Tetrominos\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\src\SFML-2.4.2\lib;C:\src\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,14 +153,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.4.2\include;C:\src\glew-2.1.0\include;C:\src\glm-0.9.8.5\glm;C:\src\stb-master;C:\src\freetype-2.9\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\src\SFML-2.4.2\lib;C:\src\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,14 +170,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.4.2\include;C:\src\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\src\SFML-2.4.2\lib;C:\src\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies);glew32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

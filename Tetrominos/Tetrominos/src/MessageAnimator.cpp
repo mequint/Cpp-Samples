@@ -6,7 +6,7 @@ MessageAnimator::MessageAnimator() :
 	m_scaleTweener(0.2f, 1.0f, 30, 1.0f / 60.0f), 
 	m_alphaTweener(0.2f, 1.0f, 30, 1.0f / 60.0f), 
 	m_waitTweener(0.0f, 0.0f, 15, 1.0f / 60.0f) {
-	m_font.loadFromFile("arial.ttf");
+	m_font.loadFromFile("../media/Fonts/arial.ttf");
 }
 
 void MessageAnimator::AddMessage(std::string & message)
