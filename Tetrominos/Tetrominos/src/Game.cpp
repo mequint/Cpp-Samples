@@ -17,7 +17,7 @@ Game::Game() : m_window("Tetrominos", sf::Vector2u(800, 600)), m_stateManager(&m
 	SetupBindings();
 
 	// Load fonts
-	m_fontManager.LoadFont("arial.ttf", "Game");
+	m_fontManager.LoadFont("../media/Fonts/arial.ttf", "Game");
 
 	m_stateManager.ChangeState(StateType::Title);
 }

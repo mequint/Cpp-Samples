@@ -82,7 +82,7 @@ class State_Game : public BaseState
 		float m_nextFallTime;
 		int m_linesToNextLevel;
 
-		bool m_currentComboCount;
+		int m_currentComboCount;
 		bool m_lastBlockRemovedLines;
 		int m_lastLinesRemoved;
 

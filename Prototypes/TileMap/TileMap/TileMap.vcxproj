@@ -19,58 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BaseState.h" />
-    <ClInclude Include="include\BlockHelper.h" />
-    <ClInclude Include="include\Context.h" />
-    <ClInclude Include="include\EventManager.h" />
-    <ClInclude Include="include\FontManager.h" />
-    <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\GameData.h" />
-    <ClInclude Include="include\Grid.h" />
-    <ClInclude Include="include\Label.h" />
-    <ClInclude Include="include\MessageAnimator.h" />
-    <ClInclude Include="include\Movement.h" />
-    <ClInclude Include="include\RandomGenerator.h" />
-    <ClInclude Include="include\Shape.h" />
-    <ClInclude Include="include\ShapeBox.h" />
-    <ClInclude Include="include\ShapeType.h" />
-    <ClInclude Include="include\StateManager.h" />
-    <ClInclude Include="include\State_Credits.h" />
-    <ClInclude Include="include\State_Game.h" />
-    <ClInclude Include="include\State_GameOver.h" />
-    <ClInclude Include="include\State_Paused.h" />
-    <ClInclude Include="include\State_PreGame.h" />
-    <ClInclude Include="include\State_Title.h" />
-    <ClInclude Include="include\TitledTextBox.h" />
-    <ClInclude Include="include\Tweener.h" />
-    <ClInclude Include="include\Window.h" />
+    <ClInclude Include="include\Tile.h" />
+    <ClInclude Include="include\TileMap.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BlockHelper.cpp" />
-    <ClCompile Include="src\EventManager.cpp" />
-    <ClCompile Include="src\FontManager.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\Grid.cpp" />
-    <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MessageAnimator.cpp" />
-    <ClCompile Include="src\RandomGenerator.cpp" />
-    <ClCompile Include="src\Shape.cpp" />
-    <ClCompile Include="src\ShapeBox.cpp" />
-    <ClCompile Include="src\StateManager.cpp" />
-    <ClCompile Include="src\State_Credits.cpp" />
-    <ClCompile Include="src\State_Game.cpp" />
-    <ClCompile Include="src\State_GameOver.cpp" />
-    <ClCompile Include="src\State_Paused.cpp" />
-    <ClCompile Include="src\State_PreGame.cpp" />
-    <ClCompile Include="src\State_Title.cpp" />
-    <ClCompile Include="src\TitledTextBox.cpp" />
-    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\TileMap.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{c7a60dcc-5b5b-4f7c-bb68-684eebcb8ffd}</ProjectGuid>
-    <RootNamespace>Tetrominos</RootNamespace>
+    <ProjectGuid>{8ede0ddf-181f-4040-85df-3e9b44ea3e45}</ProjectGuid>
+    <RootNamespace>TileMap</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -125,7 +84,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)Tetrominos\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)TileMap\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -138,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)Tetrominos\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(SolutionDir)TileMap\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -10,7 +10,7 @@
 class MessageAnimator
 {
 	public:
-		MessageAnimator(int sreenWidth, int screenHeight);
+		MessageAnimator();
 
 		void AddMessage(std::string& message);
 
@@ -25,8 +25,6 @@ class MessageAnimator
 		
 		sf::Font m_font;
 		std::queue<std::string> m_messages;
-
-		int m_screenWidth, m_screenHeight;
 
 		FloatTweener m_scaleTweener;
 		FloatTweener m_alphaTweener;
