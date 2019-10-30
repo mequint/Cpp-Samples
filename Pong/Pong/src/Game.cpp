@@ -33,21 +33,21 @@ Game::Game() :
 	SetupBindings();
 
 	// Load sound files
-	m_audioManager.AddResourcePath("Bleep", "media/audio/a5.wav");
-	m_audioManager.AddResourcePath("Bloop", "media/audio/a4.wav");
+	m_audioManager.AddResourcePath("Bleep", "../media/audio/a5.wav");
+	m_audioManager.AddResourcePath("Bloop", "../media/audio/a4.wav");
 	m_audioManager.LoadResource("Bleep");
 	m_audioManager.LoadResource("Bloop");
 	m_soundManager.AddSoundProperty("Bleep", 25.0f, 1.0f, 150, 2.0f);
 	m_soundManager.AddSoundProperty("Bloop", 25.0f, 1.0f, 150, 2.0f);
 
 	// Load fonts
-	m_fontManager.AddResourcePath("Game", "media/fonts/arial.ttf");
+	m_fontManager.AddResourcePath("Game", "../media/fonts/arial.ttf");
 	m_fontManager.LoadResource("Game");
 
 	// Load textures
-	m_textureManager.AddResourcePath("BluePaddle", "media/textures/BluePaddle.png");
-	m_textureManager.AddResourcePath("RedPaddle", "media/textures/RedPaddle.png");
-	m_textureManager.AddResourcePath("Ball", "media/textures/Ball.png");
+	m_textureManager.AddResourcePath("BluePaddle", "../media/textures/BluePaddle.png");
+	m_textureManager.AddResourcePath("RedPaddle", "../media/textures/RedPaddle.png");
+	m_textureManager.AddResourcePath("Ball", "../media/textures/Ball.png");
 	m_textureManager.LoadResource("BluePaddle");
 	m_textureManager.LoadResource("RedPaddle");
 	m_textureManager.LoadResource("Ball");
