@@ -7,7 +7,7 @@ State_MainMenu::State_MainMenu(StateManager * stateManager) : BaseState(stateMan
 State_MainMenu::~State_MainMenu() = default;
 
 void State_MainMenu::OnCreate() {
-	m_font.loadFromFile("arial.ttf");
+	m_font.loadFromFile(Utils::GetWorkingDirectory() + "media/Fonts/arial.ttf");
 	
 	m_text.setFont(m_font);
 	m_text.setString("MAIN MENU:");
@@ -53,12 +53,15 @@ void State_MainMenu::OnDestroy() {
 }
 
 void State_MainMenu::Activate() {
-	if (m_stateManager->HasState(StateType::Game) && m_labels[0].getString() == "PLAY") {
+	if (m_stateManager->HasState(StateType::Game) && m_labels[0].getString() != "RESUME") {
 		m_labels[0].setString(sf::String("RESUME"));
-
-		sf::FloatRect rect = m_labels[0].getLocalBounds();
-		m_labels[0].setOrigin(rect.left + rect.width / 2.0f, rect.top + rect.height / 2.0f);
 	}
+	else {
+		m_labels[0].setString(sf::String("PLAY"));
+	
+	}
+	sf::FloatRect rect = m_labels[0].getLocalBounds();
+	m_labels[0].setOrigin(rect.left + rect.width / 2.0f, rect.top + rect.height / 2.0f);
 }
 
 void State_MainMenu::Deactivate() {}

@@ -22,7 +22,7 @@ namespace Utils {
 
 		return std::string(path) + "\\";
 	}
-	#elif
+	#elif defined RUNNING_LINUX
 	#include <unistd.h>
 	inline std::string GetWorkingDirectory() {
 		char cwd[1024];

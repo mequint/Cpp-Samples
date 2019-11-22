@@ -22,9 +22,16 @@
     <ClInclude Include="include\Anim_Base.h" />
     <ClInclude Include="include\Anim_Directional.h" />
     <ClInclude Include="include\BaseState.h" />
+    <ClInclude Include="include\Character.h" />
+    <ClInclude Include="include\DebugOverlay.h" />
     <ClInclude Include="include\Directions.h" />
+    <ClInclude Include="include\Enemy.h" />
+    <ClInclude Include="include\EntityBase.h" />
+    <ClInclude Include="include\EntityManager.h" />
     <ClInclude Include="include\EventManager.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\Map.h" />
+    <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SharedContext.h" />
     <ClInclude Include="include\SpriteSheet.h" />
@@ -39,6 +46,13 @@
     <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Character.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
+    <ClCompile Include="src\EntityBase.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\State_GameOver.cpp" />
     <ClCompile Include="src\SpriteSheet.cpp" />
     <ClCompile Include="src\Anim_Directional.cpp" />
     <ClCompile Include="src\Anim_Base.cpp" />

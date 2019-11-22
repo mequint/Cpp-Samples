@@ -10,7 +10,7 @@ Anim_Base::~Anim_Base() = default;
 void Anim_Base::SetSpriteSheet(SpriteSheet * sheet) { m_spriteSheet = sheet; }
 
 void Anim_Base::SetFrame(Frame frame) {
-	if (frame >= m_frameStart && frame <= m_frameEnd || (frame >= m_frameEnd && frame <= m_frameStart)) {
+	if ((frame >= m_frameStart && frame <= m_frameEnd) || (frame >= m_frameEnd && frame <= m_frameStart)) {
 		m_frameCurrent = frame;
 	}
 }
@@ -39,7 +39,7 @@ bool Anim_Base::IsPlaying() { return m_playing; }
 bool Anim_Base::IsInAction() {
 	if (m_frameActionStart == -1 || m_frameActionEnd == -1) return true;
 
-	return (m_frameCurrent >= static_cast<Frame>(m_frameActionStart) && m_frameCurrent <= static_cast<Frame>(m_frameActionEnd));
+	return (static_cast<int>(m_frameCurrent) >= m_frameActionStart && static_cast<int>(m_frameCurrent) <= m_frameActionEnd);
 }
 
 std::string Anim_Base::GetName() { return m_name; }

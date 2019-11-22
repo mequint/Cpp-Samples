@@ -7,57 +7,49 @@ State_Intro::State_Intro(StateManager* stateManager) : BaseState(stateManager) {
 State_Intro::~State_Intro() = default;
 
 void State_Intro::OnCreate() {
-	m_timePassed = 0.0f;
-
 	sf::Vector2u windowSize = m_stateManager->GetContext()->m_window->GetRenderWindow()->getSize();
 
-	m_introTexture.loadFromFile("intro.png");
-	m_introSprite.setTexture(m_introTexture);
-	m_introSprite.setOrigin(m_introTexture.getSize().x / 2.0f, m_introTexture.getSize().y / 2.0f);
+	TextureManager* textureManager = m_stateManager->GetContext()->m_textureManager;
+	textureManager->RequireResource("Intro");
 
-	m_introSprite.setPosition(static_cast<float>(windowSize.x) / 2.0f, 0.0f);
+	auto texture = textureManager->GetResource("Intro");
+	m_introSprite.setTexture(*texture);
+	m_introSprite.setOrigin(texture->getSize().x / 2.0f, texture->getSize().y / 2.0f);
+	m_introSprite.setPosition(static_cast<float>(windowSize.x) / 2.0f, static_cast<float>(windowSize.y) / 2.0f);
 
-	m_font.loadFromFile("arial.ttf");
+	m_font.loadFromFile(Utils::GetWorkingDirectory() + "media/Fonts/arial.ttf");
 	m_text.setFont(m_font);
-	m_text.setString("Press SPACE to continue");
+	m_text.setString(sf::String("Press SPACE to continue"));
 	m_text.setCharacterSize(15);
 
 	sf::FloatRect textRect = m_text.getLocalBounds();
 	m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+	m_text.setPosition(m_introSprite.getPosition().x, m_introSprite.getPosition().y + texture->getSize().y / 1.5f);
 
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->AddCallback(StateType::Intro, "Intro_Continue", &State_Intro::Continue, this);
 }
 
 void State_Intro::OnDestroy() {
+	TextureManager* textureManager = m_stateManager->GetContext()->m_textureManager;
+	textureManager->ReleaseResource("Intro");
+
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Intro, "Intro_Continue");
 }
 
 void State_Intro::Activate() {}
 void State_Intro::Deactivate() {}
-
-void State_Intro::Update(const sf::Time & time) {
-	if (m_timePassed < 5.0f) {
-		m_timePassed += time.asSeconds();
-
-		m_introSprite.setPosition(m_introSprite.getPosition().x, m_introSprite.getPosition().y + (48 * time.asSeconds()));
-	}
-}
+void State_Intro::Update(const sf::Time& time) {}
 
 void State_Intro::Draw() {
 	sf::RenderWindow* window = m_stateManager->GetContext()->m_window->GetRenderWindow();
 
 	window->draw(m_introSprite);
-	if (m_timePassed >= 5.0f) {
-		window->draw(m_text);
-	}
+	window->draw(m_text);
 }
 
 void State_Intro::Continue(EventDetails * details) {
-	if (m_timePassed >= 5.0f) {
-		m_stateManager->SwitchTo(StateType::MainMenu);
-		m_stateManager->Remove(StateType::Intro);
-	}
+	m_stateManager->SwitchTo(StateType::MainMenu);
+	m_stateManager->Remove(StateType::Intro);
 }

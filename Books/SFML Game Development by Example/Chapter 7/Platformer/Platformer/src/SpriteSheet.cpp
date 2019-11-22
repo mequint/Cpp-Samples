@@ -19,7 +19,7 @@ sf::Vector2f SpriteSheet::GetSpritePosition() const { return m_sprite.getPositio
 
 void SpriteSheet::SetSpriteSize(const sf::Vector2i & size) { 
 	m_spriteSize = size; 
-	m_sprite.setOrigin(static_cast<float>(m_spriteSize.x) / 2.0f, static_cast<float>(m_spriteSize.y));
+	m_sprite.setOrigin(static_cast<float>(m_spriteSize.x / 2), static_cast<float>(m_spriteSize.y));
 }
 
 void SpriteSheet::SetSpritePosition(const sf::Vector2f & position) { m_sprite.setPosition(position); }
@@ -61,7 +61,7 @@ bool SpriteSheet::LoadSheet(const std::string & file) {
 				}
 
 				m_texture = texture;
-				m_sprite.setTexture(*m_textureManager->GetResources(m_texture));
+				m_sprite.setTexture(*m_textureManager->GetResource(m_texture));
 			}
 			else if (type == "Size") {
 				keystream >> m_spriteSize.x >> m_spriteSize.y;

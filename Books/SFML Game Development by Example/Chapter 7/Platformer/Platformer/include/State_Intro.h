@@ -20,11 +20,8 @@ public:
 	void Continue(EventDetails* details);
 
 private:
-	sf::Texture m_introTexture;
 	sf::Sprite m_introSprite;
 	
 	sf::Font m_font;
 	sf::Text m_text;
-
-	float m_timePassed;
 };

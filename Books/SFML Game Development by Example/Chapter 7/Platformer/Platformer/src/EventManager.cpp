@@ -4,7 +4,11 @@
 #include <iostream>
 #include <sstream>
 
-EventManager::EventManager() : m_hasFocus(true) {
+#include "Utilities.h"
+
+EventManager::EventManager() : 
+	m_currentState(StateType(0)), 
+	m_hasFocus(true) {
 	LoadBindings();
 }
 
@@ -157,7 +161,8 @@ sf::Vector2i EventManager::GetMousePos(sf::RenderWindow * window) {
 void EventManager::LoadBindings() {
 	std::string delimiter = ":";
 
-	std::ifstream bindings("keys.cfg");
+	std::ifstream bindings;
+	bindings.open(Utils::GetWorkingDirectory() + "keys.cfg");
 	if (!bindings.is_open()) {
 		std::cout << "! Failed to load keys.cfg" << std::endl;
 		return;

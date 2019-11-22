@@ -13,17 +13,18 @@ void Anim_Directional::FrameStep() {
 		(m_frameStart > m_frameEnd && m_frameCurrent < m_frameEnd)) {
 		if (m_loop) {
 			m_frameCurrent = m_frameStart;
+			return;
 		}
-		else {
-			m_frameCurrent = m_frameEnd;
-			Pause();
-		}
+
+		m_frameCurrent = m_frameEnd;
+		Pause();
 	}
 }
 
 void Anim_Directional::CropSprite() {
-	sf::IntRect rect(m_spriteSheet->GetSpriteSize().x * static_cast<unsigned int>(m_frameCurrent),
-		m_spriteSheet->GetSpriteSize().y * m_frameRow + static_cast<unsigned int>(m_spriteSheet->GetDirection()),
+	sf::IntRect rect(
+		m_spriteSheet->GetSpriteSize().x * static_cast<int>(m_frameCurrent),
+		m_spriteSheet->GetSpriteSize().y * (m_frameRow + static_cast<int>(m_spriteSheet->GetDirection())),
 		m_spriteSheet->GetSpriteSize().x, m_spriteSheet->GetSpriteSize().y);
 	m_spriteSheet->CropSprite(rect);
 }

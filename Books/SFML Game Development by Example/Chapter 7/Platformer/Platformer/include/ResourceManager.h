@@ -17,7 +17,7 @@ public:
 
 	virtual ~ResourceManager() { PurgeResources(); }
 
-	T* GetResources(const std::string& id) {
+	T* GetResource(const std::string& id) {
 		auto res = Find(id);
 		return (res ? res->first : nullptr);
 	}
