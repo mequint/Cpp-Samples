@@ -25,9 +25,13 @@
     <ClInclude Include="include\Bitmask.h" />
     <ClInclude Include="include\Communicator.h" />
     <ClInclude Include="include\C_Base.h" />
+    <ClInclude Include="include\C_Collidable.h" />
+    <ClInclude Include="include\C_Controller.h" />
     <ClInclude Include="include\C_Drawable.h" />
+    <ClInclude Include="include\C_Movable.h" />
     <ClInclude Include="include\C_Position.h" />
     <ClInclude Include="include\C_SpriteSheet.h" />
+    <ClInclude Include="include\C_State.h" />
     <ClInclude Include="include\DebugOverlay.h" />
     <ClInclude Include="include\Directions.h" />
     <ClInclude Include="include\ECS_Types.h" />
@@ -52,12 +56,22 @@
     <ClInclude Include="include\State_Paused.h" />
     <ClInclude Include="include\SystemManager.h" />
     <ClInclude Include="include\S_Base.h" />
+    <ClInclude Include="include\S_Collision.h" />
+    <ClInclude Include="include\S_Control.h" />
+    <ClInclude Include="include\S_Movement.h" />
     <ClInclude Include="include\S_Renderer.h" />
+    <ClInclude Include="include\S_SheetAnimation.h" />
+    <ClInclude Include="include\S_State.h" />
     <ClInclude Include="include\TextureManager.h" />
     <ClInclude Include="include\Utilities.h" />
     <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\S_Collision.cpp" />
+    <ClCompile Include="src\S_Control.cpp" />
+    <ClCompile Include="src\S_Movement.cpp" />
+    <ClCompile Include="src\S_SheetAnimation.cpp" />
+    <ClCompile Include="src\S_State.cpp" />
     <ClCompile Include="src\S_Renderer.cpp" />
     <ClCompile Include="src\SystemManager.cpp" />
     <ClCompile Include="src\S_Base.cpp" />

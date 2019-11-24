@@ -3,14 +3,14 @@
 #include <functional>
 
 #include "Bitmask.h"
-//#include "C_Collidable.h"
-//#include "C_Controller.h"
-//#include "C_Movable.h"
+#include "C_Collidable.h"
+#include "C_Controller.h"
+#include "C_Movable.h"
 #include "C_Position.h"
 #include "C_SpriteSheet.h"
 //#include "C_SoundEmitter.h"
 //#include "C_SoundListener.h"
-//#include "C_State.h"
+#include "C_State.h"
 #include "TextureManager.h"
 
 using EntityId = unsigned int;

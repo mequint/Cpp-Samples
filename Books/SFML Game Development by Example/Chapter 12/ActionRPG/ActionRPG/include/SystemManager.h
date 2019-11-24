@@ -4,13 +4,13 @@
 
 #include "DebugOverlay.h"
 #include "MessageHandler.h"
-//#include "S_Collision.h"
-//#include "S_Control.h"
-//#include "S_Movement.h"
+#include "S_Collision.h"
+#include "S_Control.h"
+#include "S_Movement.h"
 #include "S_Renderer.h"
-//#include "S_SheetAnimation.h"
+#include "S_SheetAnimation.h"
 //#include "S_Sound.h"
-//#include "S_State.h"
+#include "S_State.h"
 #include "Window.h"
 
 using SystemContainer = std::unordered_map<System, S_Base*>;

@@ -28,8 +28,8 @@ void State_Game::OnCreate() {
 	m_gameMap->LoadMap("media/Maps/map1.map");
 
 	EntityManager* entities = m_stateManager->GetContext()->m_entityManager;
-	//m_stateManager->GetContext()->m_systemManager->GetSystem<S_Collision>(System::Collision)->SetMap(m_gameMap);		// TODO: Uncomment in Chapter 9
-	//m_stateManager->GetContext()->m_systemManager->GetSystem<S_Movement>(System::Movement)->SetMap(m_gameMap);		// TODO: Uncomment in Chapter 9
+	m_stateManager->GetContext()->m_systemManager->GetSystem<S_Collision>(System::Collision)->SetMap(m_gameMap);
+	m_stateManager->GetContext()->m_systemManager->GetSystem<S_Movement>(System::Movement)->SetMap(m_gameMap);
 	m_player = m_gameMap->GetPlayerId();
 
 	//m_stateManager->GetContext()->m_soundManager->PlayMusic("TownTheme", 50.0f, true);	// TODO: Uncomment in Chapter 12

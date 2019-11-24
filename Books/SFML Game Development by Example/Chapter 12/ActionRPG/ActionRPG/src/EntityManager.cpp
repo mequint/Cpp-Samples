@@ -9,10 +9,10 @@ EntityManager::EntityManager(SystemManager* systemManager, TextureManager* textu
 
 	AddComponentType<C_Position>(Component::Position);
 	AddComponentType<C_SpriteSheet>(Component::SpriteSheet);
-	//AddComponentType<C_State>(Component::State);
-	//AddComponentType<C_Movable>(Component::Movable);
-	//AddComponentType<C_Controller>(Component::Controller);
-	//AddComponentType<C_Collidable>(Component::Collidable);
+	AddComponentType<C_State>(Component::State);
+	AddComponentType<C_Movable>(Component::Movable);
+	AddComponentType<C_Controller>(Component::Controller);
+	AddComponentType<C_Collidable>(Component::Collidable);
 	//AddComponentType<C_SoundEmitter>(Component::SoundEmitter);
 	//AddComponentType<C_SoundListener>(Component::SoundListener);
 }
