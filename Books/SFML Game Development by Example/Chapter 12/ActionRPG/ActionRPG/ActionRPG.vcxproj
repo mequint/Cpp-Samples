@@ -40,7 +40,13 @@
     <ClInclude Include="include\EntityMessages.h" />
     <ClInclude Include="include\EventManager.h" />
     <ClInclude Include="include\EventQueue.h" />
+    <ClInclude Include="include\FontManager.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\GUI_Element.h" />
+    <ClInclude Include="include\GUI_Event.h" />
+    <ClInclude Include="include\GUI_Interface.h" />
+    <ClInclude Include="include\GUI_Manager.h" />
+    <ClInclude Include="include\GUI_Style.h" />
     <ClInclude Include="include\Map.h" />
     <ClInclude Include="include\Message.h" />
     <ClInclude Include="include\MessageHandler.h" />
@@ -67,6 +73,8 @@
     <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI_Element.cpp" />
+    <ClCompile Include="src\GUI_Interface.cpp" />
     <ClCompile Include="src\S_Collision.cpp" />
     <ClCompile Include="src\S_Control.cpp" />
     <ClCompile Include="src\S_Movement.cpp" />
