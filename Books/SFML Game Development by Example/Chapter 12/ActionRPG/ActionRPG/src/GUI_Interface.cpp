@@ -5,6 +5,7 @@
 #include "EventManager.h"
 #include "GUI_Event.h"
 #include "GUI_Manager.h"
+#include "SharedContext.h"
 #include "Utilities.h"
 #include "Window.h"
 
@@ -28,7 +29,7 @@ GUI_Interface::GUI_Interface(const std::string & name, GUI_Manager * guiManager)
 
 GUI_Interface::~GUI_Interface() {
 	if (m_backdropTexture) delete m_backdropTexture;
-	if (m_contentTexture) delete m_backdropTexture;
+	if (m_contentTexture) delete m_contentTexture;
 	if (m_controlTexture) delete m_controlTexture;
 
 	for (auto& iter : m_elements) {
@@ -246,6 +247,8 @@ sf::Vector2f GUI_Interface::GetGlobalPosition() const {
 	return pos;
 }
 
+const sf::Vector2f & GUI_Interface::GetContentSize() const { return m_contentSize; }
+
 void GUI_Interface::Redraw() {
 	if (m_backdropTexture->getSize().x != m_style[m_state].m_size.x ||
 		m_backdropTexture->getSize().y != m_style[m_state].m_size.y) {
@@ -255,7 +258,7 @@ void GUI_Interface::Redraw() {
 
 	m_backdropTexture->clear(sf::Color(0, 0, 0, 0));
 	ApplyStyle();
-	m_backdropTexture->draw(m_visual.m_backgroundImage);
+	m_backdropTexture->draw(m_visual.m_backgroundSolid);
 
 	if (m_style[m_state].m_backgroundImage != "") {
 		m_backdropTexture->draw(m_visual.m_backgroundImage);
@@ -301,7 +304,7 @@ bool GUI_Interface::NeedsControlRedraw() const { return m_controlRedraw; }
 void GUI_Interface::RedrawControls() {
 	if (m_controlTexture->getSize().x != m_style[m_state].m_size.x ||
 		m_controlTexture->getSize().y != m_style[m_state].m_size.y) {
-		m_contentTexture->create(static_cast<unsigned int>(m_style[m_state].m_size.x), 
+		m_controlTexture->create(static_cast<unsigned int>(m_style[m_state].m_size.x), 
 			static_cast<unsigned int>(m_style[m_state].m_size.y));
 	}
 

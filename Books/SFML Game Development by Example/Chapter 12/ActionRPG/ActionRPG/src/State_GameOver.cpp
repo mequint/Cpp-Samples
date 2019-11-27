@@ -1,5 +1,6 @@
 #include "State_GameOver.h"
 
+#include "FontManager.h"
 #include "StateManager.h"
 #include "Window.h"
 
@@ -9,10 +10,9 @@ State_GameOver::~State_GameOver() = default;
 void State_GameOver::OnCreate() {
 	m_elapsed = 0.0f;
 
-	// TODO: Replace this with Font Retrieval using the Font Manager...Chapter 11
-	m_font.loadFromFile(Utils::GetWorkingDirectory() + "media/Fonts/arial.ttf");
+	auto fontManager = m_stateManager->GetContext()->m_fontManager;
 
-	m_text.setFont(m_font);
+	m_text.setFont(*fontManager->GetResource("Main"));
 	m_text.setCharacterSize(16);
 	m_text.setString("You beat the game! Congratulations!");
 	m_text.setFillColor(sf::Color::White);
@@ -22,7 +22,11 @@ void State_GameOver::OnCreate() {
 	m_stateManager->Remove(StateType::Game);
 }
 
-void State_GameOver::OnDestroy() {}
+void State_GameOver::OnDestroy() {
+	auto fontManager = m_stateManager->GetContext()->m_fontManager;
+	fontManager->ReleaseResource("Main");
+}
+
 void State_GameOver::Activate() {}
 void State_GameOver::Deactivate() {}
 

@@ -10,8 +10,15 @@
 enum class GUI_ElementState { Neutral, Focused, Clicked };
 
 struct GUI_Style {
-	GUI_Style() {
+	GUI_Style() : 
+		m_textSize(12), 
+		m_textCenterOrigin(false),
+		m_backgroundImageColor(255, 255, 255, 255) {
 
+		sf::Color none = sf::Color(0, 0, 0, 0);
+		m_backgroundColor = none;
+		m_elementColor = none;
+		m_textColor = none;
 	}
 
 	// Element size

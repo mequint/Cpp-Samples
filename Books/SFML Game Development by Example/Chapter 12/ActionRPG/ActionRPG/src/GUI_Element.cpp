@@ -3,6 +3,7 @@
 #include "FontManager.h"
 #include "GUI_Interface.h"
 #include "GUI_Manager.h"
+#include "SharedContext.h"
 #include "TextureManager.h"
 
 GUI_Element::GUI_Element(const std::string & name, const GUI_ElementType & type, GUI_Interface * owner) :
@@ -86,7 +87,10 @@ GUI_Interface * GUI_Element::GetOwner() const { return m_owner; }
 bool GUI_Element::HasOwner() const { return m_owner != nullptr; }
 
 bool GUI_Element::IsActive() const { return m_active; }
-void GUI_Element::SetActive(bool active) { m_active = active; }
+void GUI_Element::SetActive(bool active) { 
+	m_active = active; 
+	SetRedraw(true);
+}
 
 bool GUI_Element::IsInside(const sf::Vector2f & point) const {
 	sf::Vector2f position = GetGlobalPosition();

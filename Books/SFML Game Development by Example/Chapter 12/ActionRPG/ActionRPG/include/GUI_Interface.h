@@ -46,6 +46,7 @@ public:
 	const sf::Vector2f& GetPadding() const;
 	void SetPadding(const sf::Vector2f& padding);
 	sf::Vector2f GetGlobalPosition() const;
+	const sf::Vector2f& GetContentSize() const;
 
 	void Redraw();
 	bool NeedsContentRedraw() const;

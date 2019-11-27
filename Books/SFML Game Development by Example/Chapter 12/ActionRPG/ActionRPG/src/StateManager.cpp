@@ -1,5 +1,6 @@
 #include "StateManager.h"
 
+#include "GUI_Manager.h"
 #include "Window.h"
 
 StateManager::StateManager(SharedContext* shared) :
@@ -94,7 +95,7 @@ bool StateManager::HasState(const StateType & type) {
 
 void StateManager::SwitchTo(const StateType & type) {
 	m_context->m_eventManager->SetCurrentState(type);
-	// m_context->m_guiManager->SetCurrentState(type);		// TODO: Uncomment in Chapter 11
+	m_context->m_guiManager->SetCurrentState(type);
 	// m_context->m_soundManager->SetCurrentState(type);	// TODO: Uncomment in Chapter 12
 
 	for (auto iter = m_states.begin(); iter != m_states.end(); ++iter) {

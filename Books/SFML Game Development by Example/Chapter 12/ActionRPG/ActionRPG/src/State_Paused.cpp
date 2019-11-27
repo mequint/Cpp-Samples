@@ -1,5 +1,6 @@
 #include "State_Paused.h"
 
+#include "FontManager.h"
 #include "StateManager.h"
 #include "Window.h"
 
@@ -9,8 +10,9 @@ State_Paused::~State_Paused() = default;
 void State_Paused::OnCreate() {
 	SetTransparent(true);
 
-	m_font.loadFromFile(Utils::GetWorkingDirectory() + "media/Fonts/arial.ttf");
-	m_text.setFont(m_font);
+	auto fontManager = m_stateManager->GetContext()->m_fontManager;
+
+	m_text.setFont(*fontManager->GetResource("Main"));
 	m_text.setString("PAUSED");
 	m_text.setCharacterSize(14);
 	m_text.setStyle(sf::Text::Bold);
@@ -30,6 +32,9 @@ void State_Paused::OnCreate() {
 }
 
 void State_Paused::OnDestroy() {
+	FontManager* fontManager = m_stateManager->GetContext()->m_fontManager;
+	fontManager->ReleaseResource("Main");
+
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Paused, "Key_P");
 }

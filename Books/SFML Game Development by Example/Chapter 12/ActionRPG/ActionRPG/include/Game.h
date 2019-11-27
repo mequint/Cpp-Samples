@@ -4,8 +4,8 @@
 #include "DebugOverlay.h"
 #include "EntityManager.h"
 #include "EventManager.h"
-//#include "FontManager.h"
-//#include "GUI_Manager.h"
+#include "FontManager.h"
+#include "GUI_Manager.h"
 #include "SharedContext.h"
 //#include "SoundManager.h"
 #include "StateManager.h"
@@ -37,12 +37,12 @@ private:
 	// BUG: Window must be above the state manager...this is because the removal of callbacks occurs when the event manager is destroyed
 	Window m_window;
 	TextureManager m_textureManager;
-	// FontManager m_fontManager;	// TODO: Uncomment in Chapter 11
+	FontManager m_fontManager;
 	// AudioManager m_audioManager;	// TODO: Uncomment in Chapter 12
 	// SoundManager m_soundManager;	// TODO: Uncomment in Chapter 12
 	SystemManager m_systemManager;
 	EntityManager m_entityManager;
-	//GUI_Manager m_guiManager;		// TODO: Uncomment in Chapter 11
+	GUI_Manager m_guiManager;
 	StateManager m_stateManager;
 
 	DebugOverlay m_debugOverlay;

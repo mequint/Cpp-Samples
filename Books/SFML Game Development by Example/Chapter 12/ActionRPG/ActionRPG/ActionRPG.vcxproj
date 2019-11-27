@@ -45,8 +45,11 @@
     <ClInclude Include="include\GUI_Element.h" />
     <ClInclude Include="include\GUI_Event.h" />
     <ClInclude Include="include\GUI_Interface.h" />
+    <ClInclude Include="include\GUI_Label.h" />
     <ClInclude Include="include\GUI_Manager.h" />
+    <ClInclude Include="include\GUI_Scrollbar.h" />
     <ClInclude Include="include\GUI_Style.h" />
+    <ClInclude Include="include\GUI_Textfield.h" />
     <ClInclude Include="include\Map.h" />
     <ClInclude Include="include\Message.h" />
     <ClInclude Include="include\MessageHandler.h" />
@@ -73,6 +76,10 @@
     <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI_Label.cpp" />
+    <ClCompile Include="src\GUI_Manager.cpp" />
+    <ClCompile Include="src\GUI_Scrollbar.cpp" />
+    <ClCompile Include="src\GUI_Textfield.cpp" />
     <ClCompile Include="src\GUI_Element.cpp" />
     <ClCompile Include="src\GUI_Interface.cpp" />
     <ClCompile Include="src\S_Collision.cpp" />

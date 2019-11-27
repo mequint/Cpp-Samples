@@ -1,5 +1,6 @@
 #include "State_Intro.h"
 
+#include "FontManager.h"
 #include "StateManager.h"
 #include "Window.h"
 
@@ -17,9 +18,9 @@ void State_Intro::OnCreate() {
 	m_introSprite.setOrigin(texture->getSize().x / 2.0f, texture->getSize().y / 2.0f);
 	m_introSprite.setPosition(static_cast<float>(windowSize.x) / 2.0f, static_cast<float>(windowSize.y) / 2.0f);
 
-	// TODO: Replace with Font Retrieval using the Font Manager...Chapter 11
-	m_font.loadFromFile(Utils::GetWorkingDirectory() + "media/Fonts/arial.ttf");
-	m_text.setFont(m_font);
+	auto fontManager = m_stateManager->GetContext()->m_fontManager;
+
+	m_text.setFont(*fontManager->GetResource("Main"));
 	m_text.setString(sf::String("Press SPACE to continue"));
 	m_text.setCharacterSize(15);
 
@@ -35,6 +36,9 @@ void State_Intro::OnCreate() {
 void State_Intro::OnDestroy() {
 	TextureManager* textureManager = m_stateManager->GetContext()->m_textureManager;
 	textureManager->ReleaseResource("Intro");
+
+	FontManager* fontManager = m_stateManager->GetContext()->m_fontManager;
+	fontManager->ReleaseResource("Main");
 
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Intro, "Intro_Continue");

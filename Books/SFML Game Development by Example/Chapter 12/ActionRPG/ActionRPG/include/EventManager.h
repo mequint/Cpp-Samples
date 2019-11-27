@@ -1,10 +1,10 @@
 #pragma once
 
-// TODO: Update in Chapter 10 
-
 #include <functional>
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
+
+#include "GUI_Event.h"
 
 enum class EventType {
 	KeyDown = sf::Event::KeyPressed,
@@ -21,15 +21,21 @@ enum class EventType {
 	TextEntered = sf::Event::TextEntered,
 	Keyboard = sf::Event::Count + 1,
 	Mouse,
-	Joystick
+	Joystick,
+	GUI_Click, 
+	GUI_Release, 
+	GUI_Hover, 
+	GUI_Leave
 };
 
 struct EventInfo {
 	EventInfo() { m_code = 0; }
 	EventInfo(int event) { m_code = event; }
+	EventInfo(const GUI_Event& guiEvent) { m_gui = guiEvent; }
 
 	union {
 		int m_code;
+		GUI_Event m_gui;
 	};
 };
 
@@ -47,12 +53,20 @@ struct EventDetails {
 	int m_mouseWheelDelta;
 	int m_keyCode;
 
+	std::string m_guiInterface;
+	std::string m_guiElement;
+	GUI_EventType m_guiEvent;
+
 	void Clear() {
 		m_size = sf::Vector2i(0, 0);
 		m_textEntered = 0;
 		m_mouse = sf::Vector2i(0, 0);
 		m_mouseWheelDelta = 0;
 		m_keyCode = -1;
+
+		m_guiInterface = "";
+		m_guiElement = "";
+		m_guiEvent = GUI_EventType::None;
 	}
 };
 
@@ -60,7 +74,16 @@ using Events = std::vector<std::pair<EventType, EventInfo>>;
 
 struct Binding {
 	Binding(const std::string& name) : m_name(name), m_details(name), c(0) {}
-	~Binding() = default;
+	~Binding() {
+		// GUI
+		for (auto iter = m_events.begin(); iter != m_events.end(); ++iter) {
+			if (iter->first == EventType::GUI_Click || iter->first == EventType::GUI_Release ||
+				iter->first == EventType::GUI_Hover || iter->first == EventType::GUI_Leave) {
+				delete[] iter->second.m_gui.m_interface;
+				delete[] iter->second.m_gui.m_element;
+			}
+		}
+	}
 
 	void BindEvent(EventType type, EventInfo info = EventInfo()) {
 		m_events.emplace_back(type, info);
@@ -109,6 +132,7 @@ public:
 	}
 
 	void HandleEvent(sf::Event& event);
+	void HandleEvent(GUI_Event& event);
 	void Update();
 
 	sf::Vector2i GetMousePos(sf::RenderWindow* window = nullptr);

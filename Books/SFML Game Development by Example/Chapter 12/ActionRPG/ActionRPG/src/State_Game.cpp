@@ -1,5 +1,6 @@
 #include "State_Game.h"
 
+#include "GUI_Manager.h"
 #include "StateManager.h"
 #include "SystemManager.h"
 #include "Window.h"
@@ -36,7 +37,7 @@ void State_Game::OnCreate() {
 }
 
 void State_Game::OnDestroy() {
-	//m_stateManager->GetContext()->m_guiManager->RemoveInterface(StateType::Game, "Test");		// TODO: Uncomment in Chapter 11
+	m_stateManager->GetContext()->m_guiManager->RemoveInterface(StateType::Game, "Test");
 
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->RemoveCallback(StateType::Game, "Key_Escape");
