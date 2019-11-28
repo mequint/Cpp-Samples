@@ -13,8 +13,8 @@ EntityManager::EntityManager(SystemManager* systemManager, TextureManager* textu
 	AddComponentType<C_Movable>(Component::Movable);
 	AddComponentType<C_Controller>(Component::Controller);
 	AddComponentType<C_Collidable>(Component::Collidable);
-	//AddComponentType<C_SoundEmitter>(Component::SoundEmitter);
-	//AddComponentType<C_SoundListener>(Component::SoundListener);
+	AddComponentType<C_SoundEmitter>(Component::SoundEmitter);
+	AddComponentType<C_SoundListener>(Component::SoundListener);
 }
 
 EntityManager::~EntityManager() {

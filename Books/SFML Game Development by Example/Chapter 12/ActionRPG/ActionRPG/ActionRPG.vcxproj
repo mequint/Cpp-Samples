@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="include\Anim_Base.h" />
     <ClInclude Include="include\Anim_Directional.h" />
+    <ClInclude Include="include\AudioManager.h" />
     <ClInclude Include="include\BaseState.h" />
     <ClInclude Include="include\Bitmask.h" />
     <ClInclude Include="include\Communicator.h" />
@@ -30,6 +31,8 @@
     <ClInclude Include="include\C_Drawable.h" />
     <ClInclude Include="include\C_Movable.h" />
     <ClInclude Include="include\C_Position.h" />
+    <ClInclude Include="include\C_SoundEmitter.h" />
+    <ClInclude Include="include\C_SoundListener.h" />
     <ClInclude Include="include\C_SpriteSheet.h" />
     <ClInclude Include="include\C_State.h" />
     <ClInclude Include="include\DebugOverlay.h" />
@@ -56,6 +59,8 @@
     <ClInclude Include="include\Observer.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SharedContext.h" />
+    <ClInclude Include="include\SoundManager.h" />
+    <ClInclude Include="include\SoundProps.h" />
     <ClInclude Include="include\SpriteSheet.h" />
     <ClInclude Include="include\StateManager.h" />
     <ClInclude Include="include\State_Game.h" />
@@ -70,12 +75,15 @@
     <ClInclude Include="include\S_Movement.h" />
     <ClInclude Include="include\S_Renderer.h" />
     <ClInclude Include="include\S_SheetAnimation.h" />
+    <ClInclude Include="include\S_Sound.h" />
     <ClInclude Include="include\S_State.h" />
     <ClInclude Include="include\TextureManager.h" />
     <ClInclude Include="include\Utilities.h" />
     <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\S_Sound.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\GUI_Label.cpp" />
     <ClCompile Include="src\GUI_Manager.cpp" />
     <ClCompile Include="src\GUI_Scrollbar.cpp" />

@@ -33,7 +33,7 @@ void State_Game::OnCreate() {
 	m_stateManager->GetContext()->m_systemManager->GetSystem<S_Movement>(System::Movement)->SetMap(m_gameMap);
 	m_player = m_gameMap->GetPlayerId();
 
-	//m_stateManager->GetContext()->m_soundManager->PlayMusic("TownTheme", 50.0f, true);	// TODO: Uncomment in Chapter 12
+	m_stateManager->GetContext()->m_soundManager->PlayMusic("TownTheme", 50.0f, true);
 }
 
 void State_Game::OnDestroy() {

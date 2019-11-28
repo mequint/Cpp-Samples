@@ -2,6 +2,7 @@
 
 #include "FontManager.h"
 #include "StateManager.h"
+#include "SoundManager.h"
 #include "Window.h"
 
 State_Intro::State_Intro(StateManager* stateManager) : BaseState(stateManager) {}
@@ -30,7 +31,8 @@ void State_Intro::OnCreate() {
 
 	EventManager* eventManager = m_stateManager->GetContext()->m_eventManager;
 	eventManager->AddCallback(StateType::Intro, "Intro_Continue", &State_Intro::Continue, this);
-	// eventManager->GetContext()->m_soundManager->PlayMusic("Electrix", 100.0f, true);		// TODO: Uncomment in Chapter 12
+
+	m_stateManager->GetContext()->m_soundManager->PlayMusic("Electrix", 100.0f, true);
 }
 
 void State_Intro::OnDestroy() {

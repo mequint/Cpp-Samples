@@ -9,7 +9,7 @@
 #include "S_Movement.h"
 #include "S_Renderer.h"
 #include "S_SheetAnimation.h"
-//#include "S_Sound.h"
+#include "S_Sound.h"
 #include "S_State.h"
 #include "Window.h"
 
