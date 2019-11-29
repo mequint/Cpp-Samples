@@ -1,0 +1,12 @@
+1. Run an instance of the Server 
+2. Run an instance of the Client
+3. Input the IP (127.0.0.1) and the Port provided
+4. Run a second instance of the Client
+5. Input the IP (127.0.0.1) and the Port provided (should be the same as the first one)
+6. Enter some text in one of the Clients - it should appear in the other client
+7. Input '!quit' on each Client to disconnect from the Server
+8. Input '!quit' on the Server to end the session
+
+Some caveats
+1. There is no chat comms with the server - the server will not display what's happening between the two clients
+2. There may be some firewall navigation to consider - proceed with caution in public
