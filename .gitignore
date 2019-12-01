@@ -58,5 +58,7 @@ TextReversi/TextReversi/x64/Debug/TextReversi.Build.CppClean.log
 *.opendb
 *.exp
 Pong/bin/Pong/Win32/Debug/
-*.db-shm
-*.db-wal
+Books/SFML Game Development by Example/Chapter 7/Platformer/Debug/
+Books/SFML Game Development by Example/Chapter 12/ActionRPG/Debug/
+Books/SFML Game Development by Example/Chapter 13/Chat/Server/Release/
+Books/SFML Game Development by Example/Chapter 13/Chat/Client/Release/
