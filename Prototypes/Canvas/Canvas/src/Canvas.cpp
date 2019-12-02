@@ -10,12 +10,12 @@ void Canvas::clear() {
 	m_image.create(m_image.getSize().x, m_image.getSize().y, m_backgroundColor);
 }
 
-void Canvas::draw(sf::RenderWindow& window) {
+void Canvas::draw(sf::RenderTarget& target) {
 	sf::Texture texture;
 	texture.loadFromImage(m_image);
 	m_sprite.setTexture(texture);
 
-	window.draw(m_sprite);
+	target.draw(m_sprite);
 }
 
 void Canvas::putPixel(unsigned int x, unsigned int y, sf::Color & color) {

@@ -7,7 +7,7 @@ public:
 	Canvas(unsigned int width, unsigned int height, const sf::Color& backgroundColor = sf::Color::Transparent);
 
 	void clear();
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderTarget& target);
 
 	void putPixel(unsigned int x, unsigned int y, sf::Color& color);
 	void putLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, sf::Color& color);
