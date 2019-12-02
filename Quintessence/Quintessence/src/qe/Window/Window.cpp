@@ -16,6 +16,10 @@ qe::Window::Window(const std::string& title, const sf::Vector2u& windowSize) :
 	m_isFullscreen(false),
 	m_hasFocus(true) {
 
+	m_eventManager.addCallback(StateType(0), "Window_Close", &Window::close, this);
+	m_eventManager.addCallback(StateType(0), "Key_Escape_Down", &Window::close, this);
+	m_eventManager.addCallback(StateType(0), "Left_Button_Down", &Window::onClick, this);
+
 	_create();
 }
 
@@ -63,20 +67,31 @@ void qe::Window::update() {
 			m_hasFocus = true;
 		}
 
-		// Create an event manager class to handle other events
-		if (event.type == sf::Event::Closed) {
-			m_isDone = true;
-		}
+		m_eventManager.handleEvent(event);
 	}
 
-	// Have the event manager perform updates
+	m_eventManager.update();
 }
 
 bool qe::Window::isDone() { return m_isDone; }
 
 sf::RenderWindow * qe::Window::getRenderWindow() { return &m_window; }
 
-void qe::Window::close() { m_isDone = true; }
+void qe::Window::close(EventDetails* details) { m_isDone = true; }
+
+// THROW AWAY WHEN DONE
+void qe::Window::onClick(EventDetails * details) {
+	auto mousePos = m_eventManager.getMousePosition(&m_window);
+	std::cout << mousePos.x << " " << mousePos.y << std::endl;
+}
+
+qe::EventManager* qe::Window::getEventManager() {
+	return &m_eventManager;
+}
+
+void qe::Window::setEventManager(const EventManager & eventManager) {
+	m_eventManager = eventManager;
+}
 
 void qe::Window::_create() {
 	auto style = m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default;

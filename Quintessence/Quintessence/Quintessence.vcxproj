@@ -19,10 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\qe\State\StateManager.h" />
+    <ClInclude Include="include\qe\State\StateObserver.h" />
+    <ClInclude Include="include\qe\State\StateTypes.h" />
+    <ClInclude Include="include\qe\Window\EventBinding.h" />
+    <ClInclude Include="include\qe\Window\EventDetails.h" />
+    <ClInclude Include="include\qe\Window\EventInfo.h" />
+    <ClInclude Include="include\qe\Window\EventManager.h" />
+    <ClInclude Include="include\qe\Window\EventTypes.h" />
     <ClInclude Include="include\qe\Window\Window.h" />
     <ClInclude Include="include\qe\Window\Cursor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
