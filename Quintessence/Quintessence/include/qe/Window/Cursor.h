@@ -14,6 +14,7 @@ namespace qe {
 		SizeAll = sf::Cursor::SizeAll,
 		Cross = sf::Cursor::Cross,
 		Help = sf::Cursor::Help,
-		NotAllowed = sf::Cursor::NotAllowed
+		NotAllowed = sf::Cursor::NotAllowed,
+		UserDefined
 	};
 }

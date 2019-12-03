@@ -4,7 +4,10 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-qe::Window::Window(const std::string& title, unsigned int width, unsigned int height) {
+qe::Window::Window(const std::string& title, unsigned int width, unsigned int height) :
+	m_cursorFile(""),
+	m_cursorHotspot(0,0) {
+
 	Window(title, sf::Vector2u(width, height));
 }
 
@@ -32,6 +35,9 @@ void qe::Window::setBackgroundColor(const sf::Color& color) {
 }
 
 void qe::Window::setCursor(const std::string& filename, const sf::Vector2u& hotspot) {
+	m_cursorType = CursorType::UserDefined;
+	m_cursorFile = filename;
+
 	sf::Image image;
 	if (image.loadFromFile(filename)) {
 		sf::Cursor cursor;
@@ -43,6 +49,9 @@ void qe::Window::setCursor(const std::string& filename, const sf::Vector2u& hots
 
 // Loads a System pre-defined cursor
 void qe::Window::setCursor(const CursorType & type) {
+	m_cursorType = type;
+	m_cursorFile = "";
+
 	sf::Cursor cursor;
 	if (cursor.loadFromSystem(static_cast<sf::Cursor::Type>(type))) {
 		m_window.setMouseCursor(cursor);
@@ -66,6 +75,14 @@ void qe::Window::update() {
 		else if (event.type == sf::Event::GainedFocus) {
 			m_hasFocus = true;
 		}
+		else if (event.type == sf::Event::MouseEntered) {
+			if (m_cursorType == CursorType::UserDefined) {
+				setCursor(m_cursorFile, m_cursorHotspot);
+			}
+			else {
+				setCursor(m_cursorType);
+			}
+		}
 
 		m_eventManager.handleEvent(event);
 	}
@@ -81,8 +98,7 @@ void qe::Window::close(EventDetails* details) { m_isDone = true; }
 
 // THROW AWAY WHEN DONE
 void qe::Window::onClick(EventDetails * details) {
-	auto mousePos = m_eventManager.getMousePosition(&m_window);
-	std::cout << mousePos.x << " " << mousePos.y << std::endl;
+	std::cout << details->m_mouse.x << " " << details->m_mouse.y << std::endl;
 }
 
 qe::EventManager* qe::Window::getEventManager() {

@@ -44,6 +44,10 @@ namespace qe {
 		std::string m_title;
 		sf::Color m_backgroundColor;
 
+		CursorType m_cursorType;
+		std::string m_cursorFile;
+		sf::Vector2u m_cursorHotspot;
+
 		bool m_isDone;
 		bool m_isFullscreen;
 		bool m_hasFocus;
