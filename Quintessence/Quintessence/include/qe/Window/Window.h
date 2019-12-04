@@ -29,7 +29,6 @@ namespace qe {
 			sf::RenderWindow* getRenderWindow();
 
 			void close(EventDetails* details);
-			void onClick(EventDetails* details);
 
 			EventManager* getEventManager();
 			void setEventManager(const EventManager& eventManager);

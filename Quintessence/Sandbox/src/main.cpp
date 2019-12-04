@@ -1,19 +1,12 @@
-#include "qe/Window/Window.h"
+#include "TestApp.h"
 
 int main() {
-	qe::Window window("Hello", sf::Vector2u(800, 600));
-	window.setCursor("../media/Cursors/SwordCursor.png", sf::Vector2u(0, 16));
-	//window.setCursor(qe::CursorType::Text);
-	
-	window.getEventManager()->addBinding("Window_Close", static_cast<int>(qe::EventType::Closed), 0);
-	window.getEventManager()->addBinding("Key_Escape_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Escape));
-	window.getEventManager()->addBinding("Left_Button_Down", static_cast<int>(qe::EventType::MButtonDown), static_cast<int>(sf::Mouse::Button::Left));
+	TestApp app;
 
-	while (!window.isDone()) {
-		window.update();
-
-		window.beginDraw();
-		window.endDraw();
+	while (!app.getWindow()->isDone()) {
+		app.update();
+		app.draw();
+		app.postProcess();
 	}
 
 	return EXIT_SUCCESS;
@@ -21,3 +14,7 @@ int main() {
 
 // FEATURES:
 // Update the Event Manager to load bindings via config file
+
+// ARCHITECTURE:
+// State Manager is currently tied to an enum class, this limits the state types that can be registered..
+//		Consider replacing StateType with a string name

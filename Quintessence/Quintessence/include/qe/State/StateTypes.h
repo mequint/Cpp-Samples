@@ -2,6 +2,6 @@
 
 namespace qe {
 	enum class StateType {
-		Intro, MainMenu, PreGame, Game, PostGame, Pause, Credits
+		Intro, MainMenu, PreGame, Game, PostGame, Pause, Credits, Loading
 	};
 }

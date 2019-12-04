@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\qe\State\BaseState.h" />
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
     <ClInclude Include="include\qe\State\StateTypes.h" />
@@ -29,8 +30,10 @@
     <ClInclude Include="include\qe\Window\EventTypes.h" />
     <ClInclude Include="include\qe\Window\Window.h" />
     <ClInclude Include="include\qe\Window\Cursor.h" />
+    <ClInclude Include="include\qe\Context.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\qe\State\StateManager.cpp" />
     <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />
   </ItemGroup>

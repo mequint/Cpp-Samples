@@ -38,6 +38,8 @@ void qe::EventManager::setFocus(bool focus) {
 }
 
 bool qe::EventManager::removeCallback(const StateType & state, const std::string & name) {
+	if (m_callbacks.empty()) return false;
+
 	auto iter = m_callbacks.find(state);
 	if (iter == m_callbacks.end()) return false;
 

@@ -20,8 +20,6 @@ qe::Window::Window(const std::string& title, const sf::Vector2u& windowSize) :
 	m_hasFocus(true) {
 
 	m_eventManager.addCallback(StateType(0), "Window_Close", &Window::close, this);
-	m_eventManager.addCallback(StateType(0), "Key_Escape_Down", &Window::close, this);
-	m_eventManager.addCallback(StateType(0), "Left_Button_Down", &Window::onClick, this);
 
 	_create();
 }
@@ -95,11 +93,6 @@ bool qe::Window::isDone() { return m_isDone; }
 sf::RenderWindow * qe::Window::getRenderWindow() { return &m_window; }
 
 void qe::Window::close(EventDetails* details) { m_isDone = true; }
-
-// THROW AWAY WHEN DONE
-void qe::Window::onClick(EventDetails * details) {
-	std::cout << details->m_mouse.x << " " << details->m_mouse.y << std::endl;
-}
 
 qe::EventManager* qe::Window::getEventManager() {
 	return &m_eventManager;
