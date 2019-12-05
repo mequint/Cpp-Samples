@@ -10,6 +10,7 @@ TestApp::TestApp() :
 
 	// Setup Context
 	m_context.m_eventManager = m_window.getEventManager();
+	m_context.m_fontManager = &m_fontManager;
 	m_context.m_stateManager = &m_stateManager;
 	m_context.m_textureManager = &m_textureManager;
 	m_context.m_window = &m_window;
@@ -24,6 +25,9 @@ TestApp::TestApp() :
 
 	// Load Textures
 	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");
+
+	// Load Fonts
+	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");
 
 	// Setup State
 	m_stateManager.registerState<TestState>(qe::StateType::Game);
