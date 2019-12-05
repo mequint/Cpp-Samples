@@ -4,6 +4,8 @@
 
 #include "qe/Context.h"
 #include "qe/State/StateManager.h"
+#include "qe/Resource/FontManager.h"
+#include "qe/Resource/TextureManager.h"
 #include "qe/Window/Window.h"
 
 TestState::TestState(qe::StateManager * stateManager) :
@@ -13,16 +15,18 @@ TestState::TestState(qe::StateManager * stateManager) :
 void TestState::onCreate() {
 	std::cout << "Creating TestState" << std::endl;
 
-	// Create resources
-	if (!m_texture.loadFromFile("../media/Textures/PacMan.png")) {
-		std::cout << "Could not load 'PacMan.png'" << std::endl;
-
-		onClose(nullptr);
-		return;
-	}
-
-	m_sprite.setTexture(m_texture);
+	auto textures = m_stateManager->getContext()->m_textureManager;
+	auto texture = textures->getResource("PacMan");
+	m_sprite.setTexture(*texture);
+	m_sprite.setOrigin(texture->getSize().x / 2.0f, texture->getSize().y / 2.0f);
 	m_sprite.setPosition(400.0f, 300.0f);
+
+	auto fonts = m_stateManager->getContext()->m_fontManager;
+	m_text.setFont(*fonts->getResource("Game"));
+	m_text.setCharacterSize(18);
+	m_text.setString("Pac Man");
+	m_text.setOrigin(m_text.getGlobalBounds().width / 2.0f, m_text.getGlobalBounds().height / 2.0f);
+	m_text.setPosition(400.0f, 300.0f + texture->getSize().y);
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
@@ -55,7 +59,9 @@ void TestState::update(const sf::Time& time) {
 }
 
 void TestState::draw() {
-	m_stateManager->getContext()->m_window->getRenderWindow()->draw(m_sprite);
+	auto renderer = m_stateManager->getContext()->m_window->getRenderWindow();
+	renderer->draw(m_sprite);
+	renderer->draw(m_text);
 }
 
 void TestState::onClose(qe::EventDetails * details) {

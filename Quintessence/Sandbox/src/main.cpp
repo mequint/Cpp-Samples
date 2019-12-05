@@ -14,6 +14,7 @@ int main() {
 
 // FEATURES:
 // Update the Event Manager to load bindings via config file
+// Update the Resource Manager to load bindings via config file
 
 // ARCHITECTURE:
 // State Manager is currently tied to an enum class, this limits the state types that can be registered..

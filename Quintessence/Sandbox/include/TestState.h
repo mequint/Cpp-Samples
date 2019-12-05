@@ -22,6 +22,6 @@ public:
 	void onClick(qe::EventDetails* details);
 
 private:
-	sf::Texture m_texture;
+	sf::Text m_text;
 	sf::Sprite m_sprite;
 };
