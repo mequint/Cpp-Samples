@@ -4,6 +4,7 @@
 
 #include "qe/Context.h"
 #include "qe/State/StateManager.h"
+#include "qe/Resource/TextureManager.h"
 #include "qe/Window/Window.h"
 
 TestState::TestState(qe::StateManager * stateManager) :
@@ -13,15 +14,9 @@ TestState::TestState(qe::StateManager * stateManager) :
 void TestState::onCreate() {
 	std::cout << "Creating TestState" << std::endl;
 
-	// Create resources
-	if (!m_texture.loadFromFile("../media/Textures/PacMan.png")) {
-		std::cout << "Could not load 'PacMan.png'" << std::endl;
+	auto textures = m_stateManager->getContext()->m_textureManager;
 
-		onClose(nullptr);
-		return;
-	}
-
-	m_sprite.setTexture(m_texture);
+	m_sprite.setTexture(*textures->getResource("PacMan"));
 	m_sprite.setPosition(400.0f, 300.0f);
 
 	// Add callbacks to event manager

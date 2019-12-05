@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\qe\Resource\FontManager.h" />
+    <ClInclude Include="include\qe\Resource\ResourceManager.h" />
+    <ClInclude Include="include\qe\Resource\TextureManager.h" />
     <ClInclude Include="include\qe\State\BaseState.h" />
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
     <ClInclude Include="include\qe\State\StateTypes.h" />
+    <ClInclude Include="include\qe\Utilities\Utilities.h" />
     <ClInclude Include="include\qe\Window\EventBinding.h" />
     <ClInclude Include="include\qe\Window\EventDetails.h" />
     <ClInclude Include="include\qe\Window\EventInfo.h" />
