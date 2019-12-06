@@ -49,21 +49,25 @@ void State_MainMenu::onCreate() {
 	m_overlay.setFillColor(sf::Color(0, 0, 0, 0));
 
 	// Setup event manager
-	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(qe::StateType::MainMenu, "KeyDown_Escape", &State_MainMenu::onClose, this);
-	events->addCallback(qe::StateType::MainMenu, "KeyDown_Enter", &State_MainMenu::onStartGame, this);
+	auto eventManager = m_stateManager->getContext()->m_eventManager;
+	eventManager->addCallback(qe::StateType::MainMenu, "KeyDown_Escape", &State_MainMenu::onQuit, this);
+	eventManager->addCallback(qe::StateType::MainMenu, "KeyDown_Enter", &State_MainMenu::onPlay, this);
 }
 
 void State_MainMenu::onDestroy() {
-	auto events = m_stateManager->getContext()->m_eventManager;
-	events->removeCallback(qe::StateType::MainMenu, "KeyDown_Escape");
+	auto eventManager = m_stateManager->getContext()->m_eventManager;
+	eventManager->removeCallback(qe::StateType::MainMenu, "KeyDown_Escape");
 }
 
 void State_MainMenu::onEnter() {
+	m_animateText = false;
+	m_animatedTextTime = 0.0f;
+	m_fadingOut = false;
+	m_fadeOutTime = 0.0f;
+	m_overlay.setFillColor(sf::Color(0, 0, 0, 0));
 }
 
-void State_MainMenu::onExit() {
-}
+void State_MainMenu::onExit() {}
 
 void State_MainMenu::update(const sf::Time & time) {
 	if (m_animateText && !m_fadingOut) {
@@ -103,15 +107,10 @@ void State_MainMenu::draw() {
 	renderer->draw(m_overlay);
 }
 
-void State_MainMenu::onClose(qe::EventDetails * details) {
+void State_MainMenu::onQuit(qe::EventDetails * details) {
 	m_stateManager->getContext()->m_window->close(details);
 }
 
-void State_MainMenu::onStartGame(qe::EventDetails * details) {
+void State_MainMenu::onPlay(qe::EventDetails * details) {
 	m_animateText = true;
-	//m_fadingOut = true;
-	// m_animatingText = true;
-	//m_stateManager->changeState(qe::StateType::Game);
-	// 1. Animate the start text
-	// 2. Fade out
 }

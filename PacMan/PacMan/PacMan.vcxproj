@@ -19,15 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Tile\TileMapManager.cpp" />
     <ClCompile Include="src\States\State_Game.cpp" />
     <ClCompile Include="src\States\State_MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Tile\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\States\State_Game.h" />
     <ClInclude Include="include\States\State_MainMenu.h" />
+    <ClInclude Include="include\Tile\Tile.h" />
+    <ClInclude Include="include\Tile\TileMap.h" />
+    <ClInclude Include="include\Tile\TileMapManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quintessence\Quintessence.vcxproj">

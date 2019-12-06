@@ -19,8 +19,8 @@ public:
 	virtual void draw() override;
 
 	// Callbacks
-	void onClose(qe::EventDetails* details);
-	void onStartGame(qe::EventDetails* details);
+	void onQuit(qe::EventDetails* details);
+	void onPlay(qe::EventDetails* details);
 
 private:
 	sf::Text m_titleText;
