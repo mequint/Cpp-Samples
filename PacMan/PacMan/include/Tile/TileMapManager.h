@@ -20,6 +20,11 @@ public:
 	void update(float dt);
 	void draw(sf::RenderTarget& renderer);
 
+	const sf::Vector2f& getPosition() const;
+	void setPosition(const sf::Vector2f& position);
+
+	sf::Vector2f getMapSize() const;
+
 private:
 	MapContainer m_maps;
 	TileMap m_currentMap;
@@ -29,5 +34,6 @@ private:
 	unsigned int m_tileRows;
 	unsigned int m_tileColumns;
 
+	sf::Vector2f m_position;
 	sf::Sprite m_tileSprite;
 };

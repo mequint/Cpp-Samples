@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include "qe/State/BaseState.h"
@@ -29,6 +30,14 @@ public:
 private:
 	TileMapManager m_tileMapManager;
 
-	sf::Texture m_tileTexture;
-	sf::Sprite m_mapSprite;
+	sf::Texture m_pacmanTexture;
+	sf::Sprite m_pacmanSprite;
+
+	sf::Text m_scoreLabel;
+	sf::Text m_score;
+	
+	sf::Text m_readyLabel;
+
+	int m_lives;
+	sf::Sprite m_liveSprite;
 };
