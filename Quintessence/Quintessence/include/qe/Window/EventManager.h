@@ -11,7 +11,6 @@ namespace qe {
 	using Bindings = std::unordered_map<std::string, std::shared_ptr<EventBinding>>;
 	using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails*)>>;
 
-	enum class StateType;
 	using Callbacks = std::unordered_map<StateType, CallbackContainer>;
 
 	class EventManager : public StateObserver {

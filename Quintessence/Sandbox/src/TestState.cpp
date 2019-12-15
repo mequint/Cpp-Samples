@@ -11,6 +11,7 @@
 
 #include "ECS/ECSTypes.h"
 #include "ECS/Components//Components.h"
+#include "StateTypes.h"
 
 TestState::TestState(qe::StateManager * stateManager) :
 	BaseState(stateManager) {
@@ -50,8 +51,8 @@ void TestState::onCreate() {
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(qe::StateType::Game, "Key_Escape_Down", &TestState::onClose, this);
-	events->addCallback(qe::StateType::Game, "Left_Button_Down", &TestState::onClick, this);
+	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down", &TestState::onClose, this);
+	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Down", &TestState::onClick, this);
 }
 
 void TestState::onDestroy() {
@@ -59,8 +60,8 @@ void TestState::onDestroy() {
 
 	// Remove callbacks from event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->removeCallback(qe::StateType::Game, "Key_Escape_Down");
-	events->removeCallback(qe::StateType::Game, "Left_Button_Donw");
+	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down");
+	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Donw");
 }
 
 void TestState::onEnter() {

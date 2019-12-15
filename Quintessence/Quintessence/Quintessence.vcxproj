@@ -34,7 +34,7 @@
     <ClInclude Include="include\qe\State\BaseState.h" />
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
-    <ClInclude Include="include\qe\State\StateTypes.h" />
+    <ClInclude Include="include\qe\State\StateType.h" />
     <ClInclude Include="include\qe\Messaging\Subscriber.h" />
     <ClInclude Include="include\qe\Utilities\Utilities.h" />
     <ClInclude Include="include\qe\Window\EventBinding.h" />

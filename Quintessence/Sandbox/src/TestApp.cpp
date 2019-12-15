@@ -3,6 +3,7 @@
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
 
+#include "StateTypes.h"
 #include "TestState.h"
 
 TestApp::TestApp() : 
@@ -44,10 +45,10 @@ TestApp::TestApp() :
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 
 	// Setup State
-	m_stateManager.registerState<TestState>(qe::StateType::Game);
+	m_stateManager.registerState<TestState>(static_cast<qe::StateType>(StateType::Game));
 
 	// Change to first state
-	m_stateManager.changeState(qe::StateType::Game);
+	m_stateManager.changeState(static_cast<qe::StateType>(StateType::Game));
 }
 
 void TestApp::update() {

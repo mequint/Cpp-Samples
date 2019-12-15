@@ -1,7 +1,5 @@
 #include "qe/Window/EventManager.h"
 
-#include "qe/State/StateTypes.h"
-
 qe::EventManager::EventManager() :
 	m_hasFocus(true) {}
 
@@ -152,7 +150,7 @@ void qe::EventManager::update() {
 					}
 				}
 
-				if (m_currentState == StateType(0)) continue;
+				if (m_currentState == static_cast<qe::StateType>(0)) continue;
 
 				// Handle state based events
 				auto stateCallbacks = m_callbacks.find(m_currentState);

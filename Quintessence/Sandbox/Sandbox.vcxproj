@@ -39,6 +39,7 @@
     <ClInclude Include="include\ECS\ECSTypes.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
+    <ClInclude Include="include\StateTypes.h" />
     <ClInclude Include="include\TestApp.h" />
     <ClInclude Include="include\ECS\Test_EntityManager.h" />
     <ClInclude Include="include\TestState.h" />
