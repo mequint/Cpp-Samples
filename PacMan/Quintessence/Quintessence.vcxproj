@@ -19,13 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\qe\ECS\C_Base.h" />
+    <ClInclude Include="include\qe\ECS\EntityEventType.h" />
+    <ClInclude Include="include\qe\ECS\EntityManager.h" />
+    <ClInclude Include="include\qe\ECS\EntityEventQueue.h" />
+    <ClInclude Include="include\qe\ECS\SystemManager.h" />
+    <ClInclude Include="include\qe\ECS\S_Base.h" />
+    <ClInclude Include="include\qe\Messaging\Broadcaster.h" />
+    <ClInclude Include="include\qe\Messaging\Message.h" />
+    <ClInclude Include="include\qe\Messaging\MessageDispatch.h" />
     <ClInclude Include="include\qe\Resource\FontManager.h" />
     <ClInclude Include="include\qe\Resource\ResourceManager.h" />
     <ClInclude Include="include\qe\Resource\TextureManager.h" />
     <ClInclude Include="include\qe\State\BaseState.h" />
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
-    <ClInclude Include="include\qe\State\StateTypes.h" />
+    <ClInclude Include="include\qe\State\StateType.h" />
+    <ClInclude Include="include\qe\Messaging\Subscriber.h" />
     <ClInclude Include="include\qe\Utilities\Utilities.h" />
     <ClInclude Include="include\qe\Window\EventBinding.h" />
     <ClInclude Include="include\qe\Window\EventDetails.h" />
@@ -37,6 +47,9 @@
     <ClInclude Include="include\qe\Context.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\qe\ECS\SystemManager.cpp" />
+    <ClCompile Include="src\qe\ECS\S_Base.cpp" />
+    <ClCompile Include="src\qe\ECS\EntityManager.cpp" />
     <ClCompile Include="src\qe\State\StateManager.cpp" />
     <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />

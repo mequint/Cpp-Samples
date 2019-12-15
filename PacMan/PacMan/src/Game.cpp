@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include "States/StateTypes.h"
 #include "States/State_Game.h"
 #include "States/State_MainMenu.h"
 
@@ -42,18 +43,11 @@ Game::Game() :
 	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");
 
 	// Setup States
-	m_stateManager.registerState<State_MainMenu>(qe::StateType::MainMenu);
-	//m_stateManager.registerState<State_PreGame>(qe::StateType::PreGame);
-	m_stateManager.registerState<State_Game>(qe::StateType::Game);
-	//m_stateManager.registerState<State_PostGame>(qe::StateType::PostGame);
-	//m_stateManager.registerState<State_GameOver>(qe::StateType::GameOver);
-	//m_stateManager.registerState<State_Pause>(qe::StateType::Pause);
-	//m_stateManager.registerState<State_Credit>(qe::StateType::Credits);
-	//m_stateManager.registerState<State_Intermission>(qe::StateType::Intermission);
-	//m_stateManager.registerState<State_Splash>(qe::StateType::Intro);
+	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));
+	m_stateManager.registerState<State_Game>(static_cast<qe::StateType>(StateType::Game));
 
 	// Change to first state
-	m_stateManager.changeState(qe::StateType::MainMenu);
+	m_stateManager.changeState(static_cast<qe::StateType>(StateType::MainMenu));
 }
 
 void Game::update() {

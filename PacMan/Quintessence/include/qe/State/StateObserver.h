@@ -1,7 +1,8 @@
 #pragma once
 
+#include "StateType.h"
+
 namespace qe {
-	enum class StateType;
 	class StateManager;
 
 	class StateObserver {

@@ -8,6 +8,8 @@
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
+#include "States/StateTypes.h"
+
 State_Game::State_Game(qe::StateManager * stateManager) :
 	BaseState(stateManager),
 	m_tileMapManager(m_stateManager->getContext()->m_textureManager) {
@@ -62,14 +64,14 @@ void State_Game::onCreate() {
 	m_readyLabel.setFillColor(sf::Color::Yellow);
 
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(qe::StateType::Game, "KeyDown_Escape", &State_Game::onQuit, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape", &State_Game::onQuit, this);
 	// TODO: P for Pause
 	// TODO: Up-Down-Left-Right, WASD for Move
 }
 
 void State_Game::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(qe::StateType::Game, "KeyDown_Escape");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape");
 }
 
 void State_Game::onEnter() {
@@ -101,11 +103,11 @@ void State_Game::draw() {
 }
 
 void State_Game::onPause(qe::EventDetails * details) {
-	m_stateManager->changeState(qe::StateType::Pause);
+	//m_stateManager->changeState(qe::StateType::Pause);
 }
 
 void State_Game::onQuit(qe::EventDetails * details) {
-	m_stateManager->changeState(qe::StateType::MainMenu);
+	m_stateManager->changeState(static_cast<qe::StateType>(StateType::MainMenu));
 }
 
 void State_Game::onMove(qe::EventDetails * details) {

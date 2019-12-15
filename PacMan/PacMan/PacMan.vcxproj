@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\States\StateTypes.h" />
     <ClInclude Include="include\States\State_Game.h" />
     <ClInclude Include="include\States\State_MainMenu.h" />
     <ClInclude Include="include\Tile\Tile.h" />
