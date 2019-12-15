@@ -7,7 +7,7 @@
 
 #include "BaseState.h"
 #include "StateObserver.h"
-#include "StateTypes.h"
+#include "StateType.h"
 
 namespace qe {
 	struct Context;
