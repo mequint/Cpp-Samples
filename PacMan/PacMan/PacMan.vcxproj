@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\PacMan_EntityManager.cpp" />
+    <ClCompile Include="src\ECS\PacMan_SystemManager.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_Renderer.cpp" />
     <ClCompile Include="src\Tile\TileMapManager.cpp" />
     <ClCompile Include="src\States\State_Game.cpp" />
     <ClCompile Include="src\States\State_MainMenu.cpp" />
@@ -27,7 +30,17 @@
     <ClCompile Include="src\Tile\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ECS\Components\Components.h" />
+    <ClInclude Include="include\ECS\Components\C_Drawable.h" />
+    <ClInclude Include="include\ECS\Components\C_Position.h" />
+    <ClInclude Include="include\ECS\Components\C_Sprite.h" />
+    <ClInclude Include="include\ECS\ECS_Types.h" />
+    <ClInclude Include="include\ECS\PacMan_EntityManager.h" />
+    <ClInclude Include="include\ECS\PacMan_SystemManager.h" />
+    <ClInclude Include="include\ECS\Systems\Systems.h" />
+    <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\States\States.h" />
     <ClInclude Include="include\States\StateTypes.h" />
     <ClInclude Include="include\States\State_Game.h" />
     <ClInclude Include="include\States\State_MainMenu.h" />

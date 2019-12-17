@@ -28,6 +28,8 @@ public:
 	void onMove(qe::EventDetails* details);
 
 private:
+	void _setupPacmanEntity();
+
 	TileMapManager m_tileMapManager;
 
 	sf::Texture m_pacmanTexture;

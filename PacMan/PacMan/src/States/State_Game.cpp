@@ -3,11 +3,15 @@
 #include <iostream>
 
 #include "qe/Context.h"
+#include "qe/ECS/SystemManager.h"
 #include "qe/Resource/FontManager.h"
 #include "qe/Resource/TextureManager.h"
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
+#include "ECS/ECS_Types.h"
+#include "ECS/Components/Components.h"
+#include "ECS/Systems/Systems.h"
 #include "States/StateTypes.h"
 
 State_Game::State_Game(qe::StateManager * stateManager) :
@@ -31,13 +35,10 @@ State_Game::State_Game(qe::StateManager * stateManager) :
 void State_Game::onCreate() {
 	auto windowSize = static_cast<sf::Vector2f>(m_stateManager->getContext()->m_window->getRenderWindow()->getSize());
 
+	_setupPacmanEntity();
+
 	auto textureManager = m_stateManager->getContext()->m_textureManager;
 	m_pacmanTexture = *textureManager->getResource("PacMan");
-
-	m_pacmanSprite.setTexture(m_pacmanTexture);
-	m_pacmanSprite.setOrigin(static_cast<sf::Vector2f>(m_pacmanTexture.getSize()) / 2.0f);
-	m_pacmanSprite.setPosition(400.0f, 428.0f);
-
 	m_liveSprite.setTexture(m_pacmanTexture);
 
 	auto fontManager = m_stateManager->getContext()->m_fontManager;
@@ -82,12 +83,15 @@ void State_Game::onExit() {
 
 void State_Game::update(const sf::Time & time) {
 	m_tileMapManager.update(time.asSeconds());
+	m_stateManager->getContext()->m_systemManager->update(time.asSeconds());
 }
 
 void State_Game::draw() {
 	auto& renderer = *m_stateManager->getContext()->m_window->getRenderWindow();
 	m_tileMapManager.draw(renderer);
-	
+
+	m_stateManager->getContext()->m_systemManager->draw(m_stateManager->getContext()->m_window);
+
 	renderer.draw(m_scoreLabel);
 	renderer.draw(m_score);
 	renderer.draw(m_readyLabel);
@@ -111,4 +115,22 @@ void State_Game::onQuit(qe::EventDetails * details) {
 }
 
 void State_Game::onMove(qe::EventDetails * details) {
+}
+
+void State_Game::_setupPacmanEntity() {
+	auto textureManager = m_stateManager->getContext()->m_textureManager;
+	auto entityManager = m_stateManager->getContext()->m_entityManager;
+	
+	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::Position));
+	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
+
+	int id = entityManager->addEntity(bits);
+
+	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
+	position->setPosition(400.0f, 428.0f);
+
+	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
+	sprite->create(textureManager, "PacMan");
+	sprite->setOrigin(Origin::Center);
 }

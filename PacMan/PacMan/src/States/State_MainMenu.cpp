@@ -106,7 +106,6 @@ void State_MainMenu::draw() {
 	}
 
 	renderer->draw(m_copyrightInformation);
-
 	renderer->draw(m_overlay);
 }
 

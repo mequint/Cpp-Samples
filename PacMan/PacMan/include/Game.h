@@ -6,6 +6,9 @@
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
+#include "ECS/PacMan_EntityManager.h"
+#include "ECS/PacMan_SystemManager.h"
+
 class Game {
 public:
 	Game();
@@ -23,6 +26,9 @@ private:
 	qe::StateManager m_stateManager;
 	qe::TextureManager m_textureManager;
 	qe::Window m_window;
+
+	PacMan_EntityManager m_entityManager;
+	PacMan_SystemManager m_systemManager;
 
 	sf::Clock m_clock;
 	sf::Time m_elapsedTime;

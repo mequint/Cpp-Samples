@@ -1,19 +1,25 @@
 #include "Game.h"
 
+#include "ECS/ECS_Types.h"
+#include "ECS/Components/Components.h"
+#include "ECS/Systems/Systems.h"
+
+#include "States/States.h"
 #include "States/StateTypes.h"
-#include "States/State_Game.h"
-#include "States/State_MainMenu.h"
 
 Game::Game() :
 	m_window("Pac Man", sf::Vector2u(800, 600)),
-	m_stateManager(&m_context) {
+	m_stateManager(&m_context),
+	m_entityManager(&m_systemManager) {
 
 	m_elapsedTime = m_clock.restart();
 
 	// Setup context
+	m_context.m_entityManager = &m_entityManager;
 	m_context.m_eventManager = m_window.getEventManager();
 	m_context.m_fontManager = &m_fontManager;
 	m_context.m_stateManager = &m_stateManager;
+	m_context.m_systemManager = &m_systemManager;
 	m_context.m_textureManager = &m_textureManager;
 	m_context.m_window = &m_window;
 
@@ -41,6 +47,14 @@ Game::Game() :
 
 	// Load Fonts
 	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");
+
+	// Setup ECS
+	m_systemManager.setEntityManager(&m_entityManager);
+
+	m_entityManager.registerComponent<C_Position>(static_cast<qe::ComponentType>(Component::Position));
+	m_entityManager.registerComponent<C_Sprite>(static_cast<qe::ComponentType>(Component::Sprite));
+
+	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 
 	// Setup States
 	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));
