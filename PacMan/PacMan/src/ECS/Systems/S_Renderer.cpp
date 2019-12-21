@@ -1,7 +1,6 @@
 #include "ECS/Systems/S_Renderer.h"
 
 #include "qe/ECS/SystemManager.h"
-#include "ECS/ECS_Types.h"
 
 #include "ECS/Components/C_Position.h"
 #include "ECS/Components//C_Sprite.h"

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\S_State.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_Movement.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_Control.cpp" />
     <ClCompile Include="src\ECS\PacMan_EntityManager.cpp" />
     <ClCompile Include="src\ECS\PacMan_SystemManager.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Renderer.cpp" />
@@ -31,14 +34,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
+    <ClInclude Include="include\ECS\Components\C_Controller.h" />
     <ClInclude Include="include\ECS\Components\C_Drawable.h" />
+    <ClInclude Include="include\ECS\Components\C_Motion.h" />
     <ClInclude Include="include\ECS\Components\C_Position.h" />
     <ClInclude Include="include\ECS\Components\C_Sprite.h" />
+    <ClInclude Include="include\ECS\Components\C_State.h" />
     <ClInclude Include="include\ECS\ECS_Types.h" />
     <ClInclude Include="include\ECS\PacMan_EntityManager.h" />
     <ClInclude Include="include\ECS\PacMan_SystemManager.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
+    <ClInclude Include="include\ECS\Systems\S_Control.h" />
+    <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
+    <ClInclude Include="include\ECS\Systems\S_State.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\States\States.h" />
     <ClInclude Include="include\States\StateTypes.h" />
@@ -47,6 +56,7 @@
     <ClInclude Include="include\Tile\Tile.h" />
     <ClInclude Include="include\Tile\TileMap.h" />
     <ClInclude Include="include\Tile\TileMapManager.h" />
+    <ClInclude Include="include\Utilities\Directions.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quintessence\Quintessence.vcxproj">

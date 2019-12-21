@@ -13,6 +13,7 @@
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
 #include "States/StateTypes.h"
+#include "Utilities/Directions.h"
 
 State_Game::State_Game(qe::StateManager * stateManager) :
 	BaseState(stateManager),
@@ -67,12 +68,29 @@ void State_Game::onCreate() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
 	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape", &State_Game::onQuit, this);
 	// TODO: P for Pause
-	// TODO: Up-Down-Left-Right, WASD for Move
+
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_S", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_D", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Up", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Down", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Left", &State_Game::onMove, this);
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Right", &State_Game::onMove, this);
+
 }
 
 void State_Game::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
 	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_S");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_D");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Up");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Down");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Left");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Right");
 }
 
 void State_Game::onEnter() {
@@ -115,6 +133,23 @@ void State_Game::onQuit(qe::EventDetails * details) {
 }
 
 void State_Game::onMove(qe::EventDetails * details) {
+	qe::Message msg(static_cast<qe::MessageType>(EntityMessage::Move));
+
+	if (details->m_name == "KeyDown_W" || details->m_name == "KeyDown_Up") {
+		msg.m_int = static_cast<int>(Direction::Up);
+	}
+	else if (details->m_name == "KeyDown_S" || details->m_name == "KeyDown_Down") {
+		msg.m_int = static_cast<int>(Direction::Down);
+	}
+	else if (details->m_name == "KeyDown_A" || details->m_name == "KeyDown_Left") {
+		msg.m_int = static_cast<int>(Direction::Left);
+	}
+	else if (details->m_name == "KeyDown_D" || details->m_name == "KeyDown_Right") {
+		msg.m_int = static_cast<int>(Direction::Right);
+	}
+
+	msg.m_receiver = m_playerId;
+	m_stateManager->getContext()->m_systemManager->getMessageDispatch()->dispatch(msg);
 }
 
 void State_Game::_setupPacmanEntity() {
@@ -122,10 +157,17 @@ void State_Game::_setupPacmanEntity() {
 	auto entityManager = m_stateManager->getContext()->m_entityManager;
 	
 	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::Controller));
+	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
 	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
+	bits.set(static_cast<qe::ComponentType>(Component::State));
 
 	int id = entityManager->addEntity(bits);
+	m_playerId = id;
+
+	auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
+	motion->setVelocity(0.0f, 0.0f);
 
 	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 	position->setPosition(400.0f, 428.0f);

@@ -42,4 +42,6 @@ private:
 
 	int m_lives;
 	sf::Sprite m_liveSprite;
+
+	int m_playerId;
 };

@@ -1,6 +1,5 @@
 #include "Game.h"
 
-#include "ECS/ECS_Types.h"
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
 
@@ -51,10 +50,16 @@ Game::Game() :
 	// Setup ECS
 	m_systemManager.setEntityManager(&m_entityManager);
 
+	m_entityManager.registerComponent<C_Controller>(static_cast<qe::ComponentType>(Component::Controller));
+	m_entityManager.registerComponent<C_Motion>(static_cast<qe::ComponentType>(Component::Motion));
 	m_entityManager.registerComponent<C_Position>(static_cast<qe::ComponentType>(Component::Position));
 	m_entityManager.registerComponent<C_Sprite>(static_cast<qe::ComponentType>(Component::Sprite));
-
+	m_entityManager.registerComponent<C_State>(static_cast<qe::ComponentType>(Component::State));
+		
+	m_systemManager.registerSystem<S_Control>(static_cast<qe::SystemType>(System::Control));
+	m_systemManager.registerSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement));
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
+	m_systemManager.registerSystem<S_State>(static_cast<qe::SystemType>(System::State));
 
 	// Setup States
 	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));
