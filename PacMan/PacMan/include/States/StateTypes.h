@@ -1,5 +1,5 @@
 #pragma once
 
 enum class StateType {
-	MainMenu, Game
+	MainMenu = 1, Game
 };
