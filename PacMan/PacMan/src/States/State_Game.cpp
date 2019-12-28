@@ -36,6 +36,9 @@ State_Game::State_Game(qe::StateManager * stateManager) :
 void State_Game::onCreate() {
 	auto windowSize = static_cast<sf::Vector2f>(m_stateManager->getContext()->m_window->getRenderWindow()->getSize());
 
+	// Attach map manager to collision system
+	m_stateManager->getContext()->m_systemManager->getSystem<S_Collision>(static_cast<qe::SystemType>(System::Collision))->setTileMapManager(&m_tileMapManager);
+
 	_setupPacmanEntity();
 
 	auto textureManager = m_stateManager->getContext()->m_textureManager;
@@ -157,6 +160,7 @@ void State_Game::_setupPacmanEntity() {
 	auto entityManager = m_stateManager->getContext()->m_entityManager;
 	
 	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::Collider));
 	bits.set(static_cast<qe::ComponentType>(Component::Controller));
 	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
@@ -174,5 +178,9 @@ void State_Game::_setupPacmanEntity() {
 
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textureManager, "PacMan");
-	sprite->setOrigin(Origin::Center);
+	//sprite->setOrigin(SpriteOrigin::Center);
+
+	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
+	collider->setPosition(position->getPosition());
+	collider->setSize(static_cast<sf::Vector2f>(sprite->getSize()));
 }

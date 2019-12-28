@@ -29,4 +29,20 @@ void S_Movement::update(float dt) {
 	}
 }
 
-void S_Movement::handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) {}
+void S_Movement::handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) {
+	auto e = static_cast<EntityEvent>(event);
+
+	switch (e) {
+		case EntityEvent::Colliding_X: {
+			C_Motion* motion = m_systemManager->getEntityManager()->getComponent<C_Motion>(entityId, static_cast<qe::ComponentType>(Component::Motion));
+			motion->setVelocity(0.0f, motion->getVelocity().y);
+			break;
+		}
+
+		case EntityEvent::Colliding_Y: {
+			C_Motion* motion = m_systemManager->getEntityManager()->getComponent<C_Motion>(entityId, static_cast<qe::ComponentType>(Component::Motion));
+			motion->setVelocity(motion->getVelocity().x, 0.0f);
+			break;
+		}
+	}
+}

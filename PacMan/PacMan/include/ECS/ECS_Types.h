@@ -1,15 +1,15 @@
 #pragma once
 
 enum class Component {
-	Controller, Motion, Position, Sprite, State
+	Collider, Controller, Motion, Position, Sprite, State
 };
 
 enum class System {
-	Control, Movement, Renderer, State
+	Collision, Control, Movement, Renderer, State
 };
 
 enum class EntityEvent {
-	Moving_Up, Moving_Down, Moving_Left, Moving_Right, Stop
+	Colliding_X, Colliding_Y, Moving_Up, Moving_Down, Moving_Left, Moving_Right, Stop
 };
 
 enum class EntityMessage {

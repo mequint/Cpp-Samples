@@ -57,6 +57,10 @@ void TileMapManager::setPosition(const sf::Vector2f & position) {
 	m_position = position;
 }
 
+const TileMap& TileMapManager::getCurrentMap() const {
+	return m_currentMap;
+}
+
 sf::Vector2f TileMapManager::getMapSize() const {
 	auto width = static_cast<float>(m_currentMap.getTileSize() * m_currentMap.getWidth());
 	auto height = static_cast<float>(m_currentMap.getTileSize() * m_currentMap.getHeight());

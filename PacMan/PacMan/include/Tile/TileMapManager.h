@@ -23,6 +23,7 @@ public:
 	const sf::Vector2f& getPosition() const;
 	void setPosition(const sf::Vector2f& position);
 
+	const TileMap& getCurrentMap() const;
 	sf::Vector2f getMapSize() const;
 
 private:

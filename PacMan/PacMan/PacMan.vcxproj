@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\S_Collision.cpp" />
     <ClCompile Include="src\ECS\Systems\S_State.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Movement.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Control.cpp" />
@@ -34,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
+    <ClInclude Include="include\ECS\Components\C_Collider.h" />
     <ClInclude Include="include\ECS\Components\C_Controller.h" />
     <ClInclude Include="include\ECS\Components\C_Drawable.h" />
     <ClInclude Include="include\ECS\Components\C_Motion.h" />
@@ -44,6 +46,7 @@
     <ClInclude Include="include\ECS\PacMan_EntityManager.h" />
     <ClInclude Include="include\ECS\PacMan_SystemManager.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
+    <ClInclude Include="include\ECS\Systems\S_Collision.h" />
     <ClInclude Include="include\ECS\Systems\S_Control.h" />
     <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />

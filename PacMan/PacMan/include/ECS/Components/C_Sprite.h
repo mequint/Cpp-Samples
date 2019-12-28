@@ -9,7 +9,7 @@
 
 #include "qe/Resource/TextureManager.h"
 
-enum class Origin { UpRight, Center };
+enum class SpriteOrigin { TopLeft, Center };
 
 class C_Sprite : public C_Drawable {
 public:
@@ -23,23 +23,31 @@ public:
 		}
 	}
 
-	void setOrigin(const Origin& origin) {
+	void setOrigin(const SpriteOrigin& origin) {
 		if (m_textureName == "") return;
 
 		switch (origin) {
-			case Origin::UpRight: {
+			case SpriteOrigin::TopLeft: {
 				m_sprite.setOrigin(0.0f, 0.0f);
 
 				break;
 			}
 
-			case Origin::Center: {
+			case SpriteOrigin::Center: {
 				auto size = m_sprite.getTexture()->getSize();
 				m_sprite.setOrigin(static_cast<float>(size.x / 2), static_cast<float>(size.y / 2));
 
 				break;
 			}
 		}
+	}
+
+	sf::Vector2u getSize() const {
+		return m_sprite.getTexture()->getSize();
+	}
+
+	sf::Vector2f getOrigin() const {
+		return m_sprite.getOrigin();
 	}
 
 	// Inherited via C_Drawable
