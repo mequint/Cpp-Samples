@@ -1,6 +1,8 @@
 #include "Tile/TileMapManager.h"
 
 #include <iostream>
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "qe/Utilities/Utilities.h"
 
 TileMapManager::TileMapManager(qe::TextureManager * textureManager) : 
@@ -34,6 +36,15 @@ void TileMapManager::update(float dt) {
 }
 
 void TileMapManager::draw(sf::RenderTarget & renderer) {
+	int tileSize = m_currentMap.getTileSize();
+
+	// Debug tile
+	sf::RectangleShape rect;
+	rect.setSize(sf::Vector2f(static_cast<float>(tileSize), static_cast<float>(tileSize)));
+	rect.setOutlineColor(sf::Color(255, 255, 255, 64));
+	rect.setOutlineThickness(1.0f);
+	rect.setFillColor(sf::Color::Transparent);
+
 	for (int i = 0; i < m_currentMap.getHeight(); ++i) {
 		for (int j = 0; j < m_currentMap.getWidth(); ++j) {
 			int tile = m_currentMap.getMapTile(j, i);
@@ -41,10 +52,15 @@ void TileMapManager::draw(sf::RenderTarget & renderer) {
 			int x = tile % m_tileColumns;
 			int y = tile / m_tileColumns;
 
-			m_tileSprite.setPosition(m_position.x + static_cast<float>(j * m_currentMap.getTileSize()), m_position.y + static_cast<float>(i * m_currentMap.getTileSize()));
-			m_tileSprite.setTextureRect(sf::IntRect(x * m_currentMap.getTileSize(), y * m_currentMap.getTileSize(), m_currentMap.getTileSize(), m_currentMap.getTileSize()));
+			m_tileSprite.setPosition(m_position.x + static_cast<float>(j * tileSize), m_position.y + static_cast<float>(i * tileSize));
+			m_tileSprite.setTextureRect(sf::IntRect(x * tileSize, y * tileSize, tileSize, tileSize));
 			
 			renderer.draw(m_tileSprite);
+
+			rect.setPosition(m_position.x + static_cast<float>(j * tileSize), m_position.y + static_cast<float>(i * tileSize));
+			
+			// Draw debug tile
+			//renderer.draw(rect);
 		}
 	}
 }
