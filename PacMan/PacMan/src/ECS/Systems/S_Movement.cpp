@@ -35,13 +35,26 @@ void S_Movement::handleEvent(const qe::EntityId & entityId, const qe::EntityEven
 	switch (e) {
 		case EntityEvent::Colliding_X: {
 			C_Motion* motion = m_systemManager->getEntityManager()->getComponent<C_Motion>(entityId, static_cast<qe::ComponentType>(Component::Motion));
-			motion->setVelocity(0.0f, motion->getVelocity().y);
+
+			if (motion->getLastVelocity().x != 0.0f) {
+				motion->setVelocity(0.0f, motion->getVelocity().y);
+			}
+			else {
+				motion->setVelocity(motion->getLastVelocity());
+			}
 			break;
 		}
 
 		case EntityEvent::Colliding_Y: {
 			C_Motion* motion = m_systemManager->getEntityManager()->getComponent<C_Motion>(entityId, static_cast<qe::ComponentType>(Component::Motion));
-			motion->setVelocity(motion->getVelocity().x, 0.0f);
+
+			if (motion->getLastVelocity().y != 0.0f) {
+				motion->setVelocity(motion->getVelocity().x, 0.0f);
+			}
+			else {
+				motion->setVelocity(motion->getLastVelocity());
+			}
+
 			break;
 		}
 	}

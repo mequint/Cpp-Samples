@@ -39,11 +39,11 @@ void TileMapManager::draw(sf::RenderTarget & renderer) {
 	int tileSize = m_currentMap.getTileSize();
 
 	// Debug tile
-	sf::RectangleShape rect;
-	rect.setSize(sf::Vector2f(static_cast<float>(tileSize), static_cast<float>(tileSize)));
-	rect.setOutlineColor(sf::Color(255, 255, 255, 64));
-	rect.setOutlineThickness(1.0f);
-	rect.setFillColor(sf::Color::Transparent);
+	//sf::RectangleShape rect;
+	//rect.setSize(sf::Vector2f(static_cast<float>(tileSize), static_cast<float>(tileSize)));
+	//rect.setOutlineColor(sf::Color(255, 255, 255, 64));
+	//rect.setOutlineThickness(1.0f);
+	//rect.setFillColor(sf::Color::Transparent);
 
 	for (int i = 0; i < m_currentMap.getHeight(); ++i) {
 		for (int j = 0; j < m_currentMap.getWidth(); ++j) {
@@ -57,7 +57,7 @@ void TileMapManager::draw(sf::RenderTarget & renderer) {
 			
 			renderer.draw(m_tileSprite);
 
-			rect.setPosition(m_position.x + static_cast<float>(j * tileSize), m_position.y + static_cast<float>(i * tileSize));
+			//rect.setPosition(m_position.x + static_cast<float>(j * tileSize), m_position.y + static_cast<float>(i * tileSize));
 			
 			// Draw debug tile
 			//renderer.draw(rect);

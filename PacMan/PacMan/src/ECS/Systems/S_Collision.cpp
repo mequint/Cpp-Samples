@@ -1,5 +1,7 @@
 #include "ECS/Systems/S_Collision.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "ECS/ECS_Types.h"
 #include "ECS/Components/C_Collider.h"
 #include "ECS/Components/C_Position.h"
@@ -121,4 +123,21 @@ void S_Collision::handleEvent(const qe::EntityId & entityId, const qe::EntityEve
 
 void S_Collision::setTileMapManager(TileMapManager * mapManager) {
 	m_mapManager = mapManager;
+}
+
+void S_Collision::render(qe::Window* window) {
+	//auto entities = m_systemManager->getEntityManager();
+	//auto renderer = window->getRenderWindow();
+
+	//for (auto& entity : m_entities) {
+	//	auto collider = entities->getComponent<C_Collider>(entity, static_cast<qe::ComponentType>(Component::Collider));
+
+	//	sf::RectangleShape rect;
+	//	rect.setPosition(collider->getAABB().left, collider->getAABB().top);
+	//	rect.setSize(sf::Vector2f(collider->getAABB().width, collider->getAABB().height));
+	//	rect.setOutlineColor(sf::Color::Green);
+	//	rect.setFillColor(sf::Color::Transparent);
+	//	rect.setOutlineThickness(1.0f);
+	//	renderer->draw(rect);
+	//}
 }

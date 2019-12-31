@@ -16,16 +16,17 @@ public:
 
 	const sf::FloatRect& getAABB() const { return m_AABB; }
 
-	void setSize(const sf::Vector2f& vector) { m_AABB.width = vector.x; m_AABB.height = vector.y; }
+	void setSize(const sf::Vector2f& vector) {
+		m_AABB.width = vector.x;
+		m_AABB.height = vector.y;
+	}
 	
 	void setPosition(const sf::Vector2f& vector) {
-		if (m_origin == CollisionOrigin::Center) {
-			m_AABB.left = vector.x; m_AABB.top = vector.y;
-		}
-		else {
-			m_AABB.left = vector.x + m_AABB.width / 2.0f; m_AABB.top = vector.y + m_AABB.height / 2.0f;
-		}
+		m_AABB.left = vector.x; 
+		m_AABB.top = vector.y;
 	}
+
+	CollisionOrigin getOrigin() const { return m_origin; }
 
 	void isColliding() { m_isColliding = true; }
 	void resetCollisionFlag() { m_isColliding = false; }

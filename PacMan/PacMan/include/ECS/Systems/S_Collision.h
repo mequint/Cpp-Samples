@@ -1,6 +1,7 @@
 #pragma once
 
 #include "qe/ECS/S_Base.h"
+#include "qe/Window/Window.h"
 #include "Tile/TileMapManager.h"
 
 struct Collision {
@@ -25,6 +26,8 @@ public:
 	virtual void handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) override;
 
 	void setTileMapManager(TileMapManager* mapManager);
+
+	void render(qe::Window* window);
 
 private:
 	TileMapManager* m_mapManager;

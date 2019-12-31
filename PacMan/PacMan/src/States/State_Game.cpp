@@ -173,12 +173,15 @@ void State_Game::_setupPacmanEntity() {
 	auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
 	motion->setVelocity(0.0f, 0.0f);
 
+	auto mapPosition = m_tileMapManager.getPosition();
+	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
+
 	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
-	position->setPosition(400.0f, 428.0f);
+	position->setPosition(mapPosition.x + tileSize * 13.5, mapPosition.y + tileSize * 23);
 
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textureManager, "PacMan");
-	//sprite->setOrigin(SpriteOrigin::Center);
+	sprite->setPosition(position->getPosition());
 
 	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
 	collider->setPosition(position->getPosition());

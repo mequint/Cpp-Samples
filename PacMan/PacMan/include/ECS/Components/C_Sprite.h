@@ -42,15 +42,19 @@ public:
 		}
 	}
 
-	sf::Vector2u getSize() const {
-		return m_sprite.getTexture()->getSize();
-	}
-
 	sf::Vector2f getOrigin() const {
 		return m_sprite.getOrigin();
 	}
 
 	// Inherited via C_Drawable
+	virtual sf::Vector2u getSize() const override {
+		return m_sprite.getTexture()->getSize();
+	}
+
+	virtual sf::Vector2f getPosition() const override {
+		return m_sprite.getPosition();
+	}
+
 	virtual void setPosition(const sf::Vector2f & vector) override {
 		m_sprite.setPosition(vector);
 	}

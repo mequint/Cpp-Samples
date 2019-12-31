@@ -1,5 +1,7 @@
 #include "ECS/Systems/S_Renderer.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "qe/ECS/SystemManager.h"
 
 #include "ECS/Components/C_Position.h"
@@ -24,7 +26,7 @@ void S_Renderer::update(float dt) {
 	for (auto& entity : m_entities) {
 		auto position = entities->getComponent<C_Position>(entity, static_cast<qe::ComponentType>(Component::Position));
 
-		auto drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::Sprite));
+		auto drawable = entities->getComponent<C_Sprite>(entity, static_cast<qe::ComponentType>(Component::Sprite));
 		drawable->setPosition(position->getPosition());
 	}
 }
@@ -39,5 +41,14 @@ void S_Renderer::render(qe::Window * window) {
 		auto drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::Sprite));
 
 		drawable->draw(renderer);
+
+		// Debug shape
+		//sf::RectangleShape rect;
+		//rect.setSize(static_cast<sf::Vector2f>(drawable->getSize()));
+		//rect.setPosition(drawable->getPosition());
+		//rect.setOutlineColor(sf::Color::White);
+		//rect.setFillColor(sf::Color::Transparent);
+		//rect.setOutlineThickness(1.0f);
+		//renderer->draw(rect);
 	}
 }
