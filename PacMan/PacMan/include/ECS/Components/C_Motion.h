@@ -10,15 +10,13 @@ class C_Motion : public qe::C_Base {
 public:
 	C_Motion() : C_Base(static_cast<qe::ComponentType>(Component::Motion)) {}
 
-	sf::Vector2f getVelocity() const { return m_velocity; }
-	sf::Vector2f getLastVelocity() const { return m_lastVelocity; }
+	sf::Vector2f getVelocity() { return m_velocity; }
+	void setVelocity(const sf::Vector2f& velocity) { m_velocity = velocity; }
 
-	void setVelocity(const sf::Vector2f& vector) { m_lastVelocity = m_velocity;  m_velocity = vector; }
-	void setVelocity(float x, float y) { m_lastVelocity = m_velocity;  m_velocity = sf::Vector2f(x, y); }
+	Direction getDirection() const { return m_direction; }
+	void setDirection(const Direction& direction) { m_direction = direction; }
 
 private:
 	sf::Vector2f m_velocity;
-	sf::Vector2f m_lastVelocity;
-
 	Direction m_direction;
 };

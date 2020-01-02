@@ -13,5 +13,5 @@ enum class EntityEvent {
 };
 
 enum class EntityMessage {
-	Move, Stop
+	RequestMove, Stop
 };

@@ -36,8 +36,8 @@ State_Game::State_Game(qe::StateManager * stateManager) :
 void State_Game::onCreate() {
 	auto windowSize = static_cast<sf::Vector2f>(m_stateManager->getContext()->m_window->getRenderWindow()->getSize());
 
-	// Attach map manager to collision system
-	m_stateManager->getContext()->m_systemManager->getSystem<S_Collision>(static_cast<qe::SystemType>(System::Collision))->setTileMapManager(&m_tileMapManager);
+	m_stateManager->getContext()->m_systemManager->
+		getSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement))->setMapManager(&m_tileMapManager);
 
 	_setupPacmanEntity();
 
@@ -136,7 +136,7 @@ void State_Game::onQuit(qe::EventDetails * details) {
 }
 
 void State_Game::onMove(qe::EventDetails * details) {
-	qe::Message msg(static_cast<qe::MessageType>(EntityMessage::Move));
+	qe::Message msg(static_cast<qe::MessageType>(EntityMessage::RequestMove));
 
 	if (details->m_name == "KeyDown_W" || details->m_name == "KeyDown_Up") {
 		msg.m_int = static_cast<int>(Direction::Up);
@@ -158,9 +158,11 @@ void State_Game::onMove(qe::EventDetails * details) {
 void State_Game::_setupPacmanEntity() {
 	auto textureManager = m_stateManager->getContext()->m_textureManager;
 	auto entityManager = m_stateManager->getContext()->m_entityManager;
-	
+
+	auto mapPosition = m_tileMapManager.getPosition();
+	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
+
 	qe::Bitmask bits;
-	bits.set(static_cast<qe::ComponentType>(Component::Collider));
 	bits.set(static_cast<qe::ComponentType>(Component::Controller));
 	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
@@ -170,20 +172,13 @@ void State_Game::_setupPacmanEntity() {
 	int id = entityManager->addEntity(bits);
 	m_playerId = id;
 
-	auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
-	motion->setVelocity(0.0f, 0.0f);
-
-	auto mapPosition = m_tileMapManager.getPosition();
-	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
-
 	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
-	position->setPosition(mapPosition.x + tileSize * 13.5, mapPosition.y + tileSize * 23);
+	position->setPosition(mapPosition.x + tileSize * 13.5f, mapPosition.y + tileSize * 23.0f);
+
+	auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
+	motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textureManager, "PacMan");
 	sprite->setPosition(position->getPosition());
-
-	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
-	collider->setPosition(position->getPosition());
-	collider->setSize(static_cast<sf::Vector2f>(sprite->getSize()));
 }

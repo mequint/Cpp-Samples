@@ -1,6 +1,8 @@
 #pragma once
 
+#include "ECS/Components/C_State.h"
 #include "qe/ECS/S_Base.h"
+#include "Tile/TileMapManager.h"
 
 class S_State : public qe::S_Base {
 public:
@@ -15,4 +17,6 @@ public:
 
 	virtual void handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) override;
 
+private:
+	void _changeState(const qe::EntityId& entityId, const EntityState& entityState);
 };
