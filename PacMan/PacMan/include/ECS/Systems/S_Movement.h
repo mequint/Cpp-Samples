@@ -1,6 +1,8 @@
 #pragma once
 
 #include "qe/ECS/S_Base.h"
+
+#include "Utilities/Directions.h"
 #include "Tile/TileMapManager.h"
 
 class S_Movement : public qe::S_Base {
@@ -18,6 +20,8 @@ public:
 	void setMapManager(TileMapManager* mapManager);
 
 private:
+	Direction _getPhysicalDirection(const sf::Vector2f& velocity);
+
 	TileMapManager* m_mapManager;
 
 	float m_timeStep;
