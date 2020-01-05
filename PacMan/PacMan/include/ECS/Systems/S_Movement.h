@@ -21,6 +21,9 @@ public:
 
 private:
 	Direction _getPhysicalDirection(const sf::Vector2f& velocity);
+	sf::Vector2f _getPosition(const sf::Vector2f& offset, int tileX, int tileY, int tileSize, const Direction& direction = Direction::None);
+	Tile _getTile(const TileMap& currentMap, int tileX, int tileY, const Direction& direction = Direction::None);
+
 
 	TileMapManager* m_mapManager;
 

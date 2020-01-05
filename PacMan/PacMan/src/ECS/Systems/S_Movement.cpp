@@ -62,99 +62,83 @@ void S_Movement::update(float dt) {
 
 		// Determine the physical direction of the entity
 		auto physicalDirection = _getPhysicalDirection(motion->getVelocity());
-	
+		auto physicalTile = _getTile(currentMap, tileX, tileY, physicalDirection);
+		auto physicalTilePosition = _getPosition(m_mapManager->getPosition(), tileX, tileY, tileSize, physicalDirection);
+
+		// Handle wrap around
+		if (physicalDirection == Direction::Right && position->getPosition().x == m_mapManager->getPosition().x + m_mapManager->getMapSize().x - tileSize) {
+			position->setPosition(_getPosition(m_mapManager->getPosition(), 0, tileY, tileSize));
+			return;
+		}
+		else if (physicalDirection == Direction::Left && position->getPosition().x == m_mapManager->getPosition().x) {
+			position->setPosition(_getPosition(m_mapManager->getPosition(), currentMap.getWidth() - 1, tileY, tileSize));
+			return;
+		}
+
 		switch (motion->getDirection()) {
 			case Direction::Up: {
 				int nextY = tileY - 1;
 
-				// If the entity is on the board edge, wrap around to the bottom edge
-				if (nextY < 0) {
-					nextY = currentMap.getHeight() - 1;
+				auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
+				auto tilePosition = _getPosition(m_mapManager->getPosition(), tileX, nextY, tileSize);
 
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(tileX * tileSize, nextY * tileSize);
-
-					if (physicalDirection == Direction::Up && position->getPosition().y == m_mapManager->getPosition().y) {
-						position->setPosition(tilePosition);
-					}
+				// If the entity is on the board edge, wrap around to the right side
+				if (!tileData.IsSolid) {
+					if (position->getPosition().x == tilePosition.x)
+						motion->setVelocity(sf::Vector2f(0.0f, -128.0f));
 				}
 				else {
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(tileX * tileSize, nextY * tileSize);
-
-					if (!tileData.IsSolid) {
-						if (position->getPosition().x == tilePosition.x)
-							motion->setVelocity(sf::Vector2f(0.0f, -128.0f));
-					}
-					else {
-						if (physicalDirection == Direction::Up) {
-							if (position->getPosition().y <= tilePosition.y + tileSize)
-								motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
-						}
+					if (physicalTile.IsSolid && 
+						position->getPosition().x <= physicalTilePosition.x + tileSize &&
+						position->getPosition().y <= physicalTilePosition.y + tileSize) {
+						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 					}
 				}
+
 				break;
 			}
 
 			case Direction::Down: {
 				int nextY = tileY + 1;
 
-				// If the entity is on the board edge, wrap around to top edge
-				if (nextY < 0) {
-					nextY = 0;
+				auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
+				auto tilePosition = _getPosition(m_mapManager->getPosition(), tileX, nextY, tileSize);
 
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(tileX * tileSize, nextY * tileSize);
-
-					if (physicalDirection == Direction::Down && position->getPosition().y == m_mapManager->getPosition().y + m_mapManager->getMapSize().y - tileSize) {
-						position->setPosition(tilePosition);
-					}
+				// If the entity is on the board edge, wrap around to the right side
+				if (!tileData.IsSolid) {
+					if (position->getPosition().x == tilePosition.x)
+						motion->setVelocity(sf::Vector2f(0.0f, 128.0f));
 				}
+				// Or stop if a wall is hit
 				else {
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(tileX * tileSize, nextY * tileSize);
-
-					if (!tileData.IsSolid) {
-						if (position->getPosition().x == tilePosition.x)
-							motion->setVelocity(sf::Vector2f(0.0f, 128.0f));
-					}
-					else {
-						if (physicalDirection == Direction::Down)
-							motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+					if (physicalTile.IsSolid &&
+						position->getPosition().x <= physicalTilePosition.x + tileSize &&
+						position->getPosition().y <= physicalTilePosition.y + tileSize) {
+						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 					}
 				}
+
 				break;
 			}
 
 			case Direction::Left: {
 				int nextX = tileX - 1;
 
-				// If the entity is on the board edge, wrap around to the right side
-				if (nextX < 0) {
-					nextX = currentMap.getWidth() - 1;
+				auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
+				auto tilePosition = _getPosition(m_mapManager->getPosition(), nextX, tileY, tileSize);
 
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(nextX * tileSize, tileY * tileSize);
-
-					if (physicalDirection == Direction::Left && position->getPosition().x == m_mapManager->getPosition().x) {
-						position->setPosition(tilePosition);
+				// Otherwise, move like normal
+				if (!tileData.IsSolid) {
+					if (position->getPosition().y == tilePosition.y) {
+						motion->setVelocity(sf::Vector2f(-128.0f, 0.0f));
 					}
 				}
+				// Or stop if a wall is hit
 				else {
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(nextX * tileSize, tileY * tileSize);
-
-					// Otherwise, move like normal
-					if (!tileData.IsSolid) {
-						if (position->getPosition().y == tilePosition.y)
-							motion->setVelocity(sf::Vector2f(-128.0f, 0.0f));
-					}
-					// Or stop if a wall is hit
-					else {
-						if (physicalDirection == Direction::Left) {
-							if (position->getPosition().x <= tilePosition.x + tileSize)
-								motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
-						}
+					if (physicalTile.IsSolid &&
+						position->getPosition().x <= physicalTilePosition.x + tileSize &&
+						position->getPosition().y <= physicalTilePosition.y + tileSize) {
+						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 					}
 				}
 
@@ -164,28 +148,18 @@ void S_Movement::update(float dt) {
 			case Direction::Right: {
 				int nextX = tileX + 1;
 
-				// If the entity is on the board edge, wrap around to the left side				
-				if (nextX >= currentMap.getWidth()) {
-					nextX = 0;
-					
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(nextX * tileSize, tileY * tileSize);
-					
-					if (physicalDirection == Direction::Right && position->getPosition().x == m_mapManager->getPosition().x + m_mapManager->getMapSize().x - tileSize) {
-						position->setPosition(tilePosition);
-					}
+				auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
+				auto tilePosition = _getPosition(m_mapManager->getPosition(), nextX, tileY, tileSize);
+
+				if (!tileData.IsSolid) {
+					if (position->getPosition().y == tilePosition.y)
+						motion->setVelocity(sf::Vector2f(128.0f, 0.0f));
 				}
 				else {
-					auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
-					auto tilePosition = m_mapManager->getPosition() + sf::Vector2f(nextX * tileSize, tileY * tileSize);
-
-					if (!tileData.IsSolid) {
-						if (position->getPosition().y == tilePosition.y)
-							motion->setVelocity(sf::Vector2f(128.0f, 0.0f));
-					}
-					else {
-						if (physicalDirection == Direction::Right)
-							motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+					if (physicalTile.IsSolid &&
+						position->getPosition().x <= physicalTilePosition.x + tileSize &&
+						position->getPosition().y <= physicalTilePosition.y + tileSize) {
+						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 					}
 				}
 
@@ -224,4 +198,26 @@ Direction S_Movement::_getPhysicalDirection(const sf::Vector2f& velocity) {
 	}
 
 	return Direction::None;
+}
+
+sf::Vector2f S_Movement::_getPosition(const sf::Vector2f & offset, int tileX, int tileY, int tileSize, const Direction& direction) {
+	switch (direction) {
+		case Direction::Up: return offset + sf::Vector2f(tileX * tileSize, (tileY - 1) * tileSize);
+		case Direction::Down: return offset + sf::Vector2f(tileX * tileSize, (tileY + 1) * tileSize);
+		case Direction::Left: return offset + sf::Vector2f((tileX - 1) * tileSize, tileY * tileSize);
+		case Direction::Right: return offset + sf::Vector2f((tileX + 1) * tileSize, tileY * tileSize);
+	}
+
+	return offset + sf::Vector2f(tileX * tileSize, tileY * tileSize);
+}
+
+Tile S_Movement::_getTile(const TileMap & currentMap, int tileX, int tileY, const Direction & direction) {
+	switch (direction) {
+		case Direction::Up: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY - 1));
+		case Direction::Down: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY + 1));
+		case Direction::Left: return currentMap.getTileData(currentMap.getMapTile(tileX - 1, tileY));
+		case Direction::Right: return currentMap.getTileData(currentMap.getMapTile(tileX + 1, tileY));
+	}
+
+	return currentMap.getTileData(currentMap.getMapTile(tileX, tileY));
 }
