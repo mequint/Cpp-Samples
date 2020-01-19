@@ -29,6 +29,8 @@ public:
 
 private:
 	void _setupPacmanEntity();
+	void _setupPowerPillEntities();
+	void _setupPelletEntities();
 
 	TileMapManager m_tileMapManager;
 
