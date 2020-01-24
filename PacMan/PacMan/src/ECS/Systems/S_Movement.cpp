@@ -36,8 +36,6 @@ void S_Movement::notify(const qe::Message & message) {
 			C_Motion* motion = entities->getComponent<C_Motion>(message.m_receiver, static_cast<qe::ComponentType>(Component::Motion));
 
 			Direction dir = static_cast<Direction>(message.m_int);
-			qe::EntityEventType e;
-
 			motion->setDirection(dir);
 			break;
 		}
@@ -202,13 +200,13 @@ Direction S_Movement::_getPhysicalDirection(const sf::Vector2f& velocity) {
 
 sf::Vector2f S_Movement::_getPosition(const sf::Vector2f & offset, int tileX, int tileY, int tileSize, const Direction& direction) {
 	switch (direction) {
-		case Direction::Up: return offset + sf::Vector2f(tileX * tileSize, (tileY - 1) * tileSize);
-		case Direction::Down: return offset + sf::Vector2f(tileX * tileSize, (tileY + 1) * tileSize);
-		case Direction::Left: return offset + sf::Vector2f((tileX - 1) * tileSize, tileY * tileSize);
-		case Direction::Right: return offset + sf::Vector2f((tileX + 1) * tileSize, tileY * tileSize);
+		case Direction::Up: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY - 1) * tileSize));
+		case Direction::Down: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY + 1) * tileSize));
+		case Direction::Left: return offset + sf::Vector2f(static_cast<float>((tileX - 1) * tileSize), static_cast<float>(tileY * tileSize));
+		case Direction::Right: return offset + sf::Vector2f(static_cast<float>((tileX + 1) * tileSize), static_cast<float>(tileY * tileSize));
 	}
 
-	return offset + sf::Vector2f(tileX * tileSize, tileY * tileSize);
+	return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>(tileY * tileSize));
 }
 
 Tile S_Movement::_getTile(const TileMap & currentMap, int tileX, int tileY, const Direction & direction) {

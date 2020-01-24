@@ -166,6 +166,8 @@ void State_Game::_setupPacmanEntity() {
 
 	qe::Bitmask bits;
 	bits.set(static_cast<qe::ComponentType>(Component::Controller));
+	bits.set(static_cast<qe::ComponentType>(Component::Collider));
+	bits.set(static_cast<qe::ComponentType>(Component::EntityType));
 	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
 	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
@@ -173,6 +175,9 @@ void State_Game::_setupPacmanEntity() {
 
 	int id = entityManager->addEntity(bits);
 	m_playerId = id;
+
+	auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
+	entityType->setEntityType(EntityType::PacMan);
 
 	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 	position->setPosition(mapPosition.x + tileSize * 13.5f, mapPosition.y + tileSize * 23.0f);
@@ -183,6 +188,9 @@ void State_Game::_setupPacmanEntity() {
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textureManager, "PacMan");
 	sprite->setPosition(position->getPosition());
+
+	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
+	collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(sprite->getSize().x), static_cast<float>(sprite->getSize().y)));
 }
 
 void State_Game::_setupPowerPillEntities() {
@@ -194,20 +202,28 @@ void State_Game::_setupPowerPillEntities() {
 
 	std::vector<sf::Vector2i> pillPositions = { {1, 3}, {26,3}, {1,23}, {26,23} };
 
-	for (auto i = 0; i < pillPositions.size(); ++i) {
+	for (int i = 0; i < static_cast<int>(pillPositions.size()); ++i) {
 		qe::Bitmask bits;
+		bits.set(static_cast<qe::ComponentType>(Component::Collider));
+		bits.set(static_cast<qe::ComponentType>(Component::EntityType));
 		bits.set(static_cast<qe::ComponentType>(Component::Position));
 		bits.set(static_cast<qe::ComponentType>(Component::Sprite));
 		bits.set(static_cast<qe::ComponentType>(Component::State));
 
 		int id = entityManager->addEntity(bits);
 
+		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
+		entityType->setEntityType(EntityType::Pill);
+		
 		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 		position->setPosition(mapPosition.x + tileSize * pillPositions[i].x, mapPosition.y + tileSize * pillPositions[i].y);
 
 		auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 		sprite->create(textureManager, "Pill");
 		sprite->setPosition(position->getPosition());
+
+		auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
+		collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(sprite->getSize().x), static_cast<float>(sprite->getSize().y)));
 	}
 }
 
@@ -250,13 +266,18 @@ void State_Game::_setupPelletEntities() {
 		{1,29},{2,29},{3,29},{4,29},{5,29},{6,29},{7,29},{8,29},{9,29},{10,29},{11,29},{12,29},{13,29},{14,29},{15,29},{16,29},{17,29},{18,29},{19,29},{20,29},{21,29},{22,29},{23,29},{24,29},{25,29},{26,29}
 	};
 
-	for (auto i = 0; i < pelletPositions.size(); ++i) {
+	for (int i = 0; i < static_cast<int>(pelletPositions.size()); ++i) {
 		qe::Bitmask bits;
+		bits.set(static_cast<qe::ComponentType>(Component::Collider));
+		bits.set(static_cast<qe::ComponentType>(Component::EntityType));
 		bits.set(static_cast<qe::ComponentType>(Component::Position));
 		bits.set(static_cast<qe::ComponentType>(Component::Sprite));
 		bits.set(static_cast<qe::ComponentType>(Component::State));
 
 		int id = entityManager->addEntity(bits);
+
+		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
+		entityType->setEntityType(EntityType::Dot);
 
 		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 		position->setPosition(mapPosition.x + tileSize * pelletPositions[i].x, mapPosition.y + tileSize * pelletPositions[i].y);
@@ -264,5 +285,8 @@ void State_Game::_setupPelletEntities() {
 		auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 		sprite->create(textureManager, "Pellet");
 		sprite->setPosition(position->getPosition());
+
+		auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
+		collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(sprite->getSize().x), static_cast<float>(sprite->getSize().y)));
 	}
 }
