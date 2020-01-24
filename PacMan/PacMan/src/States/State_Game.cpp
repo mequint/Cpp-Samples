@@ -43,24 +43,24 @@ void State_Game::onCreate() {
 	_setupPowerPillEntities();
 	_setupPelletEntities();
 
-	auto textureManager = m_stateManager->getContext()->m_textureManager;
-	m_pacmanTexture = *textureManager->getResource("PacMan");
-	m_liveSprite.setTexture(m_pacmanTexture);
+	//auto textureManager = m_stateManager->getContext()->m_textureManager;
+	//m_pacmanTexture = *textureManager->getResource("PacMan");
+	//m_liveSprite.setTexture(m_pacmanTexture);
 
-	auto fontManager = m_stateManager->getContext()->m_fontManager;
-	m_scoreLabel.setFont(*fontManager->getResource("Game"));
-	m_scoreLabel.setCharacterSize(16);
-	m_scoreLabel.setString("SCORE");
-	m_scoreLabel.setStyle(sf::Text::Bold);
-	m_scoreLabel.setOrigin(m_scoreLabel.getGlobalBounds().width / 2.0f, 0.0f);
-	m_scoreLabel.setPosition(windowSize.x / 2.0f, 14.0f);
+	//auto fontManager = m_stateManager->getContext()->m_fontManager;
+	//m_scoreLabel.setFont(*fontManager->getResource("Game"));
+	//m_scoreLabel.setCharacterSize(16);
+	//m_scoreLabel.setString("SCORE");
+	//m_scoreLabel.setStyle(sf::Text::Bold);
+	//m_scoreLabel.setOrigin(m_scoreLabel.getGlobalBounds().width / 2.0f, 0.0f);
+	//m_scoreLabel.setPosition(windowSize.x / 2.0f, 14.0f);
 
-	m_score.setFont(*fontManager->getResource("Game"));
-	m_score.setCharacterSize(16);
-	m_score.setString("0");
-	m_score.setStyle(sf::Text::Bold);
-	m_score.setOrigin(m_score.getGlobalBounds().width / 2.0f, 0.0f);
-	m_score.setPosition(windowSize.x / 2.0f, 32.0f);
+	//m_score.setFont(*fontManager->getResource("Game"));
+	//m_score.setCharacterSize(16);
+	//m_score.setString("0");
+	//m_score.setStyle(sf::Text::Bold);
+	//m_score.setOrigin(m_score.getGlobalBounds().width / 2.0f, 0.0f);
+	//m_score.setPosition(windowSize.x / 2.0f, 32.0f);
 
 	//m_readyLabel.setFont(*fontManager->getResource("Game"));
 	//m_readyLabel.setCharacterSize(20);
@@ -72,7 +72,7 @@ void State_Game::onCreate() {
 
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
 	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape", &State_Game::onQuit, this);
-	// TODO: P for Pause
+	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_P", &State_Game::onPause, this);
 
 	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W", &State_Game::onMove, this);
 	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A", &State_Game::onMove, this);
@@ -88,6 +88,7 @@ void State_Game::onCreate() {
 void State_Game::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
 	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape");
+	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_P");
 	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W");
 	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A");
 	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_S");
@@ -115,22 +116,22 @@ void State_Game::draw() {
 
 	m_stateManager->getContext()->m_systemManager->draw(m_stateManager->getContext()->m_window);
 
-	renderer.draw(m_scoreLabel);
-	renderer.draw(m_score);
-	renderer.draw(m_readyLabel);
+	//renderer.draw(m_scoreLabel);
+	//renderer.draw(m_score);
+	//renderer.draw(m_readyLabel);
 
-	renderer.draw(m_pacmanSprite);
+	//renderer.draw(m_pacmanSprite);
 
-	for (int i = 0; i < m_lives; ++i) {
-		m_liveSprite.setPosition(m_pacmanTexture.getSize().x / 2.0f + m_tileMapManager.getPosition().x + i * 4 + i * m_pacmanTexture.getSize().x,
-			m_tileMapManager.getPosition().y + m_tileMapManager.getMapSize().y);
-		m_liveSprite.setOrigin(0.0f, 0.0f);
-		renderer.draw(m_liveSprite);
-	}
+	//for (int i = 0; i < m_lives; ++i) {
+	//	m_liveSprite.setPosition(m_pacmanTexture.getSize().x / 2.0f + m_tileMapManager.getPosition().x + i * 4 + i * m_pacmanTexture.getSize().x,
+	//		m_tileMapManager.getPosition().y + m_tileMapManager.getMapSize().y);
+	//	m_liveSprite.setOrigin(0.0f, 0.0f);
+	//	renderer.draw(m_liveSprite);
+	//}
 }
 
 void State_Game::onPause(qe::EventDetails * details) {
-	//m_stateManager->changeState(qe::StateType::Pause);
+	m_stateManager->changeState(static_cast<qe::StateType>(StateType::Paused));
 }
 
 void State_Game::onQuit(qe::EventDetails * details) {

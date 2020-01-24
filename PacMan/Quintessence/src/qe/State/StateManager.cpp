@@ -44,7 +44,7 @@ void qe::StateManager::draw() {
 		auto iter = m_states.end();
 		while (iter != m_states.begin()) {
 			if (iter != m_states.end()) {
-				if (!iter->second->isTranscendent()) {
+				if (!iter->second->isTransparent()) {
 					break;
 				}
 			}

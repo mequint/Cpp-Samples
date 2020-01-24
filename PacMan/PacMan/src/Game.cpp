@@ -69,6 +69,7 @@ Game::Game() :
 	// Setup States
 	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));
 	m_stateManager.registerState<State_Game>(static_cast<qe::StateType>(StateType::Game));
+	m_stateManager.registerState<State_Paused>(static_cast<qe::StateType>(StateType::Paused));
 
 	// Change to first state
 	m_stateManager.changeState(static_cast<qe::StateType>(StateType::MainMenu));
