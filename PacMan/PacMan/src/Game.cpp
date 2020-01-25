@@ -54,17 +54,22 @@ Game::Game() :
 
 	m_entityManager.registerComponent<C_Collider>(static_cast<qe::ComponentType>(Component::Collider));
 	m_entityManager.registerComponent<C_Controller>(static_cast<qe::ComponentType>(Component::Controller));
+	m_entityManager.registerComponent<C_Consumable>(static_cast<qe::ComponentType>(Component::Consumable));
 	m_entityManager.registerComponent<C_EntityType>(static_cast<qe::ComponentType>(Component::EntityType));
 	m_entityManager.registerComponent<C_Motion>(static_cast<qe::ComponentType>(Component::Motion));
 	m_entityManager.registerComponent<C_Position>(static_cast<qe::ComponentType>(Component::Position));
 	m_entityManager.registerComponent<C_Sprite>(static_cast<qe::ComponentType>(Component::Sprite));
 	m_entityManager.registerComponent<C_State>(static_cast<qe::ComponentType>(Component::State));
-	
+
+	m_systemManager.registerSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState));
 	m_systemManager.registerSystem<S_Collision>(static_cast<qe::SystemType>(System::Collision));
+	m_systemManager.registerSystem<S_Consumption>(static_cast<qe::SystemType>(System::Consumption));
 	m_systemManager.registerSystem<S_Control>(static_cast<qe::SystemType>(System::Control));
 	m_systemManager.registerSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement));
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 	m_systemManager.registerSystem<S_State>(static_cast<qe::SystemType>(System::State));
+
+	m_systemManager.getSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState))->setStateManager(&m_stateManager);
 
 	// Setup States
 	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));

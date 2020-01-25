@@ -27,6 +27,9 @@ public:
 	void onQuit(qe::EventDetails* details);
 	void onMove(qe::EventDetails* details);
 
+	// State specific methods
+	void nextLevel();
+
 private:
 	void _setupPacmanEntity();
 	void _setupPowerPillEntities();

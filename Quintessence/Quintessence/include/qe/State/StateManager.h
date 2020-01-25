@@ -28,6 +28,12 @@ namespace qe {
 		void removeDeadStates();
 
 		Context* getContext();
+
+		template <class T>
+		T* getCurrentState() {
+			return dynamic_cast<T*>(&(*m_states.back().second.get()));
+		}
+
 		bool hasState(const StateType& type);
 
 		void changeState(const StateType& type);

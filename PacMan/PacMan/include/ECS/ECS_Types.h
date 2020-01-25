@@ -1,11 +1,11 @@
 #pragma once
 
 enum class Component {
-	Collider, Controller, EntityType, Motion, Position, Sprite, State
+	Consumable, Collider, Controller, EntityType, Motion, Position, Sprite, State
 };
 
 enum class System {
-	Collision, Control, Movement, Renderer, State
+	AppState, Collision, Consumption, Control, Movement, Renderer, State
 };
 
 enum class EntityEvent {
@@ -13,5 +13,5 @@ enum class EntityEvent {
 };
 
 enum class EntityMessage {
-	Collide, RequestMove, Stop
+	Collide, NextLevel, RequestMove, Stop
 };

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\S_AppState.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_Consumption.cpp" />
     <ClCompile Include="src\States\State_Pause.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Collision.cpp" />
     <ClCompile Include="src\ECS\Systems\S_State.cpp" />
@@ -37,6 +39,7 @@
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
     <ClInclude Include="include\ECS\Components\C_Collider.h" />
+    <ClInclude Include="include\ECS\Components\C_Consumable.h" />
     <ClInclude Include="include\ECS\Components\C_EntityType.h" />
     <ClInclude Include="include\ECS\Components\C_Controller.h" />
     <ClInclude Include="include\ECS\Components\C_Drawable.h" />
@@ -48,7 +51,9 @@
     <ClInclude Include="include\ECS\PacMan_EntityManager.h" />
     <ClInclude Include="include\ECS\PacMan_SystemManager.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
+    <ClInclude Include="include\ECS\Systems\S_AppState.h" />
     <ClInclude Include="include\ECS\Systems\S_Collision.h" />
+    <ClInclude Include="include\ECS\Systems\S_Consumption.h" />
     <ClInclude Include="include\ECS\Systems\S_Control.h" />
     <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />

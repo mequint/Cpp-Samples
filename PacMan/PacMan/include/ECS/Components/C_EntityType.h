@@ -4,7 +4,7 @@
 
 #include "ECS/ECS_Types.h"
 
-enum class EntityType { PacMan, Dot, Pill };
+enum class EntityType { PacMan, Dot, Pill, Fruit };
 
 class C_EntityType : public qe::C_Base {
 public:
