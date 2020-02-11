@@ -7,6 +7,8 @@
 #include "C_Controller.h"
 #include "C_EntityType.h"
 #include "C_Motion.h"
+#include "C_Points.h"
 #include "C_Position.h"
+#include "C_Score.h"
 #include "C_Sprite.h"
 #include "C_State.h"

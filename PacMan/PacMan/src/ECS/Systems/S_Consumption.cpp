@@ -22,6 +22,10 @@ void S_Consumption::notify(const qe::Message& message) {
 
 	switch (msg) {
 		case EntityMessage::Collide: {
+			qe::Message scoreMessage(static_cast<qe::MessageType>(EntityMessage::UpdateScore));
+			scoreMessage.m_sender = message.m_receiver;
+			m_systemManager->getMessageDispatch()->dispatch(scoreMessage);
+
 			m_systemManager->addEvent(message.m_receiver, static_cast<qe::EntityEventType>(EntityEvent::Remove));
 			break;
 		}

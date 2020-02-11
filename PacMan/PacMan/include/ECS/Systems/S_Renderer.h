@@ -14,4 +14,6 @@ public:
 	void handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event);
 
 	void render(qe::Window* window);
+
+private:
 };

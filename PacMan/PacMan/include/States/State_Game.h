@@ -31,6 +31,7 @@ public:
 	void nextLevel();
 
 private:
+	void _setupScoreEntity();
 	void _setupPacmanEntity();
 	void _setupPowerPillEntities();
 	void _setupPelletEntities();
@@ -39,9 +40,6 @@ private:
 
 	sf::Texture m_pacmanTexture;
 	sf::Sprite m_pacmanSprite;
-
-	sf::Text m_scoreLabel;
-	sf::Text m_score;
 	
 	sf::Text m_readyLabel;
 

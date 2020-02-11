@@ -9,6 +9,7 @@
 Game::Game() :
 	m_window("Pac Man", sf::Vector2u(800, 600)),
 	m_stateManager(&m_context),
+	m_systemManager(&m_fontManager, &m_textureManager, &m_window),
 	m_entityManager(&m_systemManager) {
 
 	m_elapsedTime = m_clock.restart();
@@ -57,7 +58,9 @@ Game::Game() :
 	m_entityManager.registerComponent<C_Consumable>(static_cast<qe::ComponentType>(Component::Consumable));
 	m_entityManager.registerComponent<C_EntityType>(static_cast<qe::ComponentType>(Component::EntityType));
 	m_entityManager.registerComponent<C_Motion>(static_cast<qe::ComponentType>(Component::Motion));
+	m_entityManager.registerComponent<C_Points>(static_cast<qe::ComponentType>(Component::Points));
 	m_entityManager.registerComponent<C_Position>(static_cast<qe::ComponentType>(Component::Position));
+	m_entityManager.registerComponent<C_Score>(static_cast<qe::ComponentType>(Component::Score));
 	m_entityManager.registerComponent<C_Sprite>(static_cast<qe::ComponentType>(Component::Sprite));
 	m_entityManager.registerComponent<C_State>(static_cast<qe::ComponentType>(Component::State));
 
@@ -65,8 +68,10 @@ Game::Game() :
 	m_systemManager.registerSystem<S_Collision>(static_cast<qe::SystemType>(System::Collision));
 	m_systemManager.registerSystem<S_Consumption>(static_cast<qe::SystemType>(System::Consumption));
 	m_systemManager.registerSystem<S_Control>(static_cast<qe::SystemType>(System::Control));
+	m_systemManager.registerSystem<S_GameUI>(static_cast<qe::SystemType>(System::GameUI));
 	m_systemManager.registerSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement));
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
+	m_systemManager.registerSystem<S_Scoring>(static_cast<qe::SystemType>(System::Scoring));
 	m_systemManager.registerSystem<S_State>(static_cast<qe::SystemType>(System::State));
 
 	m_systemManager.getSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState))->setStateManager(&m_stateManager);

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\S_GameUI.cpp" />
+    <ClCompile Include="src\UI\Label.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_Scoring.cpp" />
     <ClCompile Include="src\ECS\Systems\S_AppState.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Consumption.cpp" />
     <ClCompile Include="src\States\State_Pause.cpp" />
@@ -44,7 +47,9 @@
     <ClInclude Include="include\ECS\Components\C_Controller.h" />
     <ClInclude Include="include\ECS\Components\C_Drawable.h" />
     <ClInclude Include="include\ECS\Components\C_Motion.h" />
+    <ClInclude Include="include\ECS\Components\C_Points.h" />
     <ClInclude Include="include\ECS\Components\C_Position.h" />
+    <ClInclude Include="include\ECS\Components\C_Score.h" />
     <ClInclude Include="include\ECS\Components\C_Sprite.h" />
     <ClInclude Include="include\ECS\Components\C_State.h" />
     <ClInclude Include="include\ECS\ECS_Types.h" />
@@ -55,8 +60,10 @@
     <ClInclude Include="include\ECS\Systems\S_Collision.h" />
     <ClInclude Include="include\ECS\Systems\S_Consumption.h" />
     <ClInclude Include="include\ECS\Systems\S_Control.h" />
+    <ClInclude Include="include\ECS\Systems\S_GameUI.h" />
     <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
+    <ClInclude Include="include\ECS\Systems\S_Scoring.h" />
     <ClInclude Include="include\ECS\Systems\S_State.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\States\States.h" />
@@ -67,6 +74,7 @@
     <ClInclude Include="include\Tile\Tile.h" />
     <ClInclude Include="include\Tile\TileMap.h" />
     <ClInclude Include="include\Tile\TileMapManager.h" />
+    <ClInclude Include="include\UI\Label.h" />
     <ClInclude Include="include\Utilities\Directions.h" />
   </ItemGroup>
   <ItemGroup>
