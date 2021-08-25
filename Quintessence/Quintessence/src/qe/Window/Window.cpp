@@ -19,7 +19,7 @@ qe::Window::Window(const std::string& title, const sf::Vector2u& windowSize) :
 	m_isFullscreen(false),
 	m_hasFocus(true) {
 
-	m_eventManager.addCallback(StateType(0), "Window_Close", &Window::close, this);
+	m_eventManager.addCallback("Global", "Window_Close", &Window::close, this);
 
 	_create();
 }

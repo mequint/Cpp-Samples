@@ -11,7 +11,7 @@ namespace qe {
 	using Bindings = std::unordered_map<std::string, std::shared_ptr<EventBinding>>;
 	using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails*)>>;
 
-	using Callbacks = std::unordered_map<StateType, CallbackContainer>;
+	using Callbacks = std::unordered_map<std::string, CallbackContainer>;
 
 	class EventManager : public StateObserver {
 	public:
@@ -25,7 +25,7 @@ namespace qe {
 		void setFocus(bool focus);
 
 		template <class T>
-		bool addCallback(const StateType& state, const std::string& name,
+		bool addCallback(const std::string& state, const std::string& name,
 			void(T::*function)(EventDetails*), T* instance) {
 
 			auto iter = m_callbacks.emplace(state, CallbackContainer()).first;
@@ -39,7 +39,7 @@ namespace qe {
 			return addCallback<T>(m_currentState, name, function, instance);
 		}
 
-		bool removeCallback(const StateType& state, const std::string& name);
+		bool removeCallback(const std::string& state, const std::string& name);
 
 		void handleEvent(sf::Event& event);
 
@@ -48,8 +48,8 @@ namespace qe {
 		sf::Vector2i getMousePosition(sf::Window* window = nullptr) const;
 
 		// Inherited via StateObserver
-		void changeState(const StateType & state) override;
-		void removeState(const StateType & state) override;
+		void changeState(const std::string& state) override;
+		void removeState(const std::string& state) override;
 
 	protected:
 		Bindings m_bindings;

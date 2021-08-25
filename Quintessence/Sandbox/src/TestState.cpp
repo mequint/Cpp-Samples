@@ -51,8 +51,9 @@ void TestState::onCreate() {
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down", &TestState::onClose, this);
-	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Down", &TestState::onClick, this);
+	events->addCallback(StateType::Game, "Key_Enter_Down", &TestState::onNextScreen, this);
+	events->addCallback(StateType::Game, "Key_Escape_Down", &TestState::onClose, this);
+	events->addCallback(StateType::Game, "Left_Button_Down", &TestState::onClick, this);
 }
 
 void TestState::onDestroy() {
@@ -60,8 +61,8 @@ void TestState::onDestroy() {
 
 	// Remove callbacks from event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down");
-	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Donw");
+	events->removeCallback(StateType::Game, "Key_Escape_Down");
+	events->removeCallback(StateType::Game, "Left_Button_Donw");
 }
 
 void TestState::onEnter() {
@@ -74,6 +75,9 @@ void TestState::onEnter() {
 
 void TestState::onExit() {
 	std::cout << "Exiting TestState" << std::endl;
+
+	auto window = m_stateManager->getContext()->m_window;
+	window->setCursor(qe::CursorType::Arrow);
 }
 
 void TestState::update(const sf::Time& time) {
@@ -82,11 +86,14 @@ void TestState::update(const sf::Time& time) {
 
 void TestState::draw() {
 	m_stateManager->getContext()->m_systemManager->draw(m_stateManager->getContext()->m_window);
-	//renderer->draw(m_sprite);
 
 	// GUI Rendering
 	auto renderer = m_stateManager->getContext()->m_window->getRenderWindow();
 	renderer->draw(m_text);
+}
+
+void TestState::onNextScreen(qe::EventDetails* details) {
+	m_stateManager->changeState(StateType::NextState);
 }
 
 void TestState::onClose(qe::EventDetails * details) {

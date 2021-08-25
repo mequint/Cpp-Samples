@@ -4,6 +4,7 @@
 #include "ECS/Systems/Systems.h"
 
 #include "StateTypes.h"
+#include "NextState.h"
 #include "TestState.h"
 
 TestApp::TestApp() : 
@@ -27,6 +28,7 @@ TestApp::TestApp() :
 
 	// Setup Bindings
 	m_window.getEventManager()->addBinding("Window_Close", static_cast<int>(qe::EventType::Closed), 0);
+	m_window.getEventManager()->addBinding("Key_Enter_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Enter));
 	m_window.getEventManager()->addBinding("Key_Escape_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Escape));
 	m_window.getEventManager()->addBinding("Left_Button_Down", static_cast<int>(qe::EventType::MButtonDown), static_cast<int>(sf::Mouse::Button::Left));
 
@@ -45,10 +47,11 @@ TestApp::TestApp() :
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 
 	// Setup State
-	m_stateManager.registerState<TestState>(static_cast<qe::StateType>(StateType::Game));
+	m_stateManager.registerState<TestState>(StateType::Game);
+	m_stateManager.registerState<NextState>(StateType::NextState);
 
 	// Change to first state
-	m_stateManager.changeState(static_cast<qe::StateType>(StateType::Game));
+	m_stateManager.changeState(StateType::Game);
 }
 
 void TestApp::update() {

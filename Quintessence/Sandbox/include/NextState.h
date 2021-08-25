@@ -5,9 +5,9 @@
 #include "qe/State/BaseState.h"
 #include "qe/Window/EventManager.h"
 
-class TestState : public qe::BaseState{
+class NextState : public qe::BaseState {
 public:
-	TestState(qe::StateManager* stateManager);
+	NextState(qe::StateManager* stateManager);
 
 	// Inherited via BaseState
 	virtual void onCreate() override;
@@ -18,11 +18,8 @@ public:
 	virtual void draw() override;
 
 	// Callbacks
-	void onNextScreen(qe::EventDetails* details);
 	void onClose(qe::EventDetails* details);
-	void onClick(qe::EventDetails* details);
 
 private:
 	sf::Text m_text;
-	sf::Sprite m_sprite;
 };
