@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "qe/Animation/SpriteAnimation.h"
 #include "qe/State/BaseState.h"
 #include "qe/Window/EventManager.h"
 
@@ -25,4 +26,5 @@ public:
 private:
 	sf::Text m_text;
 	sf::Sprite m_sprite;
+	std::unique_ptr<qe::SpriteAnimation> m_animation;
 };

@@ -34,6 +34,7 @@ TestApp::TestApp() :
 
 	// Load Textures
 	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");
+	m_textureManager.loadResource("AnimatedPacMan", "../media/Textures/AnimatedPacMan.png");
 
 	// Load Fonts
 	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");

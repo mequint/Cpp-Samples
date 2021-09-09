@@ -14,7 +14,7 @@
 #include "StateTypes.h"
 
 TestState::TestState(qe::StateManager * stateManager) :
-	BaseState(stateManager) {
+	BaseState(stateManager), m_animation(nullptr) {
 }
 
 void TestState::onCreate() {
@@ -23,6 +23,7 @@ void TestState::onCreate() {
 	// Setup texture
 	auto textures = m_stateManager->getContext()->m_textureManager;
 	auto texture = textures->getResource("PacMan");
+	auto animatedTexture = textures->getResource("AnimatedPacMan");
 	//m_sprite.setTexture(*texture);
 	//m_sprite.setOrigin(texture->getSize().x / 2.0f, texture->getSize().y / 2.0f);
 
@@ -48,6 +49,21 @@ void TestState::onCreate() {
 
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textures, "PacMan");
+
+	// Setup animated sprite
+	auto moveRight = std::make_unique<qe::AnimationControl>();
+	moveRight->setName("MoveRight");
+	moveRight->setStartFrame(0);
+	moveRight->setEndFrame(7);
+	moveRight->setFrameTime(1.0f / 24.0f);
+	moveRight->setFrameAction(qe::eAnimationAction::Loop);
+
+	m_animation = std::make_unique<qe::SpriteAnimation>(textures);
+	m_animation->addAnimation(std::move(moveRight));
+	m_animation->setTexture("AnimatedPacMan");
+	m_animation->setFrameSize(16, 16);
+	m_animation->setPosition(340.0f, 314.0f);
+	m_animation->changeAnimation("MoveRight", true);
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
@@ -82,14 +98,18 @@ void TestState::onExit() {
 
 void TestState::update(const sf::Time& time) {
 	m_stateManager->getContext()->m_systemManager->update(time.asSeconds());
+	m_animation->update(time.asSeconds());
 }
 
 void TestState::draw() {
-	m_stateManager->getContext()->m_systemManager->draw(m_stateManager->getContext()->m_window);
+	auto window = m_stateManager->getContext()->m_window;
+	//m_stateManager->getContext()->m_systemManager->draw(window);
 
 	// GUI Rendering
-	auto renderer = m_stateManager->getContext()->m_window->getRenderWindow();
+	auto renderer = window->getRenderWindow();
 	renderer->draw(m_text);
+
+	m_animation->draw(renderer);
 }
 
 void TestState::onNextScreen(qe::EventDetails* details) {
