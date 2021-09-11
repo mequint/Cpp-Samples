@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="include\qe\Animation\AnimationControl.h" />
     <ClInclude Include="include\qe\Animation\SpriteAnimation.h" />
+    <ClInclude Include="include\qe\Animation\SpriteLoader.h" />
     <ClInclude Include="include\qe\ECS\C_Base.h" />
     <ClInclude Include="include\qe\ECS\EntityEventType.h" />
     <ClInclude Include="include\qe\ECS\EntityManager.h" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <ClCompile Include="src\qe\Animation\SpriteAnimation.cpp" />
     <ClCompile Include="src\qe\Animation\AnimationControl.cpp" />
+    <ClCompile Include="src\qe\Animation\SpriteLoader.cpp" />
     <ClCompile Include="src\qe\ECS\SystemManager.cpp" />
     <ClCompile Include="src\qe\ECS\S_Base.cpp" />
     <ClCompile Include="src\qe\ECS\EntityManager.cpp" />
@@ -108,14 +110,19 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;C:\src\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -129,7 +136,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;C:\src\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

@@ -67,18 +67,21 @@ bool qe::SpriteAnimation::changeAnimation(const std::string & action, bool play)
 }
 
 void qe::SpriteAnimation::update(float dt) {
-	m_currentAnimation->update(dt);
+	if (m_currentAnimation != nullptr) {
+		m_currentAnimation->update(dt);
+	}
 }
 
 void qe::SpriteAnimation::draw(sf::RenderTarget* renderTarget) {
-	sf::IntRect frame(
-		static_cast<int>(m_frameSize.x * m_currentAnimation->getCurrentFrame()),
-		static_cast<int>(m_frameSize.y * m_currentAnimation->getFrameRow()),
-		static_cast<int>(m_frameSize.x),
-		static_cast<int>(m_frameSize.y)
-	);
-
-	m_sprite.setTextureRect(frame);
-
-	renderTarget->draw(m_sprite);
+	if (m_currentAnimation != nullptr) {
+ 		sf::IntRect frame(
+			static_cast<int>(m_frameSize.x * m_currentAnimation->getCurrentFrame()),
+			static_cast<int>(m_frameSize.y * m_currentAnimation->getFrameRow()),
+			static_cast<int>(m_frameSize.x),
+			static_cast<int>(m_frameSize.y)
+		); 
+		
+		m_sprite.setTextureRect(frame);
+		renderTarget->draw(m_sprite);
+	}
 }

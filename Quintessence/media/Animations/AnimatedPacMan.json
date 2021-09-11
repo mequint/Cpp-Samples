@@ -1,0 +1,30 @@
+{
+	"textureName": "AnimatedPacMan",
+	"frameSize": {
+		"width": 16,
+		"height": 16
+	},
+	"position": {
+		"x": 340.0,
+		"y": 314.0
+	},
+	"animations": [
+		{
+			"name": "MoveRight",
+			"startFrame": 0,
+			"endFrame": 7,
+			"frameRow": 0,
+			"frameTime": 0.0416666667,
+			"frameAction": 2
+		},
+		{
+			"name": "StopRight",
+			"startFrame": 0,
+			"endFrame": 0,
+			"frameRow": 0,
+			"frameTime": 0,
+			"frameAction": 0
+		}
+	],
+	"currentAnimation": "StopRight"
+}

@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+#include "qe/Animation/SpriteLoader.h"
 #include "qe/Context.h"
 #include "qe/ECS/SystemManager.h"
 #include "qe/State/StateManager.h"
 #include "qe/Resource/FontManager.h"
 #include "qe/Resource/TextureManager.h"
+#include "qe/Utilities/Utilities.h"
 #include "qe/Window/Window.h"
 
 #include "ECS/ECSTypes.h"
@@ -51,19 +53,8 @@ void TestState::onCreate() {
 	sprite->create(textures, "PacMan");
 
 	// Setup animated sprite
-	auto moveRight = std::make_unique<qe::AnimationControl>();
-	moveRight->setName("MoveRight");
-	moveRight->setStartFrame(0);
-	moveRight->setEndFrame(7);
-	moveRight->setFrameTime(1.0f / 24.0f);
-	moveRight->setFrameAction(qe::eAnimationAction::Loop);
-
-	m_animation = std::make_unique<qe::SpriteAnimation>(textures);
-	m_animation->addAnimation(std::move(moveRight));
-	m_animation->setTexture("AnimatedPacMan");
-	m_animation->setFrameSize(16, 16);
-	m_animation->setPosition(340.0f, 314.0f);
-	m_animation->changeAnimation("MoveRight", true);
+	qe::SpriteLoader spriteLoader(textures);
+	m_animation = spriteLoader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/Animations/AnimatedPacMan.json");
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
@@ -87,6 +78,8 @@ void TestState::onEnter() {
 	auto window = m_stateManager->getContext()->m_window;
 	window->setCursor("../media/Cursors/SwordCursor.png", sf::Vector2u(0, 16));
 	//window.setCursor(qe::CursorType::Text);
+
+	m_animation->changeAnimation("MoveRight", true);
 }
 
 void TestState::onExit() {
@@ -94,6 +87,8 @@ void TestState::onExit() {
 
 	auto window = m_stateManager->getContext()->m_window;
 	window->setCursor(qe::CursorType::Arrow);
+
+	m_animation->changeAnimation("StopRight", true);
 }
 
 void TestState::update(const sf::Time& time) {
