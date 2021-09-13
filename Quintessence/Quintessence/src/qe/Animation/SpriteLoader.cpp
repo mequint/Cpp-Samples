@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <iostream>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include "qe/Animation/SpriteLoader.h"
@@ -120,7 +119,7 @@ std::unique_ptr<qe::SpriteAnimation> qe::SpriteLoader::loadFromJsonFile(const st
 
 	// Current animation
 	if (json.contains("currentAnimation") && json["currentAnimation"].is_string()) {
-		sprite->changeAnimation(json["currentAnimation"].get<std::string>());
+		sprite->changeAnimation(json["currentAnimation"].get<std::string>(), true);
 	}
 
 	return sprite;

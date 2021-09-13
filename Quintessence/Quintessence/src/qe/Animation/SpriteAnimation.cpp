@@ -75,8 +75,8 @@ void qe::SpriteAnimation::update(float dt) {
 void qe::SpriteAnimation::draw(sf::RenderTarget* renderTarget) {
 	if (m_currentAnimation != nullptr) {
  		sf::IntRect frame(
-			static_cast<int>(m_frameSize.x * m_currentAnimation->getCurrentFrame()),
-			static_cast<int>(m_frameSize.y * m_currentAnimation->getFrameRow()),
+			static_cast<int>(m_frameSize.x) * m_currentAnimation->getCurrentFrame(),
+			static_cast<int>(m_frameSize.y) * m_currentAnimation->getFrameRow(),
 			static_cast<int>(m_frameSize.x),
 			static_cast<int>(m_frameSize.y)
 		); 
