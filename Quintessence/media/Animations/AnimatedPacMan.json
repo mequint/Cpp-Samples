@@ -1,0 +1,78 @@
+{
+	"textureName": "AnimatedPacMan",
+	"frameSize": {
+		"width": 16,
+		"height": 16
+	},
+	"position": {
+		"x": 340.0,
+		"y": 314.0
+	},
+	"animations": [
+		{
+			"name": "MoveRight",
+			"startFrame": 0,
+			"endFrame": 7,
+			"frameRow": 0,
+			"frameTime": 0.0416666667,
+			"frameAction": 2
+		},
+		{
+			"name": "StopRight",
+			"startFrame": 0,
+			"endFrame": 0,
+			"frameRow": 0,
+			"frameTime": 0,
+			"frameAction": 0
+		},
+				{
+			"name": "MoveUp",
+			"startFrame": 0,
+			"endFrame": 7,
+			"frameRow": 1,
+			"frameTime": 0.0416666667,
+			"frameAction": 2
+		},
+		{
+			"name": "StopUp",
+			"startFrame": 0,
+			"endFrame": 0,
+			"frameRow": 1,
+			"frameTime": 0,
+			"frameAction": 0
+		},
+				{
+			"name": "MoveLeft",
+			"startFrame": 0,
+			"endFrame": 7,
+			"frameRow": 2,
+			"frameTime": 0.0416666667,
+			"frameAction": 2
+		},
+		{
+			"name": "StopLeft",
+			"startFrame": 0,
+			"endFrame": 0,
+			"frameRow": 2,
+			"frameTime": 0,
+			"frameAction": 0
+		},
+				{
+			"name": "MoveDown",
+			"startFrame": 0,
+			"endFrame": 7,
+			"frameRow": 0,
+			"frameTime": 0.0416666667,
+			"frameAction": 2
+		},
+		{
+			"name": "StopDown",
+			"startFrame": 0,
+			"endFrame": 0,
+			"frameRow": 0,
+			"frameTime": 0,
+			"frameAction": 0
+		}
+	],
+	"currentAnimation": "MoveLeft"
+}

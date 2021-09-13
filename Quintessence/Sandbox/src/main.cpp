@@ -17,5 +17,5 @@ int main() {
 // Update the Resource Manager to load bindings via config file
 
 // ARCHITECTURE:
-// State Manager is currently tied to an enum class, this limits the state types that can be registered..
-//		Consider replacing StateType with a string name
+//	Move away from the enum/unsigned int based events
+//	Add a state type string to the ECS to separate out entities per state

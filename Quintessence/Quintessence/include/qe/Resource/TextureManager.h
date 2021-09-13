@@ -9,7 +9,16 @@ namespace qe {
 	class TextureManager : public ResourceManager<TextureManager, sf::Texture> {
 	public:
 		bool load(sf::Texture* resource, const std::string& path) {
-			return resource->loadFromFile(Utils::getWorkingDirectory() + path);
+			auto loadedSuccessfully = false;
+
+			// Load from file
+			if (resource->loadFromFile(Utils::getWorkingDirectory() + path)) {
+				loadedSuccessfully = true;
+			}
+
+			// TODO: Set the resource to a "null texture"
+
+			return loadedSuccessfully;
 		}
 	};
 }

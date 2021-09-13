@@ -7,14 +7,13 @@
 
 #include "BaseState.h"
 #include "StateObserver.h"
-#include "StateType.h"
 
 namespace qe {
 	struct Context;
 
-	using StateContainer = std::vector<std::pair<StateType, std::unique_ptr<BaseState>>>;
-	using TypeContainer = std::vector<StateType>;
-	using StateFactory = std::unordered_map<StateType, std::function<BaseState*(void)>>;
+	using StateContainer = std::vector<std::pair<std::string, std::unique_ptr<BaseState>>>;
+	using TypeContainer = std::vector<std::string>;
+	using StateFactory = std::unordered_map<std::string, std::function<BaseState*(void)>>;
 
 	using StateObservers = std::vector<StateObserver*>;
 
@@ -34,13 +33,13 @@ namespace qe {
 			return dynamic_cast<T*>(&(*m_states.back().second.get()));
 		}
 
-		bool hasState(const StateType& type);
+		bool hasState(const std::string& type);
 
-		void changeState(const StateType& type);
-		void remove(const StateType& type);
+		void changeState(const std::string& type);
+		void remove(const std::string& type);
 
 		template <class T>
-		void registerState(const StateType& type) {
+		void registerState(const std::string& type) {
 			m_stateFactory[type] = [this]()->BaseState* {
 				return new T(this);
 			};
@@ -50,8 +49,8 @@ namespace qe {
 		void removeObserver(StateObserver* observer);
 
 	private:
-		void _createState(const StateType& type);
-		void _removeState(const StateType& type);
+		void _createState(const std::string& type);
+		void _removeState(const std::string& type);
 
 		Context* m_context;
 

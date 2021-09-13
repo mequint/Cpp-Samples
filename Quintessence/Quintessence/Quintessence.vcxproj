@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\qe\Animation\AnimationControl.h" />
+    <ClInclude Include="include\qe\Animation\SpriteAnimation.h" />
+    <ClInclude Include="include\qe\Animation\SpriteLoader.h" />
     <ClInclude Include="include\qe\ECS\C_Base.h" />
     <ClInclude Include="include\qe\ECS\EntityEventType.h" />
     <ClInclude Include="include\qe\ECS\EntityManager.h" />
@@ -34,12 +37,12 @@
     <ClInclude Include="include\qe\State\BaseState.h" />
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
-    <ClInclude Include="include\qe\State\StateType.h" />
     <ClInclude Include="include\qe\Messaging\Subscriber.h" />
     <ClInclude Include="include\qe\Utilities\Utilities.h" />
     <ClInclude Include="include\qe\Window\EventBinding.h" />
     <ClInclude Include="include\qe\Window\EventDetails.h" />
     <ClInclude Include="include\qe\Window\EventInfo.h" />
+    <ClInclude Include="include\qe\Window\EventLoader.h" />
     <ClInclude Include="include\qe\Window\EventManager.h" />
     <ClInclude Include="include\qe\Window\EventTypes.h" />
     <ClInclude Include="include\qe\Window\Window.h" />
@@ -47,10 +50,14 @@
     <ClInclude Include="include\qe\Context.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\qe\Animation\SpriteAnimation.cpp" />
+    <ClCompile Include="src\qe\Animation\AnimationControl.cpp" />
+    <ClCompile Include="src\qe\Animation\SpriteLoader.cpp" />
     <ClCompile Include="src\qe\ECS\SystemManager.cpp" />
     <ClCompile Include="src\qe\ECS\S_Base.cpp" />
     <ClCompile Include="src\qe\ECS\EntityManager.cpp" />
     <ClCompile Include="src\qe\State\StateManager.cpp" />
+    <ClCompile Include="src\qe\Window\EventLoader.cpp" />
     <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />
   </ItemGroup>
@@ -105,14 +112,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;C:\src\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -125,7 +138,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\src\SFML-2.5.1\include;$(ProjectDir)include;C:\src\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\src\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

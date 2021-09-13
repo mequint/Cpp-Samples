@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+#include "qe/Animation/SpriteLoader.h"
 #include "qe/Context.h"
 #include "qe/ECS/SystemManager.h"
 #include "qe/State/StateManager.h"
 #include "qe/Resource/FontManager.h"
 #include "qe/Resource/TextureManager.h"
+#include "qe/Utilities/Utilities.h"
 #include "qe/Window/Window.h"
 
 #include "ECS/ECSTypes.h"
@@ -14,7 +16,7 @@
 #include "StateTypes.h"
 
 TestState::TestState(qe::StateManager * stateManager) :
-	BaseState(stateManager) {
+	BaseState(stateManager), m_animation(nullptr) {
 }
 
 void TestState::onCreate() {
@@ -23,6 +25,7 @@ void TestState::onCreate() {
 	// Setup texture
 	auto textures = m_stateManager->getContext()->m_textureManager;
 	auto texture = textures->getResource("PacMan");
+	auto animatedTexture = textures->getResource("AnimatedPacMan");
 	//m_sprite.setTexture(*texture);
 	//m_sprite.setOrigin(texture->getSize().x / 2.0f, texture->getSize().y / 2.0f);
 
@@ -49,10 +52,15 @@ void TestState::onCreate() {
 	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
 	sprite->create(textures, "PacMan");
 
+	// Setup animated sprite
+	qe::SpriteLoader spriteLoader(textures);
+	m_animation = spriteLoader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/Animations/AnimatedPacMan.json");
+
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down", &TestState::onClose, this);
-	events->addCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Down", &TestState::onClick, this);
+	events->addCallback(StateType::Game, "Enter_KeyDown", &TestState::onNextScreen, this);
+	events->addCallback(StateType::Game, "Escape_KeyDown", &TestState::onClose, this);
+	events->addCallback(StateType::Game, "Left_MouseButtonDown", &TestState::onClick, this);
 }
 
 void TestState::onDestroy() {
@@ -60,8 +68,9 @@ void TestState::onDestroy() {
 
 	// Remove callbacks from event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Key_Escape_Down");
-	events->removeCallback(static_cast<qe::StateType>(StateType::Game), "Left_Button_Donw");
+	events->removeCallback(StateType::Game, "Enter_KeyDown");
+	events->removeCallback(StateType::Game, "Escape_KeyDown");
+	events->removeCallback(StateType::Game, "Left_MouseButtonDown");
 }
 
 void TestState::onEnter() {
@@ -70,23 +79,37 @@ void TestState::onEnter() {
 	auto window = m_stateManager->getContext()->m_window;
 	window->setCursor("../media/Cursors/SwordCursor.png", sf::Vector2u(0, 16));
 	//window.setCursor(qe::CursorType::Text);
+
+	m_animation->changeAnimation("MoveDown", true);
 }
 
 void TestState::onExit() {
 	std::cout << "Exiting TestState" << std::endl;
+
+	auto window = m_stateManager->getContext()->m_window;
+	window->setCursor(qe::CursorType::Arrow);
+
+	m_animation->changeAnimation("StopLeft", true);
 }
 
 void TestState::update(const sf::Time& time) {
 	m_stateManager->getContext()->m_systemManager->update(time.asSeconds());
+	m_animation->update(time.asSeconds());
 }
 
 void TestState::draw() {
-	m_stateManager->getContext()->m_systemManager->draw(m_stateManager->getContext()->m_window);
-	//renderer->draw(m_sprite);
+	auto window = m_stateManager->getContext()->m_window;
+	//m_stateManager->getContext()->m_systemManager->draw(window);
 
 	// GUI Rendering
-	auto renderer = m_stateManager->getContext()->m_window->getRenderWindow();
+	auto renderer = window->getRenderWindow();
 	renderer->draw(m_text);
+
+	m_animation->draw(renderer);
+}
+
+void TestState::onNextScreen(qe::EventDetails* details) {
+	m_stateManager->changeState(StateType::NextState);
 }
 
 void TestState::onClose(qe::EventDetails * details) {

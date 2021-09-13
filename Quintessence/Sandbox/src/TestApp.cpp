@@ -3,7 +3,10 @@
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
 
+#include "qe/Window/EventLoader.h"
+
 #include "StateTypes.h"
+#include "NextState.h"
 #include "TestState.h"
 
 TestApp::TestApp() : 
@@ -26,12 +29,12 @@ TestApp::TestApp() :
 	m_stateManager.registerObserver(m_context.m_eventManager);
 
 	// Setup Bindings
-	m_window.getEventManager()->addBinding("Window_Close", static_cast<int>(qe::EventType::Closed), 0);
-	m_window.getEventManager()->addBinding("Key_Escape_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Escape));
-	m_window.getEventManager()->addBinding("Left_Button_Down", static_cast<int>(qe::EventType::MButtonDown), static_cast<int>(sf::Mouse::Button::Left));
+	qe::EventLoader loader(m_window.getEventManager());
+	loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/eventBindings.json");
 
 	// Load Textures
 	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");
+	m_textureManager.loadResource("AnimatedPacMan", "../media/Textures/AnimatedPacMan.png");
 
 	// Load Fonts
 	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");
@@ -45,10 +48,11 @@ TestApp::TestApp() :
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 
 	// Setup State
-	m_stateManager.registerState<TestState>(static_cast<qe::StateType>(StateType::Game));
+	m_stateManager.registerState<TestState>(StateType::Game);
+	m_stateManager.registerState<NextState>(StateType::NextState);
 
 	// Change to first state
-	m_stateManager.changeState(static_cast<qe::StateType>(StateType::Game));
+	m_stateManager.changeState(StateType::Game);
 }
 
 void TestApp::update() {

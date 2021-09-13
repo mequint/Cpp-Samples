@@ -22,6 +22,7 @@
     <ClCompile Include="src\ECS\Systems\S_Renderer.cpp" />
     <ClCompile Include="src\ECS\Test_EntityManager.cpp" />
     <ClCompile Include="src\ECS\Test_SystemManager.cpp" />
+    <ClCompile Include="src\NextState.cpp" />
     <ClCompile Include="src\TestApp.cpp" />
     <ClCompile Include="src\TestState.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="include\ECS\ECSTypes.h" />
     <ClInclude Include="include\ECS\Systems\Systems.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
+    <ClInclude Include="include\NextState.h" />
     <ClInclude Include="include\StateTypes.h" />
     <ClInclude Include="include\TestApp.h" />
     <ClInclude Include="include\ECS\Test_EntityManager.h" />
