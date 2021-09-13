@@ -58,9 +58,9 @@ void TestState::onCreate() {
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(StateType::Game, "Key_Enter_Down", &TestState::onNextScreen, this);
-	events->addCallback(StateType::Game, "Key_Escape_Down", &TestState::onClose, this);
-	events->addCallback(StateType::Game, "Left_Button_Down", &TestState::onClick, this);
+	events->addCallback(StateType::Game, "Enter_KeyDown", &TestState::onNextScreen, this);
+	events->addCallback(StateType::Game, "Escape_KeyDown", &TestState::onClose, this);
+	events->addCallback(StateType::Game, "Left_MouseButtonDown", &TestState::onClick, this);
 }
 
 void TestState::onDestroy() {
@@ -68,8 +68,9 @@ void TestState::onDestroy() {
 
 	// Remove callbacks from event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->removeCallback(StateType::Game, "Key_Escape_Down");
-	events->removeCallback(StateType::Game, "Left_Button_Donw");
+	events->removeCallback(StateType::Game, "Enter_KeyDown");
+	events->removeCallback(StateType::Game, "Escape_KeyDown");
+	events->removeCallback(StateType::Game, "Left_MouseButtonDown");
 }
 
 void TestState::onEnter() {
@@ -79,7 +80,7 @@ void TestState::onEnter() {
 	window->setCursor("../media/Cursors/SwordCursor.png", sf::Vector2u(0, 16));
 	//window.setCursor(qe::CursorType::Text);
 
-	m_animation->changeAnimation("MoveRight", true);
+	m_animation->changeAnimation("MoveDown", true);
 }
 
 void TestState::onExit() {
@@ -88,7 +89,7 @@ void TestState::onExit() {
 	auto window = m_stateManager->getContext()->m_window;
 	window->setCursor(qe::CursorType::Arrow);
 
-	m_animation->changeAnimation("StopRight", true);
+	m_animation->changeAnimation("StopLeft", true);
 }
 
 void TestState::update(const sf::Time& time) {

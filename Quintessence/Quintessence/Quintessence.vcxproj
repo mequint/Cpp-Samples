@@ -42,6 +42,7 @@
     <ClInclude Include="include\qe\Window\EventBinding.h" />
     <ClInclude Include="include\qe\Window\EventDetails.h" />
     <ClInclude Include="include\qe\Window\EventInfo.h" />
+    <ClInclude Include="include\qe\Window\EventLoader.h" />
     <ClInclude Include="include\qe\Window\EventManager.h" />
     <ClInclude Include="include\qe\Window\EventTypes.h" />
     <ClInclude Include="include\qe\Window\Window.h" />
@@ -56,6 +57,7 @@
     <ClCompile Include="src\qe\ECS\S_Base.cpp" />
     <ClCompile Include="src\qe\ECS\EntityManager.cpp" />
     <ClCompile Include="src\qe\State\StateManager.cpp" />
+    <ClCompile Include="src\qe\Window\EventLoader.cpp" />
     <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />
   </ItemGroup>

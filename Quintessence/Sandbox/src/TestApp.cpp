@@ -3,6 +3,8 @@
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
 
+#include "qe/Window/EventLoader.h"
+
 #include "StateTypes.h"
 #include "NextState.h"
 #include "TestState.h"
@@ -27,10 +29,8 @@ TestApp::TestApp() :
 	m_stateManager.registerObserver(m_context.m_eventManager);
 
 	// Setup Bindings
-	m_window.getEventManager()->addBinding("Window_Close", static_cast<int>(qe::EventType::Closed), 0);
-	m_window.getEventManager()->addBinding("Key_Enter_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Enter));
-	m_window.getEventManager()->addBinding("Key_Escape_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Escape));
-	m_window.getEventManager()->addBinding("Left_Button_Down", static_cast<int>(qe::EventType::MButtonDown), static_cast<int>(sf::Mouse::Button::Left));
+	qe::EventLoader loader(m_window.getEventManager());
+	loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/eventBindings.json");
 
 	// Load Textures
 	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");

@@ -64,3 +64,7 @@ Books/SFML Game Development by Example/Chapter 13/Chat/Server/Release/
 Books/SFML Game Development by Example/Chapter 13/Chat/Client/Release/
 *.db-shm
 *.db-wal
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
+/Quintessence/.vs/config/applicationhost.config

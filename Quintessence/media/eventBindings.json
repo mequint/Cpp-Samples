@@ -1,0 +1,24 @@
+{
+	"events": [
+		{
+			"name": "CloseWindow",
+			"eventType": 0,
+			"eventCode": 0
+		},
+		{
+			"name": "Enter_KeyDown",
+			"eventType": 5,
+			"eventCode": 58
+		},
+		{
+			"name": "Escape_KeyDown",
+			"eventType": 5,
+			"eventCode": 36
+		},
+		{
+			"name": "Left_MouseButtonDown",
+			"eventType": 9,
+			"eventCode": 0
+		}		
+	]
+}

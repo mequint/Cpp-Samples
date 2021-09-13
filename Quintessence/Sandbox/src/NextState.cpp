@@ -30,7 +30,7 @@ void NextState::onCreate() {
 
 	// Add callbacks to event manager
 	auto events = m_stateManager->getContext()->m_eventManager;
-	events->addCallback(StateType::NextState, "Key_Escape_Down", &NextState::onClose, this);
+	events->addCallback(StateType::NextState, "Escape_KeyDown", &NextState::onClose, this);
 }
 
 void NextState::onDestroy() {
