@@ -5,7 +5,7 @@
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
-#include "StateTypes.h"
+#include "States/StateTypes.h"
 
 State_Paused::State_Paused(qe::StateManager * stateManager) : qe::BaseState(stateManager) {}
 
@@ -29,12 +29,12 @@ void State_Paused::onCreate() {
 	m_rect.setFillColor(sf::Color(0, 0, 0, 150));
 
 	qe::EventManager* eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(StateType::Paused, "KeyDown_P", &State_Paused::onResume, this);
+	eventManager->addCallback(StateType::Paused, "P_KeyDown", &State_Paused::onResume, this);
 }
 
 void State_Paused::onDestroy() {
 	qe::EventManager* eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(StateType::Paused, "KeyDown_P");
+	eventManager->removeCallback(StateType::Paused, "P_KeyDown");
 }
 
 void State_Paused::onEnter() {

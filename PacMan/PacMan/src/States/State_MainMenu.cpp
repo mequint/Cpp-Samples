@@ -5,7 +5,7 @@
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
-#include "StateTypes.h"
+#include "States/StateTypes.h"
 
 State_MainMenu::State_MainMenu(qe::StateManager * stateManager) :
 	BaseState(stateManager),
@@ -52,14 +52,14 @@ void State_MainMenu::onCreate() {
 
 	// Setup event manager
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(StateType::MainMenu, "KeyDown_Escape", &State_MainMenu::onQuit, this);
-	eventManager->addCallback(StateType::MainMenu, "KeyDown_Enter", &State_MainMenu::onPlay, this);
+	eventManager->addCallback(StateType::MainMenu, "Escape_KeyDown", &State_MainMenu::onQuit, this);
+	eventManager->addCallback(StateType::MainMenu, "Enter_KeyDown", &State_MainMenu::onPlay, this);
 }
 
 void State_MainMenu::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(StateType::MainMenu, "KeyDown_Escape");
-	eventManager->removeCallback(StateType::MainMenu, "KeyDown_Enter");
+	eventManager->removeCallback(StateType::MainMenu, "Escape_KeyDown");
+	eventManager->removeCallback(StateType::MainMenu, "Enter_KeyDown");
 }
 
 void State_MainMenu::onEnter() {

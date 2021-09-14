@@ -73,7 +73,7 @@
     <ClInclude Include="include\Tile\TileMap.h" />
     <ClInclude Include="include\Tile\TileMapManager.h" />
     <ClInclude Include="include\Utilities\Directions.h" />
-    <ClInclude Include="src\States\StateTypes.h" />
+    <ClInclude Include="include\States\StateTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quintessence\Quintessence.vcxproj">

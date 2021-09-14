@@ -2,7 +2,7 @@
 
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
-
+#include "qe/Window/EventLoader.h"
 #include "States/States.h"
 #include "States/StateTypes.h"
 
@@ -27,19 +27,8 @@ Game::Game() :
 	m_stateManager.registerObserver(m_context.m_eventManager);
 
 	// Setup bindings
-	m_window.getEventManager()->addBinding("Window_Close", static_cast<int>(qe::EventType::Closed), 0);
-
-	m_window.getEventManager()->addBinding("KeyDown_W", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::W));
-	m_window.getEventManager()->addBinding("KeyDown_A", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::A));
-	m_window.getEventManager()->addBinding("KeyDown_S", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::S));
-	m_window.getEventManager()->addBinding("KeyDown_D", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::D));
-	m_window.getEventManager()->addBinding("KeyDown_P", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::P));
-	m_window.getEventManager()->addBinding("KeyDown_Escape", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Escape));
-	m_window.getEventManager()->addBinding("KeyDown_Enter", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Return));
-	m_window.getEventManager()->addBinding("KeyDown_Up", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Up));
-	m_window.getEventManager()->addBinding("KeyDown_Left", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Left));
-	m_window.getEventManager()->addBinding("KeyDown_Down", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Down));
-	m_window.getEventManager()->addBinding("KeyDown_Right", static_cast<int>(qe::EventType::KeyDown), static_cast<int>(sf::Keyboard::Right));
+	qe::EventLoader loader(m_window.getEventManager());
+	loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/eventBindings.json");
 
 	// Load Textures
 	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");

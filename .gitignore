@@ -68,3 +68,5 @@ Books/SFML Game Development by Example/Chapter 13/Chat/Client/Release/
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /Quintessence/.vs/config/applicationhost.config
+*.config
+/PacMan/media/eventBindings.json

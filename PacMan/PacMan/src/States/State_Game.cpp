@@ -12,7 +12,7 @@
 #include "ECS/ECS_Types.h"
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
-#include "StateTypes.h"
+#include "States/StateTypes.h"
 #include "Utilities/Directions.h"
 
 State_Game::State_Game(qe::StateManager * stateManager) :
@@ -57,31 +57,31 @@ void State_Game::onCreate() {
 	//m_readyLabel.setFillColor(sf::Color::Yellow);
 
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(StateType::Game, "KeyDown_Escape", &State_Game::onQuit, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_P", &State_Game::onPause, this);
+	eventManager->addCallback(StateType::Game, "Escape_KeyDown", &State_Game::onQuit, this);
+	eventManager->addCallback(StateType::Game, "P_KeyDown", &State_Game::onPause, this);
 
-	eventManager->addCallback(StateType::Game, "KeyDown_W", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_A", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_S", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_D", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_Up", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_Down", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_Left", &State_Game::onMove, this);
-	eventManager->addCallback(StateType::Game, "KeyDown_Right", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "W_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "A_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "S_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "D_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "Up_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "Down_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "Left_KeyDown", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "Right_KeyDown", &State_Game::onMove, this);
 }
 
 void State_Game::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(StateType::Game, "KeyDown_Escape");
-	eventManager->removeCallback(StateType::Game, "KeyDown_P");
-	eventManager->removeCallback(StateType::Game, "KeyDown_W");
-	eventManager->removeCallback(StateType::Game, "KeyDown_A");
-	eventManager->removeCallback(StateType::Game, "KeyDown_S");
-	eventManager->removeCallback(StateType::Game, "KeyDown_D");
-	eventManager->removeCallback(StateType::Game, "KeyDown_Up");
-	eventManager->removeCallback(StateType::Game, "KeyDown_Down");
-	eventManager->removeCallback(StateType::Game, "KeyDown_Left");
-	eventManager->removeCallback(StateType::Game, "KeyDown_Right");
+	eventManager->removeCallback(StateType::Game, "Escape_KeyDown");
+	eventManager->removeCallback(StateType::Game, "P_KeyDown");
+	eventManager->removeCallback(StateType::Game, "W_KeyDown");
+	eventManager->removeCallback(StateType::Game, "A_KeyDown");
+	eventManager->removeCallback(StateType::Game, "S_KeyDown");
+	eventManager->removeCallback(StateType::Game, "D_KeyDown");
+	eventManager->removeCallback(StateType::Game, "Up_KeyDown");
+	eventManager->removeCallback(StateType::Game, "Down_KeyDown");
+	eventManager->removeCallback(StateType::Game, "Left_KeyDown");
+	eventManager->removeCallback(StateType::Game, "Right_KeyDown");
 }
 
 void State_Game::onEnter() {
@@ -122,16 +122,16 @@ void State_Game::onQuit(qe::EventDetails * details) {
 void State_Game::onMove(qe::EventDetails * details) {
 	qe::Message msg(static_cast<qe::MessageType>(EntityMessage::RequestMove));
 
-	if (details->m_name == "KeyDown_W" || details->m_name == "KeyDown_Up") {
+	if (details->m_name == "W_KeyDown" || details->m_name == "Up_KeyDown") {
 		msg.m_int = static_cast<int>(Direction::Up);
 	}
-	else if (details->m_name == "KeyDown_S" || details->m_name == "KeyDown_Down") {
+	else if (details->m_name == "S_KeyDown" || details->m_name == "Down_KeyDown") {
 		msg.m_int = static_cast<int>(Direction::Down);
 	}
-	else if (details->m_name == "KeyDown_A" || details->m_name == "KeyDown_Left") {
+	else if (details->m_name == "A_KeyDown" || details->m_name == "Left_KeyDown") {
 		msg.m_int = static_cast<int>(Direction::Left);
 	}
-	else if (details->m_name == "KeyDown_D" || details->m_name == "KeyDown_Right") {
+	else if (details->m_name == "D_KeyDown" || details->m_name == "Right_KeyDown") {
 		msg.m_int = static_cast<int>(Direction::Right);
 	}
 
