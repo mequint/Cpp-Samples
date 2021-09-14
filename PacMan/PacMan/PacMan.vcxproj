@@ -66,7 +66,6 @@
     <ClInclude Include="include\ECS\Systems\S_State.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\States\States.h" />
-    <ClInclude Include="include\States\StateTypes.h" />
     <ClInclude Include="include\States\State_Game.h" />
     <ClInclude Include="include\States\State_MainMenu.h" />
     <ClInclude Include="include\States\State_Paused.h" />
@@ -74,6 +73,7 @@
     <ClInclude Include="include\Tile\TileMap.h" />
     <ClInclude Include="include\Tile\TileMapManager.h" />
     <ClInclude Include="include\Utilities\Directions.h" />
+    <ClInclude Include="src\States\StateTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quintessence\Quintessence.vcxproj">

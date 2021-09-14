@@ -5,7 +5,7 @@
 #include "qe/State/StateManager.h"
 #include "qe/Window/Window.h"
 
-#include "States/StateTypes.h"
+#include "StateTypes.h"
 
 State_MainMenu::State_MainMenu(qe::StateManager * stateManager) :
 	BaseState(stateManager),
@@ -52,14 +52,14 @@ void State_MainMenu::onCreate() {
 
 	// Setup event manager
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::MainMenu), "KeyDown_Escape", &State_MainMenu::onQuit, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::MainMenu), "KeyDown_Enter", &State_MainMenu::onPlay, this);
+	eventManager->addCallback(StateType::MainMenu, "KeyDown_Escape", &State_MainMenu::onQuit, this);
+	eventManager->addCallback(StateType::MainMenu, "KeyDown_Enter", &State_MainMenu::onPlay, this);
 }
 
 void State_MainMenu::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::MainMenu), "KeyDown_Escape");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::MainMenu), "KeyDown_Enter");
+	eventManager->removeCallback(StateType::MainMenu, "KeyDown_Escape");
+	eventManager->removeCallback(StateType::MainMenu, "KeyDown_Enter");
 }
 
 void State_MainMenu::onEnter() {
@@ -90,7 +90,7 @@ void State_MainMenu::update(const sf::Time & time) {
 		m_overlay.setFillColor(overlayColor);
 
 		if (m_fadeOutTime >= 0.5f) {
-			m_stateManager->changeState(static_cast<qe::StateType>(StateType::Game));
+			m_stateManager->changeState(StateType::Game);
 		}
 	}
 }

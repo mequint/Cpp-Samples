@@ -13,7 +13,7 @@ qe::StateManager::~StateManager() {
 	}
 }
 
-void qe::StateManager::update(const sf::Time & time) {
+void qe::StateManager::update(const sf::Time& time) {
 	if (m_states.empty()) { return; }
 
 	if (m_states.back().second->isTranscendent() && m_states.size() > 1) {
@@ -71,7 +71,7 @@ void qe::StateManager::removeDeadStates() {
 
 qe::Context * qe::StateManager::getContext() { return m_context; }
 
-bool qe::StateManager::hasState(const StateType & type) {
+bool qe::StateManager::hasState(const std::string& type) {
 	for (auto iter = m_states.begin(); iter != m_states.end(); ++iter) {
 		if (iter->first == type) {
 			auto removed = std::find(m_toRemove.begin(), m_toRemove.end(), type);
@@ -84,7 +84,7 @@ bool qe::StateManager::hasState(const StateType & type) {
 	return false;
 }
 
-void qe::StateManager::changeState(const StateType & type) {
+void qe::StateManager::changeState(const std::string& type) {
 	if (!m_states.empty() && m_states.back().first == type) return;
 
 	// Tell the observers that a state change is occuring
@@ -97,7 +97,7 @@ void qe::StateManager::changeState(const StateType & type) {
 
 		m_states.back().second->onExit();
 
-		StateType tempType = iter->first;
+		auto tempType = iter->first;
 		std::unique_ptr<BaseState> tempState = std::move(iter->second);
 
 		m_states.erase(iter);
@@ -120,7 +120,7 @@ void qe::StateManager::changeState(const StateType & type) {
 	m_context->m_window->getRenderWindow()->setView(m_states.back().second->getView());
 }
 
-void qe::StateManager::remove(const StateType & type) {
+void qe::StateManager::remove(const std::string& type) {
 	for (auto iter = m_states.begin(); iter != m_states.end(); ++iter) {
 		if (iter->first != type) continue;
 
@@ -143,7 +143,7 @@ void qe::StateManager::removeObserver(StateObserver * observer) {
 	));
 }
 
-void qe::StateManager::_createState(const StateType & type) {
+void qe::StateManager::_createState(const std::string& type) {
 	auto stateFactory = m_stateFactory.find(type);
 	if (stateFactory == m_stateFactory.end()) return;
 
@@ -154,7 +154,7 @@ void qe::StateManager::_createState(const StateType & type) {
 	m_states.back().second->onCreate();
 }
 
-void qe::StateManager::_removeState(const StateType & type) {
+void qe::StateManager::_removeState(const std::string& type) {
 	for (auto iter = m_states.begin(); iter != m_states.end(); ++iter) {
 		if (iter->first != type) continue;
 

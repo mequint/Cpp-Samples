@@ -12,7 +12,7 @@
 #include "ECS/ECS_Types.h"
 #include "ECS/Components/Components.h"
 #include "ECS/Systems/Systems.h"
-#include "States/StateTypes.h"
+#include "StateTypes.h"
 #include "Utilities/Directions.h"
 
 State_Game::State_Game(qe::StateManager * stateManager) :
@@ -57,31 +57,31 @@ void State_Game::onCreate() {
 	//m_readyLabel.setFillColor(sf::Color::Yellow);
 
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape", &State_Game::onQuit, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_P", &State_Game::onPause, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_Escape", &State_Game::onQuit, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_P", &State_Game::onPause, this);
 
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_S", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_D", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Up", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Down", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Left", &State_Game::onMove, this);
-	eventManager->addCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Right", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_W", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_A", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_S", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_D", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_Up", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_Down", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_Left", &State_Game::onMove, this);
+	eventManager->addCallback(StateType::Game, "KeyDown_Right", &State_Game::onMove, this);
 }
 
 void State_Game::onDestroy() {
 	auto eventManager = m_stateManager->getContext()->m_eventManager;
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Escape");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_P");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_W");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_A");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_S");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_D");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Up");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Down");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Left");
-	eventManager->removeCallback(static_cast<qe::StateType>(StateType::Game), "KeyDown_Right");
+	eventManager->removeCallback(StateType::Game, "KeyDown_Escape");
+	eventManager->removeCallback(StateType::Game, "KeyDown_P");
+	eventManager->removeCallback(StateType::Game, "KeyDown_W");
+	eventManager->removeCallback(StateType::Game, "KeyDown_A");
+	eventManager->removeCallback(StateType::Game, "KeyDown_S");
+	eventManager->removeCallback(StateType::Game, "KeyDown_D");
+	eventManager->removeCallback(StateType::Game, "KeyDown_Up");
+	eventManager->removeCallback(StateType::Game, "KeyDown_Down");
+	eventManager->removeCallback(StateType::Game, "KeyDown_Left");
+	eventManager->removeCallback(StateType::Game, "KeyDown_Right");
 }
 
 void State_Game::onEnter() {
@@ -112,11 +112,11 @@ void State_Game::draw() {
 }
 
 void State_Game::onPause(qe::EventDetails * details) {
-	m_stateManager->changeState(static_cast<qe::StateType>(StateType::Paused));
+	m_stateManager->changeState(StateType::Paused);
 }
 
 void State_Game::onQuit(qe::EventDetails * details) {
-	m_stateManager->changeState(static_cast<qe::StateType>(StateType::MainMenu));
+	m_stateManager->changeState(StateType::MainMenu);
 }
 
 void State_Game::onMove(qe::EventDetails * details) {

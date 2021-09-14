@@ -77,12 +77,12 @@ Game::Game() :
 	m_systemManager.getSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState))->setStateManager(&m_stateManager);
 
 	// Setup States
-	m_stateManager.registerState<State_MainMenu>(static_cast<qe::StateType>(StateType::MainMenu));
-	m_stateManager.registerState<State_Game>(static_cast<qe::StateType>(StateType::Game));
-	m_stateManager.registerState<State_Paused>(static_cast<qe::StateType>(StateType::Paused));
+	m_stateManager.registerState<State_MainMenu>(StateType::MainMenu);
+	m_stateManager.registerState<State_Game>(StateType::Game);
+	m_stateManager.registerState<State_Paused>(StateType::Paused);
 
 	// Change to first state
-	m_stateManager.changeState(static_cast<qe::StateType>(StateType::MainMenu));
+	m_stateManager.changeState(StateType::MainMenu);
 }
 
 void Game::update() {

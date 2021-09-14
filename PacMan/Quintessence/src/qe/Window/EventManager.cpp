@@ -35,7 +35,7 @@ void qe::EventManager::setFocus(bool focus) {
 	m_hasFocus = true;
 }
 
-bool qe::EventManager::removeCallback(const StateType & state, const std::string & name) {
+bool qe::EventManager::removeCallback(const std::string& state, const std::string & name) {
 	if (m_callbacks.empty()) return false;
 
 	auto iter = m_callbacks.find(state);
@@ -142,7 +142,7 @@ void qe::EventManager::update() {
 
 			if (binding->m_events.size() == binding->count) {
 				// Handle global events
-				auto globalCallbacks = m_callbacks.find(StateType(0));
+				auto globalCallbacks = m_callbacks.find("Global");
 				if (globalCallbacks != m_callbacks.end()) {
 					auto callIter = globalCallbacks->second.find(binding->m_name);
 					if (callIter != globalCallbacks->second.end()) {
@@ -150,7 +150,7 @@ void qe::EventManager::update() {
 					}
 				}
 
-				if (m_currentState == static_cast<qe::StateType>(0)) continue;
+				if (m_currentState == "Global") continue;
 
 				// Handle state based events
 				auto stateCallbacks = m_callbacks.find(m_currentState);
@@ -173,10 +173,10 @@ sf::Vector2i qe::EventManager::getMousePosition(sf::Window * window) const {
 	return (window ? sf::Mouse::getPosition(*window) : sf::Mouse::getPosition());
 }
 
-void qe::EventManager::changeState(const StateType & state) {
+void qe::EventManager::changeState(const std::string& state) {
 	_setState(state);
 }
 
-void qe::EventManager::removeState(const StateType & state) {
+void qe::EventManager::removeState(const std::string& state) {
 	m_callbacks.erase(state);
 }
