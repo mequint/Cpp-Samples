@@ -21,7 +21,8 @@ class TileMap {
 public:
 	TileMap();
 	bool loadFromFile(const std::string& filename);
-	
+	bool loadFromJsonFile(const std::string& filename);
+
 	int getTileSize() const;
 	int getWidth() const;
 	int getHeight() const;

@@ -21,8 +21,8 @@ State_Game::State_Game(qe::StateManager * stateManager) :
 
 	m_lives = 5;
 
-	if (!m_tileMapManager.loadMap("GameMap", "../media/Maps/PacMan.map")) {
-		std::cout << "Could not load PacMan.map" << std::endl;
+	if (!m_tileMapManager.loadMap("GameMap", "../media/Maps/PacManMap.json")) {
+		std::cout << "Could not load PacManMap.json" << std::endl;
 		return;
 	}
 

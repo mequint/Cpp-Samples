@@ -11,7 +11,7 @@ TileMapManager::TileMapManager(qe::TextureManager * textureManager) :
 bool TileMapManager::loadMap(const std::string& name, const std::string & path) {
 	auto map = std::make_unique<TileMap>();
 
-	if (!map->loadFromFile(qe::Utils::getWorkingDirectory() + path)) {
+	if (!map->loadFromJsonFile(qe::Utils::getWorkingDirectory() + path)) {
 		std::cout << "Could not load " << name << ".map" << std::endl;
 		return false;
 	}

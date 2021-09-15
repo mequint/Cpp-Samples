@@ -2,12 +2,17 @@
 
 #include <algorithm>
 #include <iostream>
+#include <mutex>
+#include <nlohmann/json.hpp>
 #include <sstream>
 
 TileMap::TileMap() : m_tileSize(0), m_width(0), m_height(0) {
 }
 
 bool TileMap::loadFromFile(const std::string& filename) {
+	std::mutex lock;
+	lock.lock();
+
 	std::ifstream file(filename.c_str());
 
 	if (!file.is_open()) {
@@ -111,6 +116,82 @@ bool TileMap::loadFromFile(const std::string& filename) {
 	}
 
 	file.close();
+	lock.unlock();
+
+	return true;
+}
+
+bool TileMap::loadFromJsonFile(const std::string & filename) {
+	std::mutex lock;
+	lock.lock();
+
+	std::ifstream jsonFile(filename);
+
+	nlohmann::json json;
+	jsonFile >> json;
+
+	jsonFile.close();
+	lock.unlock();
+
+	if (json.contains("name") && json["name"].is_string()) {		
+		// TODO: Add when multiple maps are used in future games
+	}
+
+	if (json.contains("tileSize") && json["tileSize"].is_number_unsigned()) {
+		m_tileSize = json["tileSize"].get<unsigned int>();
+	}
+
+	if (json.contains("palette") && json["palette"].is_array()) {
+		auto jsonPaletteArray = json["palette"];
+
+		for (auto const& jsonPalette : jsonPaletteArray) {
+			Tile tile;
+
+			if (jsonPalette.contains("name") && jsonPalette["name"].is_string() &&
+				jsonPalette.contains("id") && jsonPalette["id"].is_number_integer() &&
+				jsonPalette.contains("isSolid") && jsonPalette["isSolid"].is_boolean() &&
+				jsonPalette.contains("isWarp") && jsonPalette["isWarp"].is_boolean()) {
+
+				tile.Name = jsonPalette["name"].get<std::string>();
+				tile.Id = jsonPalette["id"].get<int>();
+				tile.IsSolid = jsonPalette["isSolid"].get<bool>();
+				tile.IsWarp = jsonPalette["isWarp"].get<bool>();
+
+				m_palette.emplace_back(tile);
+			}
+		}
+	}
+
+	if (json.contains("mapData") && json["mapData"].is_object()) {
+		auto jsonMapData = json["mapData"].get<nlohmann::json>();
+
+		if (jsonMapData.contains("size") && jsonMapData["size"].is_object()) {
+			auto jsonSize = jsonMapData["size"];
+
+			if (jsonSize.contains("width") && jsonSize["width"].is_number_integer() &&
+				jsonSize.contains("height") && jsonSize["height"].is_number_integer()) {
+				m_width = jsonSize["width"].get<int>();
+				m_height = jsonSize["height"].get<int>();
+
+				m_mapData.reserve(m_width * m_height);
+			}
+		}
+
+		if (jsonMapData.contains("tiles") && jsonMapData["tiles"].is_array()) {
+			auto jsonRows = jsonMapData["tiles"];
+
+			for (auto const& tile : jsonRows) {
+				if (tile.is_number_integer()) {
+					int tileIndex = tile.get<int>();
+					m_mapData.push_back(tileIndex);
+				}
+			}
+		}
+	}
+
+	if (json.contains("warps")) {
+		// TODO: Add when multiple maps are used in future games
+	}
 
 	return true;
 }

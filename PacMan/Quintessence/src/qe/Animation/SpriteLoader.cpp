@@ -36,11 +36,11 @@ std::unique_ptr<qe::SpriteAnimation> qe::SpriteLoader::loadFromJsonFile(const st
 		unsigned int width = 0;
 		unsigned int height = 0;
 
-		if (frameSizeJson.contains("width")) {
+		if (frameSizeJson.contains("width") && frameSizeJson["width"].is_number_unsigned()) {
 			width = frameSizeJson["width"].get<unsigned int>();
 		}
 
-		if (frameSizeJson.contains("height")) {
+		if (frameSizeJson.contains("height") && frameSizeJson["height"].is_number_unsigned()) {
 			height = frameSizeJson["height"].get<unsigned int>();
 		}
 
