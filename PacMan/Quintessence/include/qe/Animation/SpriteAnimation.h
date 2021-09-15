@@ -17,8 +17,11 @@ namespace qe {
 
 		void setTexture(const std::string& textureName);
 		void setFrameSize(unsigned int width, unsigned int height);
+		sf::Vector2u getFrameSize() const;
+
 		void setPosition(const sf::Vector2f& position);
 		void setPosition(float x, float y);
+		sf::Vector2f getPosition() const;
 
 		bool addAnimation(std::unique_ptr<AnimationControl> animation);
 

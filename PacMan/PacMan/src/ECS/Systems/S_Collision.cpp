@@ -25,8 +25,8 @@ void S_Collision::update(float dt) {
 		// ...unless the entity is static
 		if (!entities->hasComponent(entity, static_cast<qe::ComponentType>(Component::Motion))) continue;
 
-		C_Position* position = entities->getComponent<C_Position>(entity, static_cast<qe::ComponentType>(Component::Position));
-		C_Collider* collider = entities->getComponent<C_Collider>(entity, static_cast<qe::ComponentType>(Component::Collider));
+		auto position = entities->getComponent<C_Position>(entity, static_cast<qe::ComponentType>(Component::Position));
+		auto collider = entities->getComponent<C_Collider>(entity, static_cast<qe::ComponentType>(Component::Collider));
 
 		collider->setPosition(position->getPosition());
 		collider->setColliding(false);
@@ -37,8 +37,8 @@ void S_Collision::update(float dt) {
 		if (!entities->hasComponent(*iter1, static_cast<qe::ComponentType>(Component::Motion))) continue;
 
 		for (auto iter2 = std::next(iter1); iter2 != m_entities.end(); ++iter2) {
-			C_Collider* collider1 = entities->getComponent<C_Collider>(*iter1, static_cast<qe::ComponentType>(Component::Collider));
-			C_Collider* collider2 = entities->getComponent<C_Collider>(*iter2, static_cast<qe::ComponentType>(Component::Collider));
+			auto collider1 = entities->getComponent<C_Collider>(*iter1, static_cast<qe::ComponentType>(Component::Collider));
+			auto collider2 = entities->getComponent<C_Collider>(*iter2, static_cast<qe::ComponentType>(Component::Collider));
 
 			if (collider1->getAABB().intersects(collider2->getAABB())) {
 				qe::Message message(static_cast<qe::MessageType>(EntityMessage::Collide));

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <string>
 
 #include "ECS/ECS_Types.h"
@@ -46,7 +45,7 @@ public:
 		return m_sprite.getOrigin();
 	}
 
-	// Inherited via C_Drawable
+	// Inherited from C_Drawable
 	virtual sf::Vector2u getSize() const override {
 		return m_sprite.getTexture()->getSize();
 	}

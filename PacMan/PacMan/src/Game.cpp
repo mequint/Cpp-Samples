@@ -31,7 +31,7 @@ Game::Game() :
 	loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/eventBindings.json");
 
 	// Load Textures
-	m_textureManager.loadResource("PacMan", "../media/Textures/PacMan.png");
+	m_textureManager.loadResource("AnimatedPacMan", "../media/Textures/AnimatedPacMan.png");
 	m_textureManager.loadResource("GameMap", "../media/Textures/PacManTiles.png");
 	m_textureManager.loadResource("Pill", "../media/Textures/Pill.png");
 	m_textureManager.loadResource("Pellet", "../media/Textures/Pellet.png");
@@ -42,6 +42,7 @@ Game::Game() :
 	// Setup ECS
 	m_systemManager.setEntityManager(&m_entityManager);
 
+	m_entityManager.registerComponent<C_AnimatedSprite>(static_cast<qe::ComponentType>(Component::AnimatedSprite));
 	m_entityManager.registerComponent<C_Collider>(static_cast<qe::ComponentType>(Component::Collider));
 	m_entityManager.registerComponent<C_Controller>(static_cast<qe::ComponentType>(Component::Controller));
 	m_entityManager.registerComponent<C_Consumable>(static_cast<qe::ComponentType>(Component::Consumable));
@@ -61,6 +62,7 @@ Game::Game() :
 	m_systemManager.registerSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement));
 	m_systemManager.registerSystem<S_Renderer>(static_cast<qe::SystemType>(System::Renderer));
 	m_systemManager.registerSystem<S_Scoring>(static_cast<qe::SystemType>(System::Scoring));
+	m_systemManager.registerSystem<S_SpriteAnimation>(static_cast<qe::SystemType>(System::SpriteAnimation));
 	m_systemManager.registerSystem<S_State>(static_cast<qe::SystemType>(System::State));
 
 	m_systemManager.getSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState))->setStateManager(&m_stateManager);

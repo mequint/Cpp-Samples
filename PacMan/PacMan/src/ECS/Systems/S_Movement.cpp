@@ -35,7 +35,7 @@ void S_Movement::notify(const qe::Message & message) {
 
 			C_Motion* motion = entities->getComponent<C_Motion>(message.m_receiver, static_cast<qe::ComponentType>(Component::Motion));
 
-			Direction dir = static_cast<Direction>(message.m_int);
+			auto dir = static_cast<eDirection>(message.m_int);
 			motion->setDirection(dir);
 			break;
 		}
@@ -64,17 +64,17 @@ void S_Movement::update(float dt) {
 		auto physicalTilePosition = _getPosition(m_mapManager->getPosition(), tileX, tileY, tileSize, physicalDirection);
 
 		// Handle wrap around
-		if (physicalDirection == Direction::Right && position->getPosition().x == m_mapManager->getPosition().x + m_mapManager->getMapSize().x - tileSize) {
+		if (physicalDirection == eDirection::Right && position->getPosition().x == m_mapManager->getPosition().x + m_mapManager->getMapSize().x - tileSize) {
 			position->setPosition(_getPosition(m_mapManager->getPosition(), 0, tileY, tileSize));
 			return;
 		}
-		else if (physicalDirection == Direction::Left && position->getPosition().x == m_mapManager->getPosition().x) {
+		else if (physicalDirection == eDirection::Left && position->getPosition().x == m_mapManager->getPosition().x) {
 			position->setPosition(_getPosition(m_mapManager->getPosition(), currentMap.getWidth() - 1, tileY, tileSize));
 			return;
 		}
 
 		switch (motion->getDirection()) {
-			case Direction::Up: {
+			case eDirection::Up: {
 				int nextY = tileY - 1;
 
 				auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
@@ -90,13 +90,19 @@ void S_Movement::update(float dt) {
 						position->getPosition().x <= physicalTilePosition.x + tileSize &&
 						position->getPosition().y <= physicalTilePosition.y + tileSize) {
 						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+
+						qe::Message stopMessage(static_cast<qe::MessageType>(EntityMessage::Stop));
+						stopMessage.m_receiver = entity;
+						stopMessage.m_int = static_cast<int>(eDirection::Up);
+
+						m_systemManager->getMessageDispatch()->dispatch(stopMessage);
 					}
 				}
 
 				break;
 			}
 
-			case Direction::Down: {
+			case eDirection::Down: {
 				int nextY = tileY + 1;
 
 				auto tileData = currentMap.getTileData(currentMap.getMapTile(tileX, nextY));
@@ -113,13 +119,19 @@ void S_Movement::update(float dt) {
 						position->getPosition().x <= physicalTilePosition.x + tileSize &&
 						position->getPosition().y <= physicalTilePosition.y + tileSize) {
 						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+
+						qe::Message stopMessage(static_cast<qe::MessageType>(EntityMessage::Stop));
+						stopMessage.m_receiver = entity;
+						stopMessage.m_int = static_cast<int>(eDirection::Down);
+
+						m_systemManager->getMessageDispatch()->dispatch(stopMessage);
 					}
 				}
 
 				break;
 			}
 
-			case Direction::Left: {
+			case eDirection::Left: {
 				int nextX = tileX - 1;
 
 				auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
@@ -137,13 +149,19 @@ void S_Movement::update(float dt) {
 						position->getPosition().x <= physicalTilePosition.x + tileSize &&
 						position->getPosition().y <= physicalTilePosition.y + tileSize) {
 						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+
+						qe::Message stopMessage(static_cast<qe::MessageType>(EntityMessage::Stop));
+						stopMessage.m_receiver = entity;
+						stopMessage.m_int = static_cast<int>(eDirection::Left);
+
+						m_systemManager->getMessageDispatch()->dispatch(stopMessage);
 					}
 				}
 
 				break;
 			}
 
-			case Direction::Right: {
+			case eDirection::Right: {
 				int nextX = tileX + 1;
 
 				auto tileData = currentMap.getTileData(currentMap.getMapTile(nextX, tileY));
@@ -158,6 +176,12 @@ void S_Movement::update(float dt) {
 						position->getPosition().x <= physicalTilePosition.x + tileSize &&
 						position->getPosition().y <= physicalTilePosition.y + tileSize) {
 						motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
+
+						qe::Message stopMessage(static_cast<qe::MessageType>(EntityMessage::Stop));
+						stopMessage.m_receiver = entity;
+						stopMessage.m_int = static_cast<int>(eDirection::Right);
+
+						m_systemManager->getMessageDispatch()->dispatch(stopMessage);
 					}
 				}
 
@@ -180,41 +204,41 @@ void S_Movement::setMapManager(TileMapManager * mapManager) {
 // Helper methods		
 // ******************** //
 
-Direction S_Movement::_getPhysicalDirection(const sf::Vector2f& velocity) {
+eDirection S_Movement::_getPhysicalDirection(const sf::Vector2f& velocity) {
 	if (velocity.x < 0.0f) {
-		return Direction::Left;
+		return eDirection::Left;
 	}
 	else if (velocity.x > 0.0f) {
-		return Direction::Right;
+		return eDirection::Right;
 	}
 
 	if (velocity.y < 0.0f) {
-		return Direction::Up;
+		return eDirection::Up;
 	}
 	else if (velocity.y > 0.0f) {
-		return Direction::Down;
+		return eDirection::Down;
 	}
 
-	return Direction::None;
+	return eDirection::None;
 }
 
-sf::Vector2f S_Movement::_getPosition(const sf::Vector2f & offset, int tileX, int tileY, int tileSize, const Direction& direction) {
+sf::Vector2f S_Movement::_getPosition(const sf::Vector2f & offset, int tileX, int tileY, int tileSize, const eDirection& direction) {
 	switch (direction) {
-		case Direction::Up: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY - 1) * tileSize));
-		case Direction::Down: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY + 1) * tileSize));
-		case Direction::Left: return offset + sf::Vector2f(static_cast<float>((tileX - 1) * tileSize), static_cast<float>(tileY * tileSize));
-		case Direction::Right: return offset + sf::Vector2f(static_cast<float>((tileX + 1) * tileSize), static_cast<float>(tileY * tileSize));
+		case eDirection::Up: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY - 1) * tileSize));
+		case eDirection::Down: return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY + 1) * tileSize));
+		case eDirection::Left: return offset + sf::Vector2f(static_cast<float>((tileX - 1) * tileSize), static_cast<float>(tileY * tileSize));
+		case eDirection::Right: return offset + sf::Vector2f(static_cast<float>((tileX + 1) * tileSize), static_cast<float>(tileY * tileSize));
 	}
 
 	return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>(tileY * tileSize));
 }
 
-Tile S_Movement::_getTile(const TileMap & currentMap, int tileX, int tileY, const Direction & direction) {
+Tile S_Movement::_getTile(const TileMap & currentMap, int tileX, int tileY, const eDirection & direction) {
 	switch (direction) {
-		case Direction::Up: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY - 1));
-		case Direction::Down: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY + 1));
-		case Direction::Left: return currentMap.getTileData(currentMap.getMapTile(tileX - 1, tileY));
-		case Direction::Right: return currentMap.getTileData(currentMap.getMapTile(tileX + 1, tileY));
+		case eDirection::Up: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY - 1));
+		case eDirection::Down: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY + 1));
+		case eDirection::Left: return currentMap.getTileData(currentMap.getMapTile(tileX - 1, tileY));
+		case eDirection::Right: return currentMap.getTileData(currentMap.getMapTile(tileX + 1, tileY));
 	}
 
 	return currentMap.getTileData(currentMap.getMapTile(tileX, tileY));

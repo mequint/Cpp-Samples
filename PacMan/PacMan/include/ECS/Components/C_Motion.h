@@ -13,10 +13,10 @@ public:
 	sf::Vector2f getVelocity() { return m_velocity; }
 	void setVelocity(const sf::Vector2f& velocity) { m_velocity = velocity; }
 
-	Direction getDirection() const { return m_direction; }
-	void setDirection(const Direction& direction) { m_direction = direction; }
+	eDirection getDirection() const { return m_direction; }
+	void setDirection(const eDirection& direction) { m_direction = direction; }
 
 private:
 	sf::Vector2f m_velocity;
-	Direction m_direction;
+	eDirection m_direction;
 };

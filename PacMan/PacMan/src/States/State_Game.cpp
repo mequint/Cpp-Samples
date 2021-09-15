@@ -123,16 +123,16 @@ void State_Game::onMove(qe::EventDetails * details) {
 	qe::Message msg(static_cast<qe::MessageType>(EntityMessage::RequestMove));
 
 	if (details->m_name == "W_KeyDown" || details->m_name == "Up_KeyDown") {
-		msg.m_int = static_cast<int>(Direction::Up);
+		msg.m_int = static_cast<int>(eDirection::Up);
 	}
 	else if (details->m_name == "S_KeyDown" || details->m_name == "Down_KeyDown") {
-		msg.m_int = static_cast<int>(Direction::Down);
+		msg.m_int = static_cast<int>(eDirection::Down);
 	}
 	else if (details->m_name == "A_KeyDown" || details->m_name == "Left_KeyDown") {
-		msg.m_int = static_cast<int>(Direction::Left);
+		msg.m_int = static_cast<int>(eDirection::Left);
 	}
 	else if (details->m_name == "D_KeyDown" || details->m_name == "Right_KeyDown") {
-		msg.m_int = static_cast<int>(Direction::Right);
+		msg.m_int = static_cast<int>(eDirection::Right);
 	}
 
 	msg.m_receiver = m_playerId;
@@ -150,7 +150,7 @@ void State_Game::nextLevel() {
 
 	auto motion = entityManager->getComponent<C_Motion>(m_playerId, static_cast<qe::ComponentType>(Component::Motion));
 	motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
-	motion->setDirection(Direction::None);
+	motion->setDirection(eDirection::None);
 
 	_setupPelletEntities();
 	_setupPowerPillEntities();
@@ -176,12 +176,12 @@ void State_Game::_setupPacmanEntity() {
 	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
 
 	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::AnimatedSprite));
 	bits.set(static_cast<qe::ComponentType>(Component::Controller));
 	bits.set(static_cast<qe::ComponentType>(Component::Collider));
 	bits.set(static_cast<qe::ComponentType>(Component::EntityType));
 	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
-	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
 	bits.set(static_cast<qe::ComponentType>(Component::State));
 
 	int id = entityManager->addEntity(bits);
@@ -196,12 +196,13 @@ void State_Game::_setupPacmanEntity() {
 	auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
 	motion->setVelocity(sf::Vector2f(0.0f, 0.0f));
 
-	auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
-	sprite->create(textureManager, "PacMan");
-	sprite->setPosition(position->getPosition());
+	auto animatedSprite = entityManager->getComponent<C_AnimatedSprite>(id, static_cast<qe::ComponentType>(Component::AnimatedSprite));
+	animatedSprite->create(textureManager, "AnimatedPacMan");
+	animatedSprite->setPosition(position->getPosition());
+	animatedSprite->getSprite()->changeAnimation("StopRight", true);
 
 	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
-	collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(sprite->getSize().x), static_cast<float>(sprite->getSize().y)));
+	collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(animatedSprite->getSize().x), static_cast<float>(animatedSprite->getSize().y)));
 }
 
 void State_Game::_setupPowerPillEntities() {

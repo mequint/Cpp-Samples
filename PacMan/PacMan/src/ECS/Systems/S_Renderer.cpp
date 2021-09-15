@@ -4,8 +4,10 @@
 
 #include "qe/ECS/SystemManager.h"
 
+#include "ECS/Components/C_AnimatedSprite.h"
 #include "ECS/Components/C_Position.h"
-#include "ECS/Components//C_Sprite.h"
+#include "ECS/Components/C_Sprite.h"
+
 
 S_Renderer::S_Renderer(qe::SystemManager * systemManager) :
 	S_Base(static_cast<qe::SystemType>(System::Renderer), systemManager) {
@@ -13,6 +15,10 @@ S_Renderer::S_Renderer(qe::SystemManager * systemManager) :
 	qe::Bitmask req;
 	req.set(static_cast<qe::ComponentType>(Component::Position));
 	req.set(static_cast<qe::ComponentType>(Component::Sprite));
+	m_requiredComponents.push_back(req);
+
+	req.reset(static_cast<qe::ComponentType>(Component::Sprite));
+	req.set(static_cast<qe::ComponentType>(Component::AnimatedSprite));
 	m_requiredComponents.push_back(req);
 }
 
@@ -26,7 +32,17 @@ void S_Renderer::update(float dt) {
 	for (auto& entity : m_entities) {
 		auto position = entities->getComponent<C_Position>(entity, static_cast<qe::ComponentType>(Component::Position));
 
-		auto drawable = entities->getComponent<C_Sprite>(entity, static_cast<qe::ComponentType>(Component::Sprite));
+		C_Drawable* drawable = nullptr;
+		if (entities->hasComponent(entity, static_cast<qe::ComponentType>(Component::Sprite))) {
+			drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::Sprite));
+		}
+		else if (entities->hasComponent(entity, static_cast<qe::ComponentType>(Component::AnimatedSprite))) {
+			drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::AnimatedSprite));			
+		}
+		else { 
+			continue;
+		}
+
 		drawable->setPosition(position->getPosition());
 	}
 }
@@ -38,7 +54,17 @@ void S_Renderer::render(qe::Window * window) {
 	auto renderer = window->getRenderWindow();
 
 	for (auto& entity : m_entities) {
-		auto drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::Sprite));
+		C_Drawable* drawable = nullptr;
+
+		if (entities->hasComponent(entity, static_cast<qe::ComponentType>(Component::Sprite))) {
+			drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::Sprite));
+		}
+		else if (entities->hasComponent(entity, static_cast<qe::ComponentType>(Component::AnimatedSprite))) {
+			drawable = entities->getComponent<C_Drawable>(entity, static_cast<qe::ComponentType>(Component::AnimatedSprite));
+		}
+		else {
+			continue;
+		}
 
 		drawable->draw(renderer);
 	}

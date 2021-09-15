@@ -24,12 +24,20 @@ void qe::SpriteAnimation::setFrameSize(unsigned int width, unsigned int height) 
 	m_frameSize.y = height;
 }
 
+sf::Vector2u qe::SpriteAnimation::getFrameSize() const {
+	return m_frameSize;
+}
+
 void qe::SpriteAnimation::setPosition(const sf::Vector2f & position) {
 	m_sprite.setPosition(position);
 }
 
 void qe::SpriteAnimation::setPosition(float x, float y) {
 	m_sprite.setPosition(sf::Vector2f(x, y));
+}
+
+sf::Vector2f qe::SpriteAnimation::getPosition() const {
+	return m_sprite.getPosition();
 }
 
 bool qe::SpriteAnimation::addAnimation(std::unique_ptr<AnimationControl> animation) {

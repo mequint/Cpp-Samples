@@ -10,4 +10,5 @@
 #include "S_Movement.h"
 #include "S_Renderer.h"
 #include "S_Scoring.h"
+#include "S_SpriteAnimation.h"
 #include "S_State.h"

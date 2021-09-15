@@ -23,6 +23,7 @@
     <ClCompile Include="src\ECS\Systems\S_Scoring.cpp" />
     <ClCompile Include="src\ECS\Systems\S_AppState.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Consumption.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_SpriteAnimation.cpp" />
     <ClCompile Include="src\States\State_Pause.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Collision.cpp" />
     <ClCompile Include="src\ECS\Systems\S_State.cpp" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
+    <ClInclude Include="include\ECS\Components\C_AnimatedSprite.h" />
     <ClInclude Include="include\ECS\Components\C_Collider.h" />
     <ClInclude Include="include\ECS\Components\C_Consumable.h" />
     <ClInclude Include="include\ECS\Components\C_EntityType.h" />
@@ -63,6 +65,7 @@
     <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
     <ClInclude Include="include\ECS\Systems\S_Scoring.h" />
+    <ClInclude Include="include\ECS\Systems\S_SpriteAnimation.h" />
     <ClInclude Include="include\ECS\Systems\S_State.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\States\States.h" />
