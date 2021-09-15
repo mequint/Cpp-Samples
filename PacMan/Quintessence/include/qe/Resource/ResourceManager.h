@@ -1,6 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <SFML/System/Lock.hpp>
 #include <SFML/System/Mutex.hpp>
 #include <string>
@@ -28,6 +30,26 @@ namespace qe {
 			m_paths.emplace(resourceName, resourcePath);
 
 			return loadResource(resourceName);
+		}
+
+		void loadResourcesFromJson(const std::string& filename) {
+			sf::Lock lock(m_mutex);
+			std::ifstream jsonFile(filename);
+
+			nlohmann::json json;
+			jsonFile >> json;
+
+			jsonFile.close();
+
+			for (auto const& resource : json) {
+				if (resource.contains("name") && resource["name"].is_string() && 
+					resource.contains("path") && resource["path"].is_string()) {
+					auto name = resource["name"].get<std::string>();
+					auto path = resource["path"].get<std::string>();
+
+					loadResource(name, path);
+				}
+			}
 		}
 
 		bool loadResource(const std::string& id) {

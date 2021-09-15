@@ -1,0 +1,34 @@
+[
+	{
+		"name": "AnimatedPacMan",
+		"path": "../media/Textures/AnimatedPacMan.png"
+	},
+	{
+		"name": "GameMap",
+		"path": "../media/Textures/PacManTiles.png"
+	},
+	{
+		"name": "Pill",
+		"path": "../media/Textures/Pill.png"
+	},
+	{
+		"name": "Pellet",
+		"path": "../media/Textures/Pellet.png"
+	},
+	{
+		"name": "Ambusher",
+		"path": "../media/Textures/Ambusher.png"
+	},
+	{
+		"name": "Chaser",
+		"path": "../media/Textures/Chaser.png"
+	},
+	{
+		"name": "Fickle",
+		"path": "../media/Textures/Fickle.png"
+	},
+	{
+		"name": "Ignorant",
+		"path": "../media/Textures/Ignorant.png"
+	}
+]

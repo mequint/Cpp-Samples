@@ -28,16 +28,13 @@ Game::Game() :
 
 	// Setup bindings
 	qe::EventLoader loader(m_window.getEventManager());
-	loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/eventBindings.json");
+	loader.loadFromJsonFile("../media/eventBindings.json");
 
 	// Load Textures
-	m_textureManager.loadResource("AnimatedPacMan", "../media/Textures/AnimatedPacMan.png");
-	m_textureManager.loadResource("GameMap", "../media/Textures/PacManTiles.png");
-	m_textureManager.loadResource("Pill", "../media/Textures/Pill.png");
-	m_textureManager.loadResource("Pellet", "../media/Textures/Pellet.png");
+	m_textureManager.loadResourcesFromJson("../media/textures.json");
 
 	// Load Fonts
-	m_fontManager.loadResource("Game", "../media/Fonts/Vegur-Regular.otf");
+	m_fontManager.loadResourcesFromJson("../media/fonts.json");
 
 	// Setup ECS
 	m_systemManager.setEntityManager(&m_entityManager);
