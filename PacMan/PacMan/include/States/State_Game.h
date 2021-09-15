@@ -35,6 +35,7 @@ private:
 	void _setupPacmanEntity();
 	void _setupPowerPillEntities();
 	void _setupPelletEntities();
+	void _setupGhostEntities();
 
 	TileMapManager m_tileMapManager;
 

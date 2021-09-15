@@ -42,11 +42,8 @@ void State_Game::onCreate() {
 	_setupScoreEntity();
 	_setupPacmanEntity();
 	_setupPowerPillEntities();
-	_setupPelletEntities();
-
-	//auto textureManager = m_stateManager->getContext()->m_textureManager;
-	//m_pacmanTexture = *textureManager->getResource("PacMan");
-	//m_liveSprite.setTexture(m_pacmanTexture);
+	_setupPelletEntities(); 
+	_setupGhostEntities();
 
 	//m_readyLabel.setFont(*fontManager->getResource("Game"));
 	//m_readyLabel.setCharacterSize(20);
@@ -188,7 +185,7 @@ void State_Game::_setupPacmanEntity() {
 	m_playerId = id;
 
 	auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
-	entityType->setEntityType(EntityType::PacMan);
+	entityType->setEntityType(eEntityType::PacMan);
 
 	auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 	position->setPosition(mapPosition.x + tileSize * 13.5f, mapPosition.y + tileSize * 23.0f);
@@ -213,22 +210,22 @@ void State_Game::_setupPowerPillEntities() {
 	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
 
 	std::vector<sf::Vector2i> pillPositions = { {1, 3}, {26,3}, {1,23}, {26,23} };
-	//std::vector<sf::Vector2i> pillPositions;
+	
+	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::Collider));
+	bits.set(static_cast<qe::ComponentType>(Component::Consumable));
+	bits.set(static_cast<qe::ComponentType>(Component::EntityType));
+	bits.set(static_cast<qe::ComponentType>(Component::Points));
+	bits.set(static_cast<qe::ComponentType>(Component::Position));
+	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
+	bits.set(static_cast<qe::ComponentType>(Component::State));
 
 	for (int i = 0; i < static_cast<int>(pillPositions.size()); ++i) {
-		qe::Bitmask bits;
-		bits.set(static_cast<qe::ComponentType>(Component::Collider));
-		bits.set(static_cast<qe::ComponentType>(Component::Consumable));
-		bits.set(static_cast<qe::ComponentType>(Component::EntityType));
-		bits.set(static_cast<qe::ComponentType>(Component::Points));
-		bits.set(static_cast<qe::ComponentType>(Component::Position));
-		bits.set(static_cast<qe::ComponentType>(Component::Sprite));
-		bits.set(static_cast<qe::ComponentType>(Component::State));
 
 		int id = entityManager->addEntity(bits);
 
 		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
-		entityType->setEntityType(EntityType::Pill);
+		entityType->setEntityType(eEntityType::Pill);
 		
 		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 		position->setPosition(mapPosition.x + tileSize * pillPositions[i].x, mapPosition.y + tileSize * pillPositions[i].y);
@@ -299,7 +296,7 @@ void State_Game::_setupPelletEntities() {
 		int id = entityManager->addEntity(bits);
 
 		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
-		entityType->setEntityType(EntityType::Dot);
+		entityType->setEntityType(eEntityType::Dot);
 
 		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 		position->setPosition(mapPosition.x + tileSize * pelletPositions[i].x, mapPosition.y + tileSize * pelletPositions[i].y);
@@ -313,5 +310,53 @@ void State_Game::_setupPelletEntities() {
 
 		auto points = entityManager->getComponent<C_Points>(id, static_cast<qe::ComponentType>(Component::Points));
 		points->setPoints(10);
+	}
+}
+
+void State_Game::_setupGhostEntities() {
+	auto textureManager = m_stateManager->getContext()->m_textureManager;
+	auto entityManager = m_stateManager->getContext()->m_entityManager;
+
+	auto mapPosition = m_tileMapManager.getPosition();
+	auto tileSize = m_tileMapManager.getCurrentMap().getTileSize();
+
+	qe::Bitmask bits;
+	bits.set(static_cast<qe::ComponentType>(Component::EntityType));
+	bits.set(static_cast<qe::ComponentType>(Component::Position));
+	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
+
+	std::vector<sf::Vector2i> ghostPositions = { {13,11},{11,14},{13,14},{14,14} };
+
+	for (int i = 0; i < 4; ++i) {
+		int id = entityManager->addEntity(bits);
+
+		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
+		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
+		auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
+
+		if (i == 0) {
+			entityType->setEntityType(eEntityType::Chaser);
+			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize / 2, mapPosition.y + tileSize * ghostPositions[i].y);
+			sprite->create(textureManager, "Chaser");
+			sprite->setPosition(position->getPosition());
+		}
+		else if (i == 1) {
+			entityType->setEntityType(eEntityType::Fickle);
+			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize, mapPosition.y + tileSize * ghostPositions[i].y);
+			sprite->create(textureManager, "Fickle");
+			sprite->setPosition(position->getPosition());
+		}
+		else if (i == 2) {
+			entityType->setEntityType(eEntityType::Ambusher);
+			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize / 2, mapPosition.y + tileSize * ghostPositions[i].y);
+			sprite->create(textureManager, "Ambusher");
+			sprite->setPosition(position->getPosition());
+		}
+		else if (i == 3) {
+			entityType->setEntityType(eEntityType::Ignorant);
+			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize, mapPosition.y + tileSize * ghostPositions[i].y);
+			sprite->create(textureManager, "Ignorant");
+			sprite->setPosition(position->getPosition());
+		}
 	}
 }

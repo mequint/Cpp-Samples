@@ -40,7 +40,7 @@ void S_Consumption::update(float dt) {
 	int dotsRemaining = static_cast<int>(m_entities.size());
 	if (dotsRemaining) {
 		auto backEntityType = entities->getComponent<C_EntityType>(m_entities.back(), static_cast<qe::ComponentType>(Component::EntityType));
-		if (backEntityType->getEntityType() == EntityType::Fruit) {
+		if (backEntityType->getEntityType() == eEntityType::Fruit) {
 			dotsRemaining--;
 		}
 	}
