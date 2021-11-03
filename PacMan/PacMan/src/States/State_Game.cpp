@@ -37,6 +37,8 @@ void State_Game::onCreate() {
 	auto windowSize = static_cast<sf::Vector2f>(m_stateManager->getContext()->m_window->getRenderWindow()->getSize());
 
 	m_stateManager->getContext()->m_systemManager->
+		getSystem<S_AI>(static_cast<qe::SystemType>(System::AI))->setMapManager(&m_tileMapManager);
+	m_stateManager->getContext()->m_systemManager->
 		getSystem<S_Movement>(static_cast<qe::SystemType>(System::Movement))->setMapManager(&m_tileMapManager);
 
 	_setupScoreEntity();
@@ -200,6 +202,10 @@ void State_Game::_setupPacmanEntity() {
 
 	auto collider = entityManager->getComponent<C_Collider>(id, static_cast<qe::ComponentType>(Component::Collider));
 	collider->setAABB(sf::FloatRect(position->getPosition().x, position->getPosition().y, static_cast<float>(animatedSprite->getSize().x), static_cast<float>(animatedSprite->getSize().y)));
+
+	auto state = entityManager->getComponent<C_State>(id, static_cast<qe::ComponentType>(Component::State));
+	state->setInitialState(eEntityState::Idle);
+	state->setCurrentState(state->getInitialState());
 }
 
 void State_Game::_setupPowerPillEntities() {
@@ -322,6 +328,8 @@ void State_Game::_setupGhostEntities() {
 
 	qe::Bitmask bits;
 	bits.set(static_cast<qe::ComponentType>(Component::EntityType));
+	bits.set(static_cast<qe::ComponentType>(Component::GameAgent));
+	bits.set(static_cast<qe::ComponentType>(Component::Motion));
 	bits.set(static_cast<qe::ComponentType>(Component::Position));
 	bits.set(static_cast<qe::ComponentType>(Component::Sprite));
 
@@ -333,30 +341,35 @@ void State_Game::_setupGhostEntities() {
 		auto entityType = entityManager->getComponent<C_EntityType>(id, static_cast<qe::ComponentType>(Component::EntityType));
 		auto position = entityManager->getComponent<C_Position>(id, static_cast<qe::ComponentType>(Component::Position));
 		auto sprite = entityManager->getComponent<C_Sprite>(id, static_cast<qe::ComponentType>(Component::Sprite));
+		auto motion = entityManager->getComponent<C_Motion>(id, static_cast<qe::ComponentType>(Component::Motion));
 
 		if (i == 0) {
 			entityType->setEntityType(eEntityType::Chaser);
 			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize / 2, mapPosition.y + tileSize * ghostPositions[i].y);
 			sprite->create(textureManager, "Chaser");
 			sprite->setPosition(position->getPosition());
+			motion->setDirection(eDirection::Left);
 		}
 		else if (i == 1) {
 			entityType->setEntityType(eEntityType::Fickle);
 			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize, mapPosition.y + tileSize * ghostPositions[i].y);
 			sprite->create(textureManager, "Fickle");
 			sprite->setPosition(position->getPosition());
+			motion->setDirection(eDirection::Up);
 		}
 		else if (i == 2) {
 			entityType->setEntityType(eEntityType::Ambusher);
 			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize / 2, mapPosition.y + tileSize * ghostPositions[i].y);
 			sprite->create(textureManager, "Ambusher");
 			sprite->setPosition(position->getPosition());
+			motion->setDirection(eDirection::Down);
 		}
 		else if (i == 3) {
 			entityType->setEntityType(eEntityType::Ignorant);
 			position->setPosition(mapPosition.x + tileSize * ghostPositions[i].x + tileSize, mapPosition.y + tileSize * ghostPositions[i].y);
 			sprite->create(textureManager, "Ignorant");
 			sprite->setPosition(position->getPosition());
+			motion->setDirection(eDirection::Up);
 		}
 	}
 }

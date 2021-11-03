@@ -23,7 +23,7 @@ public:
 			m_textureName = name;
 
 			qe::SpriteLoader loader(textureManager);
-			m_sprite = loader.loadFromJsonFile(qe::Utils::getWorkingDirectory() + "../media/animations/" + name + ".json");
+			m_sprite = loader.loadFromJsonFile("../media/animations/" + name + ".json");
 		}
 	}
 

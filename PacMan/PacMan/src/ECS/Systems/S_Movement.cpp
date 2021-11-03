@@ -11,14 +11,13 @@
 S_Movement::S_Movement(qe::SystemManager * systemManager) :
 	S_Base(static_cast<qe::SystemType>(System::Movement), systemManager),
 	m_timeStep(1.0f / 60.0f),
-	m_currentTime(0.0f) {
+	m_currentTime(0.0f),
+	m_mapManager(nullptr) {
 
 	qe::Bitmask req;
 	req.set(static_cast<qe::ComponentType>(Component::Position));
 	req.set(static_cast<qe::ComponentType>(Component::Motion));
 	m_requiredComponents.push_back(req);
-
-	m_mapManager = nullptr;
 
 	m_systemManager->getMessageDispatch()->subscribe(static_cast<qe::MessageType>(EntityMessage::RequestMove), this);
 }
@@ -60,7 +59,7 @@ void S_Movement::update(float dt) {
 
 		// Determine the physical direction of the entity
 		auto physicalDirection = _getPhysicalDirection(motion->getVelocity());
-		auto physicalTile = _getTile(currentMap, tileX, tileY, physicalDirection);
+		auto physicalTile = m_mapManager->getTileData(tileX, tileY, physicalDirection);
 		auto physicalTilePosition = _getPosition(m_mapManager->getPosition(), tileX, tileY, tileSize, physicalDirection);
 
 		// Handle wrap around
@@ -231,15 +230,4 @@ sf::Vector2f S_Movement::_getPosition(const sf::Vector2f & offset, int tileX, in
 	}
 
 	return offset + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>(tileY * tileSize));
-}
-
-Tile S_Movement::_getTile(const TileMap & currentMap, int tileX, int tileY, const eDirection & direction) {
-	switch (direction) {
-		case eDirection::Up: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY - 1));
-		case eDirection::Down: return currentMap.getTileData(currentMap.getMapTile(tileX, tileY + 1));
-		case eDirection::Left: return currentMap.getTileData(currentMap.getMapTile(tileX - 1, tileY));
-		case eDirection::Right: return currentMap.getTileData(currentMap.getMapTile(tileX + 1, tileY));
-	}
-
-	return currentMap.getTileData(currentMap.getMapTile(tileX, tileY));
 }

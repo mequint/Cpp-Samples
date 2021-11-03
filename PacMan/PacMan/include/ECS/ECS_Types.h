@@ -1,11 +1,11 @@
 #pragma once
 
 enum class Component {
-	AnimatedSprite, Consumable, Collider, Controller, EntityType, Motion, Points, Position, Score, Sprite, State
+	AnimatedSprite, Consumable, Collider, Controller, EntityType, GameAgent, Motion, Points, Position, Score, Sprite, State
 };
 
 enum class System {
-	AppState, Collision, Consumption, Control, GameUI, Movement, Renderer, Scoring, SpriteAnimation, State
+	AI, AppState, Collision, Consumption, Control, GameUI, Movement, Renderer, Scoring, SpriteAnimation, State
 };
 
 enum class EntityEvent {

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ECS\Systems\S_GameUI.cpp" />
+    <ClCompile Include="src\ECS\Systems\S_AI.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Scoring.cpp" />
     <ClCompile Include="src\ECS\Systems\S_AppState.cpp" />
     <ClCompile Include="src\ECS\Systems\S_Consumption.cpp" />
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ECS\Components\Components.h" />
+    <ClInclude Include="include\ECS\Components\C_GameAgent.h" />
     <ClInclude Include="include\ECS\Components\C_AnimatedSprite.h" />
     <ClInclude Include="include\ECS\Components\C_Collider.h" />
     <ClInclude Include="include\ECS\Components\C_Consumable.h" />
@@ -62,6 +64,7 @@
     <ClInclude Include="include\ECS\Systems\S_Consumption.h" />
     <ClInclude Include="include\ECS\Systems\S_Control.h" />
     <ClInclude Include="include\ECS\Systems\S_GameUI.h" />
+    <ClInclude Include="include\ECS\Systems\S_AI.h" />
     <ClInclude Include="include\ECS\Systems\S_Movement.h" />
     <ClInclude Include="include\ECS\Systems\S_Renderer.h" />
     <ClInclude Include="include\ECS\Systems\S_Scoring.h" />

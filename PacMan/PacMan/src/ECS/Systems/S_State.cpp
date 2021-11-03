@@ -23,4 +23,4 @@ void S_State::update(float dt) {}
 
 void S_State::handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) {}
 
-void S_State::_changeState(const qe::EntityId & entityId, const EntityState & entityState) {}
+void S_State::_changeState(const qe::EntityId & entityId, const eEntityState & entityState) {}

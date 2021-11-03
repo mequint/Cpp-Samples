@@ -2,6 +2,7 @@
 
 #include "ECS/ECS_Types.h"
 
+#include "S_AI.h"
 #include "S_AppState.h"
 #include "S_Collision.h"
 #include "S_Consumption.h"

@@ -18,5 +18,5 @@ public:
 	virtual void handleEvent(const qe::EntityId & entityId, const qe::EntityEventType & event) override;
 
 private:
-	void _changeState(const qe::EntityId& entityId, const EntityState& entityState);
+	void _changeState(const qe::EntityId& entityId, const eEntityState& entityState);
 };

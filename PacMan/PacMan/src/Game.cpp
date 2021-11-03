@@ -18,6 +18,7 @@ Game::Game() :
 	m_context.m_entityManager = &m_entityManager;
 	m_context.m_eventManager = m_window.getEventManager();
 	m_context.m_fontManager = &m_fontManager;
+	m_context.m_random = &m_random;
 	m_context.m_stateManager = &m_stateManager;
 	m_context.m_systemManager = &m_systemManager;
 	m_context.m_textureManager = &m_textureManager;
@@ -44,6 +45,7 @@ Game::Game() :
 	m_entityManager.registerComponent<C_Controller>(static_cast<qe::ComponentType>(Component::Controller));
 	m_entityManager.registerComponent<C_Consumable>(static_cast<qe::ComponentType>(Component::Consumable));
 	m_entityManager.registerComponent<C_EntityType>(static_cast<qe::ComponentType>(Component::EntityType));
+	m_entityManager.registerComponent<C_GameAgent>(static_cast<qe::ComponentType>(Component::GameAgent));
 	m_entityManager.registerComponent<C_Motion>(static_cast<qe::ComponentType>(Component::Motion));
 	m_entityManager.registerComponent<C_Points>(static_cast<qe::ComponentType>(Component::Points));
 	m_entityManager.registerComponent<C_Position>(static_cast<qe::ComponentType>(Component::Position));
@@ -51,6 +53,7 @@ Game::Game() :
 	m_entityManager.registerComponent<C_Sprite>(static_cast<qe::ComponentType>(Component::Sprite));
 	m_entityManager.registerComponent<C_State>(static_cast<qe::ComponentType>(Component::State));
 
+	m_systemManager.registerSystem<S_AI>(static_cast<qe::SystemType>(System::AI));
 	m_systemManager.registerSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState));
 	m_systemManager.registerSystem<S_Collision>(static_cast<qe::SystemType>(System::Collision));
 	m_systemManager.registerSystem<S_Consumption>(static_cast<qe::SystemType>(System::Consumption));
@@ -62,6 +65,8 @@ Game::Game() :
 	m_systemManager.registerSystem<S_SpriteAnimation>(static_cast<qe::SystemType>(System::SpriteAnimation));
 	m_systemManager.registerSystem<S_State>(static_cast<qe::SystemType>(System::State));
 
+
+	m_systemManager.getSystem<S_AI>(static_cast<qe::SystemType>(System::AI))->setRandomGenerator(&m_random);
 	m_systemManager.getSystem<S_AppState>(static_cast<qe::SystemType>(System::AppState))->setStateManager(&m_stateManager);
 
 	// Setup States

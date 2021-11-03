@@ -83,3 +83,14 @@ sf::Vector2f TileMapManager::getMapSize() const {
 
 	return sf::Vector2f(width, height);
 }
+
+Tile TileMapManager::getTileData(int tileX, int tileY, const eDirection& direction) const {
+	switch (direction) {
+	case eDirection::Up: return m_currentMap.getTileData(m_currentMap.getMapTile(tileX, tileY - 1));
+	case eDirection::Down: return m_currentMap.getTileData(m_currentMap.getMapTile(tileX, tileY + 1));
+	case eDirection::Left: return m_currentMap.getTileData(m_currentMap.getMapTile(tileX - 1, tileY));
+	case eDirection::Right: return m_currentMap.getTileData(m_currentMap.getMapTile(tileX + 1, tileY));
+	}
+
+	return m_currentMap.getTileData(m_currentMap.getMapTile(tileX, tileY));
+}

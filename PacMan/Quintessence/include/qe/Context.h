@@ -4,6 +4,7 @@ namespace qe {
 	class EntityManager;
 	class FontManager;
 	class EventManager;
+	class RandomGenerator;
 	class StateManager;
 	class SystemManager;
 	class TextureManager;
@@ -23,6 +24,7 @@ namespace qe {
 		EntityManager* m_entityManager;
 		EventManager* m_eventManager;
 		FontManager* m_fontManager;
+		RandomGenerator* m_random;
 		StateManager* m_stateManager;
 		SystemManager* m_systemManager;
 		TextureManager* m_textureManager;

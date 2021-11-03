@@ -7,6 +7,7 @@
 #include "C_Consumable.h"
 #include "C_Controller.h"
 #include "C_EntityType.h"
+#include "C_GameAgent.h"
 #include "C_Motion.h"
 #include "C_Points.h"
 #include "C_Position.h"

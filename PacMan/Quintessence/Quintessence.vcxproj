@@ -38,6 +38,7 @@
     <ClInclude Include="include\qe\State\StateManager.h" />
     <ClInclude Include="include\qe\State\StateObserver.h" />
     <ClInclude Include="include\qe\Messaging\Subscriber.h" />
+    <ClInclude Include="include\qe\Utilities\RandomGenerator.h" />
     <ClInclude Include="include\qe\Utilities\Utilities.h" />
     <ClInclude Include="include\qe\Window\EventBinding.h" />
     <ClInclude Include="include\qe\Window\EventDetails.h" />
@@ -57,6 +58,7 @@
     <ClCompile Include="src\qe\ECS\S_Base.cpp" />
     <ClCompile Include="src\qe\ECS\EntityManager.cpp" />
     <ClCompile Include="src\qe\State\StateManager.cpp" />
+    <ClCompile Include="src\qe\Utilities\RandomGenerator.cpp" />
     <ClCompile Include="src\qe\Window\EventLoader.cpp" />
     <ClCompile Include="src\qe\Window\EventManager.cpp" />
     <ClCompile Include="src\qe\Window\Window.cpp" />
