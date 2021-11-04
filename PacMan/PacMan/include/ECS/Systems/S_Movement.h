@@ -2,7 +2,7 @@
 
 #include "qe/ECS/S_Base.h"
 
-#include "Utilities/Directions.h"
+#include "Utilities/eDirections.h"
 #include "Tile/TileMapManager.h"
 
 class S_Movement : public qe::S_Base {
@@ -21,7 +21,6 @@ public:
 
 private:
 	eDirection _getPhysicalDirection(const sf::Vector2f& velocity);
-	sf::Vector2f _getPosition(const sf::Vector2f& offset, int tileX, int tileY, int tileSize, const eDirection& direction = eDirection::None);
 
 	TileMapManager* m_mapManager;
 

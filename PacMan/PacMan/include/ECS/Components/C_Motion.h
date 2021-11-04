@@ -2,7 +2,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "Utilities/Directions.h"
+#include "Utilities/eDirections.h"
 #include "ECS/ECS_Types.h"
 #include "qe/ECS/C_Base.h"
 

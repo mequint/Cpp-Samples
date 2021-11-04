@@ -78,7 +78,7 @@
     <ClInclude Include="include\Tile\Tile.h" />
     <ClInclude Include="include\Tile\TileMap.h" />
     <ClInclude Include="include\Tile\TileMapManager.h" />
-    <ClInclude Include="include\Utilities\Directions.h" />
+    <ClInclude Include="include\Utilities\eDirections.h" />
     <ClInclude Include="include\States\StateTypes.h" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 #include "ECS/Components/C_AnimatedSprite.h"
 #include "ECS/Components/C_State.h"
 #include "qe/ECS/SystemManager.h"
-#include "Utilities/Directions.h"
+#include "Utilities/eDirections.h"
 
 S_SpriteAnimation::S_SpriteAnimation(qe::SystemManager * systemManager) : 
 	qe::S_Base(static_cast<qe::SystemType>(System::SpriteAnimation), systemManager) {

@@ -94,3 +94,24 @@ Tile TileMapManager::getTileData(int tileX, int tileY, const eDirection& directi
 
 	return m_currentMap.getTileData(m_currentMap.getMapTile(tileX, tileY));
 }
+
+sf::Vector2i TileMapManager::getTileIndex(const sf::Vector2f& entityPosition)
+{
+	int tileX = static_cast<int>(entityPosition.x - m_position.x) / m_currentMap.getTileSize();
+	int tileY = static_cast<int>(entityPosition.y - m_position.y) / m_currentMap.getTileSize();
+
+	return sf::Vector2i(tileX, tileY);
+}
+
+sf::Vector2f TileMapManager::getTilePosition(int tileX, int tileY, const eDirection& direction) {
+	auto tileSize = m_currentMap.getTileSize();
+
+	switch (direction) {
+		case eDirection::Up: return m_position + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY - 1) * tileSize));
+		case eDirection::Down: return m_position + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>((tileY + 1) * tileSize));
+		case eDirection::Left: return m_position + sf::Vector2f(static_cast<float>((tileX - 1) * tileSize), static_cast<float>(tileY * tileSize));
+		case eDirection::Right: return m_position + sf::Vector2f(static_cast<float>((tileX + 1) * tileSize), static_cast<float>(tileY * tileSize));
+	}
+
+	return m_position + sf::Vector2f(static_cast<float>(tileX * tileSize), static_cast<float>(tileY * tileSize));
+}

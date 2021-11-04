@@ -2,7 +2,7 @@
 
 #include "ECS/ECS_Types.h"
 #include "ECS/Components/C_EntityType.h"
-#include "Utilities/Directions.h"
+#include "Utilities/eDirections.h"
 
 #include "qe/ECS/SystemManager.h"
 

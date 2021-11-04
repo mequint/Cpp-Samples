@@ -8,7 +8,7 @@
 #include "qe/Resource/TextureManager.h"
 
 #include "TileMap.h"
-#include "Utilities/Directions.h"
+#include "Utilities/eDirections.h"
 
 using MapContainer = std::unordered_map<std::string, std::unique_ptr<TileMap>>;
 
@@ -28,6 +28,8 @@ public:
 	sf::Vector2f getMapSize() const;
 
 	Tile getTileData(int tileX, int tileY, const eDirection& direction = eDirection::None) const;
+	sf::Vector2i getTileIndex(const sf::Vector2f& entityPosition);
+	sf::Vector2f getTilePosition(int tileX, int tileY, const eDirection& direction = eDirection::None);
 
 private:
 	MapContainer m_maps;
